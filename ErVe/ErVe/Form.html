@@ -1,0 +1,261 @@
+﻿<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <title>ErVe lomake</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="MyStyle.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+
+        <h1>ErVe</h1>
+
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3"><h3>ID1268</h3></div>
+                    <div class="col-sm-6"><h3>*Pakollinen tieto</h3></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3"><h3>21.5.2019</h3></div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="filler"
+                       class="col-xs-3 control-label">Oma Nimi*</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="filler">
+                </div>
+                <p class="help-block col-xs-offset-3 col-xs-7 clearfix" style="color: white">
+                    Lomakkeen täyttäjän nimi
+                </p>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3 header">Laskutettavan tiedot</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="customer" class="col-xs-3 control-label">Yrityksen nimi*</label>
+                <div class="col-xs-7">
+                    <div class="dropdown">
+                        <select class="btn button1" type="button" data-toggle="dropdown">
+                            <option>Valitse Yritys</option>
+                            <option><a href="#">Wsoy</a></option>
+                            <option><a href="#">Tammi</a></option>
+                            <option><a href="#">Kosmos</a></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="contact" class="col-xs-3 control-label">Yhteyshenkilö</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="contact">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3 header">Työ</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="customer" class="col-xs-3 control-label">Työn nimi*</label>
+                <div class="col-xs-7">
+                    <div class="dropdown">
+                        <select class="btn button1" type="button" data-toggle="dropdown">
+                            <option>Valitse työ</option>
+                            <option><a href="#">Lajitelmapakkaus</a></option>
+                            <option><a href="#">Tarkistus</a></option>
+                            <option><a href="#">Postitus</a></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="duedate" class="col-xs-3 control-label">Viim. valmistuspvm</label>
+                <div class="col-xs-7">
+                    <input type="date"
+                           class="form-control"
+                           id="duedate">
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="directions" class="col-xs-3 control-label">Lisäohjeet</label>
+                <div class="col-xs-7">
+                    <textarea class="form-control" rows="7" id="question"></textarea>
+                </div>
+                <p class="help-block col-xs-offset-3 col-xs-7 clearfix" style="color: white">
+                    Kirjattava kaikki tuotteet ean-numeroineen!
+                </p>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3 header">Määrä</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="amount" class="col-xs-3 control-label">Määrä yht.</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="amount">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="amountpcs" class="col-xs-3 control-label">Tuotekappalemäärä yht.</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="amountpcs">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-4 header">Veloitus (Aspa täyttää jos hinta erikeen sovittu)</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="chargef" class="col-xs-3 control-label">Veloitettava kokonaissumma yht.</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="chargef">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="chargepcs" class="col-xs-3 control-label">Veloitettava kappalehinta</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="chargepcs">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3 header">Rahtihinta</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="freightCost" class="col-xs-3 control-label">Rahtihinta yht.</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="freightCost">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="material" class="col-xs-3 control-label header">Käytetyt materiaalit</label>
+                <div class="col-xs-7">
+                    <div class="checkbox">
+                        <label class="checkbox-inline"><input type="checkbox" value="">Isot kartongit</label>
+                        <label class="checkbox-inline"><input type="checkbox" value="">Pienet kartongit</label>
+                        <label class="checkbox-inline"><input type="checkbox" value="">X-pohja</label>
+                        <label class="checkbox-inline"><input type="checkbox" value="">Pahvipussi</label>
+                        <label class="checkbox-inline"><input type="checkbox" value="">Muovikone</label>
+                        <label class="checkbox-inline"><input type="checkbox" value="">Crossback</label>
+                        <label class="checkbox-inline"><input type="checkbox" value="">Tarra</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3 header">Käytetyt tunnit</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="hourswr" class="col-xs-3 control-label">Tuntityö varasto</label>
+                <div class="row">
+                    <div class="col-xs-7">
+                        <div class="col-xs-3 form-group">
+                            <input class="form-control" id="hourwr" name="hourwr" placeholder="Tunnit" type="text">
+                        </div>
+                        <div class="col-xs-3 form-group">
+                            <input class="form-control" id="minwr" name="minwr" placeholder="Minuutit" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="hourscs" class="col-xs-3 control-label">Tuntityö aspa</label>
+                <div class="row">
+                    <div class="col-xs-7">
+                        <div class="col-xs-3 form-group">
+                            <input class="form-control" id="hourcs" name="hourcs" placeholder="Tunnit" type="text">
+                        </div>
+                        <div class="col-xs-3 form-group">
+                            <input class="form-control" id="mincs" name="mincs" placeholder="Minuutit" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="hoursit" class="col-xs-3 control-label">Tuntityö IT</label>
+                <div class="row">
+                    <div class="col-xs-7">
+                        <div class="col-xs-3 form-group">
+                            <input class="form-control" id="hourit" name="hourit" placeholder="Tunnit" type="text">
+                        </div>
+                        <div class="col-xs-3 form-group">
+                            <input class="form-control" id="minit" name="minit" placeholder="Minuutit" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="save" class="col-sm-3 control-label"></label>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="col-sm-3 form-group">
+                            <button type="submit" class="btn button1"><a href="ErveMainpage.html">Tallenna</a></button>
+                        </div>
+                        <div class="col-sm-3 form-group">
+                            <p><a href="ErveMainpage.html">Takaisin listaan</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+
+    </div>
+</body>
+</html>
