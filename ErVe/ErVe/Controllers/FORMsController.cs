@@ -6,27 +6,32 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using ErVe.Models;
+using DataAccess2;
 
 namespace ErVe.Controllers
 {
+    
     public class FORMsController : ApiController
     {
         private ErveEntities db = new ErveEntities();
 
-        // GET: api/FORMs
-        public IQueryable<FORM> GetFORM()
+        // GET: /api/FORMs
+      
+        [HttpGet, HttpPost]
+        [Route("api/FORMs")]
+        public IQueryable<FORM> GetFORMs()
         {
             return db.FORM;
         }
 
         // GET: api/FORMs/5
         [ResponseType(typeof(FORM))]
-        public IHttpActionResult GetFORM(int id)
+        public async Task<IHttpActionResult> GetFORM(int id)
         {
-            FORM fORM = db.FORM.Find(id);
+            FORM fORM = await db.FORM.FindAsync(id);
             if (fORM == null)
             {
                 return NotFound();
@@ -37,7 +42,7 @@ namespace ErVe.Controllers
 
         // PUT: api/FORMs/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutFORM(int id, FORM fORM)
+        public async Task<IHttpActionResult> PutFORM(int id, FORM fORM)
         {
             if (!ModelState.IsValid)
             {
@@ -53,7 +58,7 @@ namespace ErVe.Controllers
 
             try
             {
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -71,32 +76,49 @@ namespace ErVe.Controllers
         }
 
         // POST: api/FORMs
+    
+        [HttpPost]
         [ResponseType(typeof(FORM))]
-        public IHttpActionResult PostFORM(FORM fORM)
+        public IHttpActionResult PostForm(FORM form)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            db.FORM.Add(fORM);
+            db.FORM.Add(form);
             db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = fORM.FormID }, fORM);
+            return CreatedAtRoute("DefaultApi", new
+            {
+                id = form.FormID
+            }, form);
         }
+
+
+        //public async Task<IHttpActionResult> PostFORM(FORM fORM)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    db.FORM.Add(fORM);
+        //    await db.SaveChangesAsync();
+
+        //    return CreatedAtRoute("DefaultApi", new { id = fORM.FormID }, fORM);
+        //}
 
         // DELETE: api/FORMs/5
         [ResponseType(typeof(FORM))]
-        public IHttpActionResult DeleteFORM(int id)
+        public async Task<IHttpActionResult> DeleteFORM(int id)
         {
-            FORM fORM = db.FORM.Find(id);
+            FORM fORM = await db.FORM.FindAsync(id);
             if (fORM == null)
             {
                 return NotFound();
             }
 
             db.FORM.Remove(fORM);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return Ok(fORM);
         }

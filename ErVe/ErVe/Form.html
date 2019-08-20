@@ -5,28 +5,29 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="MyStyle.css">
+    <link href="../../Content/MyStyle.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-    <div class="container-fluid">
 
+    <div class="container-fluid">
+     
         <h1>ErVe</h1>
 
         <form class="form-horizontal">
 
             <div class="form-group">
                 <div class="row control-label">
-                    <div class="col-xs-3"><h3>ID1268</h3></div>
+                    <div class="col-xs-3" id="idnumber"><h3>ID1268</h3></div>
                     <div class="col-sm-6"><h3>*Pakollinen tieto</h3></div>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="row control-label">
-                    <div class="col-xs-3"><h3>21.5.2019</h3></div>
+                    <div class="col-xs-3" id="formdate"><h3>21.5.2019</h3></div>
                 </div>
             </div>
 
@@ -54,7 +55,7 @@
                 <label for="customer" class="col-xs-3 control-label">Yrityksen nimi*</label>
                 <div class="col-xs-7">
                     <div class="dropdown">
-                        <select class="btn button1" type="button" data-toggle="dropdown">
+                        <select class="btn button1" type="button" data-toggle="dropdown" id="customerlist">
                             <option>Valitse Yritys</option>
                             <option><a href="#">Wsoy</a></option>
                             <option><a href="#">Tammi</a></option>
@@ -80,10 +81,10 @@
             </div>
 
             <div class="form-group">
-                <label for="customer" class="col-xs-3 control-label">Työn nimi*</label>
+                <label for="work" class="col-xs-3 control-label">Työn nimi*</label>
                 <div class="col-xs-7">
                     <div class="dropdown">
-                        <select class="btn button1" type="button" data-toggle="dropdown">
+                        <select class="btn button1" type="button" data-toggle="dropdown" id="worklist">
                             <option>Valitse työ</option>
                             <option><a href="#">Lajitelmapakkaus</a></option>
                             <option><a href="#">Tarkistus</a></option>
@@ -107,7 +108,7 @@
             <div class="form-group">
                 <label for="directions" class="col-xs-3 control-label">Lisäohjeet</label>
                 <div class="col-xs-7">
-                    <textarea class="form-control" rows="7" id="question"></textarea>
+                    <textarea class="form-control" rows="7" id="directions"></textarea>
                 </div>
                 <p class="help-block col-xs-offset-3 col-xs-7 clearfix" style="color: white">
                     Kirjattava kaikki tuotteet ean-numeroineen!
@@ -145,11 +146,11 @@
             </div>
 
             <div class="form-group">
-                <label for="chargef" class="col-xs-3 control-label">Veloitettava kokonaissumma yht.</label>
+                <label for="chargefull" class="col-xs-3 control-label">Veloitettava kokonaissumma yht.</label>
                 <div class="col-xs-7">
                     <input type="text"
                            class="form-control"
-                           id="chargef">
+                           id="chargefull">
                 </div>
             </div>
 
@@ -244,7 +245,7 @@
                 <div class="row">
                     <div class="col-sm-7">
                         <div class="col-sm-3 form-group">
-                            <button type="submit" class="btn button1"><a href="ErveMainpage.html">Tallenna</a></button>
+                            <button type="submit" id="SaveForm" class="btn button1"><a href="ErveMainpage.html">Tallenna</a></button>
                         </div>
                         <div class="col-sm-3 form-group">
                             <p><a href="ErveMainpage.html">Takaisin listaan</a></p>
@@ -255,6 +256,16 @@
 
 
         </form>
+
+
+        <script type="text/javascript">
+
+         
+            
+
+            
+        </script>
+
 
     </div>
 </body>

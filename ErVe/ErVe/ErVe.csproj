@@ -157,40 +157,10 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\FORMsController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\MaterialsController.cs" />
+    <Compile Include="ViewModel\FormViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Customer.cs">
-      <DependentUpon>ErveEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ErveEntities.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ErveEntities.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ErveEntities.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ErveEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ErveEntities.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ErveEntities.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\FORM.cs">
-      <DependentUpon>ErveEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Material.cs">
-      <DependentUpon>ErveEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Status.cs">
-      <DependentUpon>ErveEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Work.cs">
-      <DependentUpon>ErveEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -224,16 +194,6 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <Content Include="Models\ErveEntities.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ErveEntities.Context.cs</LastGenOutput>
-      <DependentUpon>ErveEntities.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\ErveEntities.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ErveEntities.edmx</DependentUpon>
-      <LastGenOutput>ErveEntities.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -256,18 +216,14 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
-    <EntityDeploy Include="Models\ErveEntities.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ErveEntities.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\ErveEntities.edmx.diagram">
-      <DependentUpon>ErveEntities.edmx</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\app.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\knockout-3.5.0.debug.js" />
+    <Content Include="Scripts\knockout-3.5.0.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
@@ -302,6 +258,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -317,6 +274,12 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess2\DataAccess2.csproj">
+      <Project>{9bd42450-c370-4db4-922a-0b7f2534adbe}</Project>
+      <Name>DataAccess2</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,0 +1,359 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ErveDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="FORM">
+          <Key>
+            <PropertyRef Name="FormID" />
+          </Key>
+          <Property Name="FormID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreateDate" Type="date" />
+          <Property Name="FormFiller" Type="nvarchar" MaxLength="255" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="255" />
+          <Property Name="CustomerContact" Type="nvarchar" MaxLength="255" />
+          <Property Name="WorkID" Type="int" />
+          <Property Name="WorkName" Type="varchar" MaxLength="255" />
+          <Property Name="ReadyToDate" Type="date" />
+          <Property Name="Instructions" Type="nvarchar(max)" />
+          <Property Name="Amount" Type="int" />
+          <Property Name="PcsAmount" Type="int" />
+          <Property Name="ChargeFull" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ChargeByPcs" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="FreightCost" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="MaterialID" Type="int" />
+          <Property Name="MaterialName" Type="varchar" MaxLength="255" />
+          <Property Name="WorkHoursWR" Type="int" />
+          <Property Name="WorkHoursIT" Type="int" />
+          <Property Name="WorkHoursCS" Type="int" />
+          <Property Name="StatusID" Type="int" />
+        </EntityType>
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="MaterialID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaterialName" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusID" />
+          </Key>
+          <Property Name="StatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Work">
+          <Key>
+            <PropertyRef Name="WorkID" />
+          </Key>
+          <Property Name="WorkID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WorkName" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK__FORM__CustomerID__33D4B598">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="FORM">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FORM__MaterialID__35BCFE0A">
+          <End Role="Material" Type="Self.Material" Multiplicity="0..1" />
+          <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="MaterialID" />
+            </Principal>
+            <Dependent Role="FORM">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FORM__StatusID__36B12243">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusID" />
+            </Principal>
+            <Dependent Role="FORM">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FORM__WorkID__34C8D9D1">
+          <End Role="Work" Type="Self.Work" Multiplicity="0..1" />
+          <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Work">
+              <PropertyRef Name="WorkID" />
+            </Principal>
+            <Dependent Role="FORM">
+              <PropertyRef Name="WorkID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ErveDataModelStoreContainer">
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FORM" EntityType="Self.FORM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Material" EntityType="Self.Material" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Work" EntityType="Self.Work" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__FORM__CustomerID__33D4B598" Association="Self.FK__FORM__CustomerID__33D4B598">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="FORM" EntitySet="FORM" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FORM__MaterialID__35BCFE0A" Association="Self.FK__FORM__MaterialID__35BCFE0A">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="FORM" EntitySet="FORM" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FORM__StatusID__36B12243" Association="Self.FK__FORM__StatusID__36B12243">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="FORM" EntitySet="FORM" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FORM__WorkID__34C8D9D1" Association="Self.FK__FORM__WorkID__34C8D9D1">
+            <End Role="Work" EntitySet="Work" />
+            <End Role="FORM" EntitySet="FORM" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ErveDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FORM" Relationship="Self.FK__FORM__CustomerID__33D4B598" FromRole="Customer" ToRole="FORM" />
+        </EntityType>
+        <EntityType Name="FORM">
+          <Key>
+            <PropertyRef Name="FormID" />
+          </Key>
+          <Property Name="FormID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreateDate" Type="DateTime" Precision="0" />
+          <Property Name="FormFiller" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="CustomerName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerContact" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="WorkID" Type="Int32" />
+          <Property Name="WorkName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ReadyToDate" Type="DateTime" Precision="0" />
+          <Property Name="Instructions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="PcsAmount" Type="Int32" />
+          <Property Name="ChargeFull" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ChargeByPcs" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="FreightCost" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="MaterialID" Type="Int32" />
+          <Property Name="MaterialName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="WorkHoursWR" Type="Int32" />
+          <Property Name="WorkHoursIT" Type="Int32" />
+          <Property Name="WorkHoursCS" Type="Int32" />
+          <Property Name="StatusID" Type="Int32" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__FORM__CustomerID__33D4B598" FromRole="FORM" ToRole="Customer" />
+          <NavigationProperty Name="Material" Relationship="Self.FK__FORM__MaterialID__35BCFE0A" FromRole="FORM" ToRole="Material" />
+          <NavigationProperty Name="Status" Relationship="Self.FK__FORM__StatusID__36B12243" FromRole="FORM" ToRole="Status" />
+          <NavigationProperty Name="Work" Relationship="Self.FK__FORM__WorkID__34C8D9D1" FromRole="FORM" ToRole="Work" />
+        </EntityType>
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="MaterialID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MaterialName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FORM" Relationship="Self.FK__FORM__MaterialID__35BCFE0A" FromRole="Material" ToRole="FORM" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusID" />
+          </Key>
+          <Property Name="StatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FORM" Relationship="Self.FK__FORM__StatusID__36B12243" FromRole="Status" ToRole="FORM" />
+        </EntityType>
+        <EntityType Name="Work">
+          <Key>
+            <PropertyRef Name="WorkID" />
+          </Key>
+          <Property Name="WorkID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WorkName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FORM" Relationship="Self.FK__FORM__WorkID__34C8D9D1" FromRole="Work" ToRole="FORM" />
+        </EntityType>
+        <Association Name="FK__FORM__CustomerID__33D4B598">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="FORM">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FORM__MaterialID__35BCFE0A">
+          <End Role="Material" Type="Self.Material" Multiplicity="0..1" />
+          <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Material">
+              <PropertyRef Name="MaterialID" />
+            </Principal>
+            <Dependent Role="FORM">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FORM__StatusID__36B12243">
+          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+          <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="StatusID" />
+            </Principal>
+            <Dependent Role="FORM">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FORM__WorkID__34C8D9D1">
+          <End Role="Work" Type="Self.Work" Multiplicity="0..1" />
+          <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Work">
+              <PropertyRef Name="WorkID" />
+            </Principal>
+            <Dependent Role="FORM">
+              <PropertyRef Name="WorkID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ErveEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customer" EntityType="Self.Customer" />
+          <EntitySet Name="FORM" EntityType="Self.FORM" />
+          <EntitySet Name="Material" EntityType="Self.Material" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="Work" EntityType="Self.Work" />
+          <AssociationSet Name="FK__FORM__CustomerID__33D4B598" Association="Self.FK__FORM__CustomerID__33D4B598">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="FORM" EntitySet="FORM" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FORM__MaterialID__35BCFE0A" Association="Self.FK__FORM__MaterialID__35BCFE0A">
+            <End Role="Material" EntitySet="Material" />
+            <End Role="FORM" EntitySet="FORM" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FORM__StatusID__36B12243" Association="Self.FK__FORM__StatusID__36B12243">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="FORM" EntitySet="FORM" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FORM__WorkID__34C8D9D1" Association="Self.FK__FORM__WorkID__34C8D9D1">
+            <End Role="Work" EntitySet="Work" />
+            <End Role="FORM" EntitySet="FORM" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ErveDataModelStoreContainer" CdmEntityContainer="ErveEntities">
+          <EntitySetMapping Name="Customer">
+            <EntityTypeMapping TypeName="ErveDataModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FORM">
+            <EntityTypeMapping TypeName="ErveDataModel.FORM">
+              <MappingFragment StoreEntitySet="FORM">
+                <ScalarProperty Name="FormID" ColumnName="FormID" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="FormFiller" ColumnName="FormFiller" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerContact" ColumnName="CustomerContact" />
+                <ScalarProperty Name="WorkID" ColumnName="WorkID" />
+                <ScalarProperty Name="WorkName" ColumnName="WorkName" />
+                <ScalarProperty Name="ReadyToDate" ColumnName="ReadyToDate" />
+                <ScalarProperty Name="Instructions" ColumnName="Instructions" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PcsAmount" ColumnName="PcsAmount" />
+                <ScalarProperty Name="ChargeFull" ColumnName="ChargeFull" />
+                <ScalarProperty Name="ChargeByPcs" ColumnName="ChargeByPcs" />
+                <ScalarProperty Name="FreightCost" ColumnName="FreightCost" />
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+                <ScalarProperty Name="MaterialName" ColumnName="MaterialName" />
+                <ScalarProperty Name="WorkHoursWR" ColumnName="WorkHoursWR" />
+                <ScalarProperty Name="WorkHoursIT" ColumnName="WorkHoursIT" />
+                <ScalarProperty Name="WorkHoursCS" ColumnName="WorkHoursCS" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Material">
+            <EntityTypeMapping TypeName="ErveDataModel.Material">
+              <MappingFragment StoreEntitySet="Material">
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+                <ScalarProperty Name="MaterialName" ColumnName="MaterialName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="ErveDataModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Work">
+            <EntityTypeMapping TypeName="ErveDataModel.Work">
+              <MappingFragment StoreEntitySet="Work">
+                <ScalarProperty Name="WorkID" ColumnName="WorkID" />
+                <ScalarProperty Name="WorkName" ColumnName="WorkName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
