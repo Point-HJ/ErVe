@@ -8,96 +8,81 @@
     <link href="../../Content/MyStyle.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
     <script>
-        $(document).ready(function () {
-            getFormList();
-        });  
 
-        var Form = {
-            idnumber: 0,
-            worklist: "",
-            duedate: ""
-        }
-          // Get all Forms to display 
-        function getFormList() {
-            // Call Web API to get a list of Forms 
+        //haetaan tiedot listaan
+        $(document).ready(function () {
+            var forms = $('#forms');
             $.ajax({
-                url: '/api/GetFORMs/',
                 type: 'GET',
+                url: 'api/Forms',
                 dataType: 'json',
-                success: function (forms) {
-                    formListSuccess(forms);
-                },
-                error: function (request, message, error) {
-                    handleException(request, message, error);
+                success: function (data) {
+                    $.each(data, function (index, val) {
+                        forms += '<tr>' +
+                            "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
+                            "<td>" + val.FormID + "</td>" +
+                            "<td>" + val.CreateDate + "</td>" +
+                            "<td>" + val.FormFiller + "</td>" +
+                            "<td>" + val.ReadyToDate + "</td>" +
+                            "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+                            '</tr>';
+                    });
+                    $('#forms_table').append(forms);
+                    console.log(localStorage.getItem('key'));
+
+                    //  tietojen muokkaus
+                    $(".glyphicon-pencil").on("click", function () {
+
+                        // etsitään lomakkeen tiedot klikatulta riviltä
+                        var FormID = $(this).parent().parent().next().text();
+                        console.log(FormID);
+
+                        $.ajax({
+                            type: 'GET',
+                            url: 'api/Forms/' + FormID,
+                            dataType: 'json',
+                            success: function (form) {
+                                localStorage.setItem('key', JSON.stringify(form));
+                                var retrievedForm = localStorage.getItem('key');
+                                console.log('retrievedForm: ', JSON.parse(retrievedForm));
+                                location.href = "Form.html";
+                            },
+                            error: function () {
+                                console.log('tietoja ei haettu');
+                            },
+                               
+                        });
+                 
+                        
+                    });
+                   
+                    // tietojen poisto
+                    $(".glyphicon-trash").click(function () {
+                        // etsitään lomakkeen tiedot klikatulta riviltä
+                        var FormID = $(this).parent().parent().prev().prev().prev().prev().text();
+                        var ok = confirm("Haluatko varmasti poistaa lomakkeen " + FormID + "?");
+                        //Poistetaan lomake tietokannasta
+                        if (ok == true) {
+                            $.ajax({
+                                type: 'DELETE',
+                                url: 'http://localhost:50453/api/forms/' + FormID,
+                                contentType: 'application/json',
+                                success: function () {
+                                    alert('Lomake poistettu');
+                                    location.reload(); //sivun uudelleen lataus
+                                },
+                                error: function () {
+                                    alert('Poisto epäonnistui')
+                                }
+                            });
+                        }
+                    });
                 }
             });
-        }  
-        // Display all Forms returned from Web API call  
-        function formListSuccess(forms) {
-            // Iterate over the collection of data  
-            $("#formTable tbody").remove();
-            $.each(forms, function (index, form) {
-                // Add a row to the employee table  
-                formAddRow(form);
-            });
-        }  
-        // Add form row to <table>  
-        function formAddRow(form) {
-            // First check if a <tbody> tag exists, add one if not  
-            if ($("#formTable tbody").length == 0) {
-                $("#formTable").append("<tbody></tbody>");
-            }
-
-            // Append row to <table>  
-            $("#formTable tbody").append(
-                formBuildTableRow(form));
-        }  
-        // Build a <tr> for a row of table data  
-        //function formBuildTableRow(form) {
-        //    var newRow = "<tr>" +
-        //        "<td>" + form.idnumber + "</td>" +
-        //        "<td><input   class='input-name' type='text' value='" + form.worklist + "'/></td>" +
-        //        "<td><input  class='input-gender'  type='text' value='" + form.duedate + "'/></td>" +
-        //        "<td>" +
-        //        "<button type='button' " +
-        //        "onclick='employeeUpdate(this);' " +
-        //        "class='btn btn-default' " +
-        //        "data-id='" + employee.id + "' " +
-        //        "data-name='" + employee.name + "' " +
-        //        "data-gender='" + employee.gender + "' " +
-        //        "data-salary='" + employee.salary + "' " +
-        //        ">" +
-        //        "<span class='glyphicon glyphicon-edit' /> Update" +
-        //        "</button> " +
-        //        " <button type='button' " +
-        //        "onclick='employeeDelete(this);'" +
-        //        "class='btn btn-default' " +
-        //        "data-id='" + employee.id + "'>" +
-        //        "<span class='glyphicon glyphicon-remove' />Delete" +
-        //        "</button>" +
-        //        "</td>" +
-        //        "</tr>";
-
-        //    return newRow;
-        //}  
-
-        function handleException(request, message, error) {
-            var msg = "";
-            msg += "Code: " + request.status + "\n";
-            msg += "Text: " + request.statusText + "\n";
-            if (request.responseJSON != null) {
-                msg += "Message" + request.responseJSON.Message + "\n";
-            }
-
-            alert(msg);
-        }  
-
+        });
     </script>
-
 </head>
-
 <body>
     <div class="container-fluid">
 
@@ -114,32 +99,28 @@
                 <label for="save" class="col-xs-2 control-label"></label>
                 <div class="row">
                     <div class="col-xs-3 form-group">
-                        <button type="submit" class="btn button1 btn-lg"><a href="ErveForm.html">Luo uusi lomake</a></button>
+                        <button type="submit" class="btn button1 btn-lg" ><a href="Form.html">Luo uusi lomake</button>
                     </div>
                 </div>
             </div>
-    </div>
-    <div class="form-group">
-        <div class="container">
-            <h2>Keskeneräiset työt</h2>
-            <p></p>
-            <table class="table table-bordered" id="formTable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Työn nimi</th>
-                        <th>Valmis</th>
-                     </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td id="idnumber"></td>
-                        <td id="worklist"></td>
-                        <td id="duedate"></td>
-                    </tr>
-                 </tbody>
-            </table>
-        </div>
+
+            <div class="form-group">
+                <div class="container">
+                    <h2>Keskeneräiset työt</h2>
+                    <p></p>
+                    <table class="table table-bordered" id="forms_table">
+                        <tr>
+                            <th>Muokkaa</th>
+                            <th>id</th>
+                            <th>pvm</th>
+                            <th>nimi</th>
+                            <th>valmis</th>
+                            <th>Poista</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
         </form>
     </div>
 

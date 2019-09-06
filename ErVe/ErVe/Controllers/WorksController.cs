@@ -13,48 +13,44 @@ using DataAccess2;
 
 namespace ErVe.Controllers
 {
-    
-    public class FORMsController : ApiController
+    public class WorksController : ApiController
     {
         private ErveEntities db = new ErveEntities();
 
-        // GET: /api/FORMs
-      
-        //[HttpGet, HttpPost]
-        //[Route("api/FORMs")]
-        public IQueryable<FORM> GetFORMs()
+        // GET: api/Works
+        public IQueryable<Work> GetWork()
         {
-             return db.FORM;
+            return db.Work;
         }
 
-        // GET: api/FORMs/5
-        [ResponseType(typeof(FORM))]
-        public async Task<IHttpActionResult> GetFORM(int id)
+        // GET: api/Works/5
+        [ResponseType(typeof(Work))]
+        public async Task<IHttpActionResult> GetWork(int id)
         {
-            FORM fORM = await db.FORM.FindAsync(id);
-            if (fORM == null)
+            Work work = await db.Work.FindAsync(id);
+            if (work == null)
             {
                 return NotFound();
             }
 
-            return Ok(fORM);
+            return Ok(work);
         }
 
-        // PUT: api/FORMs/5
+        // PUT: api/Works/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutFORM(int id, FORM fORM)
+        public async Task<IHttpActionResult> PutWork(int id, Work work)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != fORM.FormID)
+            if (id != work.WorkID)
             {
                 return BadRequest();
             }
 
-            db.Entry(fORM).State = EntityState.Modified;
+            db.Entry(work).State = EntityState.Modified;
 
             try
             {
@@ -62,7 +58,7 @@ namespace ErVe.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FORMExists(id))
+                if (!WorkExists(id))
                 {
                     return NotFound();
                 }
@@ -75,39 +71,35 @@ namespace ErVe.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/FORMs
-        
-        [ResponseType(typeof(FORM))]
-        public async Task<IHttpActionResult> PostForm(FORM form)
+        // POST: api/Works
+        [ResponseType(typeof(Work))]
+        public async Task<IHttpActionResult> PostWork(Work work)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.FORM.Add(form);
+            db.Work.Add(work);
             await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = form.FormID }, form);
+            return CreatedAtRoute("DefaultApi", new { id = work.WorkID }, work);
         }
-        
 
-
-
-        // DELETE: api/FORMs/5
-        [ResponseType(typeof(FORM))]
-        public async Task<IHttpActionResult> DeleteFORM(int id)
+        // DELETE: api/Works/5
+        [ResponseType(typeof(Work))]
+        public async Task<IHttpActionResult> DeleteWork(int id)
         {
-            FORM fORM = await db.FORM.FindAsync(id);
-            if (fORM == null)
+            Work work = await db.Work.FindAsync(id);
+            if (work == null)
             {
                 return NotFound();
             }
 
-            db.FORM.Remove(fORM);
+            db.Work.Remove(work);
             await db.SaveChangesAsync();
 
-            return Ok(fORM);
+            return Ok(work);
         }
 
         protected override void Dispose(bool disposing)
@@ -119,9 +111,9 @@ namespace ErVe.Controllers
             base.Dispose(disposing);
         }
 
-        private bool FORMExists(int id)
+        private bool WorkExists(int id)
         {
-            return db.FORM.Count(e => e.FormID == id) > 0;
+            return db.Work.Count(e => e.WorkID == id) > 0;
         }
     }
 }
