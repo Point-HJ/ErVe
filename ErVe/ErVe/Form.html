@@ -11,9 +11,6 @@
     <script>
         $(document).ready(function () {
             var $MaterialName = $('#materiallist');
-            var $forms = $('#formlist');
-            var $custs = $('#custlist');
-            var $works = $('#worklist1');
             var $WorkName = $('#worklist');
             var $CustomerName = $('#customerlist');
             var $FormFiller = $('#formfiller');
@@ -26,9 +23,13 @@
             var $ChargeByPcs = $('#chargepcs');
             var $FreightCost = $('#freightcost');
             var $WorkHoursWR = $('#hourwr');
+            var $WorkMinWR = $('#minwr');
             var $WorkHoursCS = $('#hourcs');
+            var $WorkMinCS = $('#mincs');
             var $WorkHoursIT = $('#hourit');
+            var $WorkMinIT = $('#minit');
             var $FormID = $('#formid');
+            var $CreateDate = $('#createdate');
 
             function getCheckedMaterials() {
                 var materialArray = $("#materiallist input:checked").map(function () {
@@ -37,15 +38,8 @@
                 return materialArray.join(',');
             }
 
-            function getDate() {
-                var d = new Date();
-                var month = d.getMonth() + 1;
-                var day = d.getDate();
-                var year = d.getFullYear();
-                return date = year + '/' +
-                    (('' + month).length < 2 ? '0' : '') + month + '/' +
-                    (('' + day).length < 2 ? '0' : '') + day;
-                $('#createdate').text();
+            function addCustomer(cust) {
+                $CustomerName.append('<option>' + cust.CustomerName + ' </option>');
             }
             $.ajax({
                 type: 'GET',
@@ -53,7 +47,6 @@
                 dataType: 'json',
                 success: function (custs) {
                     $.each(custs, function (i, cust) {
-                        // console.log(cust);
                         addCustomer(cust);
                     });
                 },
@@ -62,37 +55,8 @@
                 }
             });
 
-            function addForm(form) {
-                $forms.append('<li>' + form.FormFiller + ' </li');
-            }
-            //testausta varten
-            $.ajax({
-                type: 'GET',
-                url: '/api/forms',
-                dataType: 'json',
-                success: function (forms) {
-                    $.each(forms, function (i, form) {
-                        // console.log(form);
-                        //addForm(form);
-                    });
-
-                },
-                error: function () {
-                    alert: ('Virhe ladattaessa')
-                }
-            });
-
-            function addCustomer(cust) {
-                //    $custs.append('<option>' + cust.CustomerName + ' </option>');
-                $CustomerName.append('<option>' + cust.CustomerName + ' </option>');
-
-            }
-
-
             function addWork(work) {
-                //   $works.append('<option>' + work.WorkName + ' </option>');
                 $WorkName.append('<option>' + work.WorkName + ' </option>');
-
             }
             $.ajax({
                 type: 'GET',
@@ -100,7 +64,6 @@
                 dataType: 'json',
                 success: function (works) {
                     $.each(works, function (i, work) {
-                        // console.log(work);
                         addWork(work);
                     });
                 },
@@ -112,29 +75,69 @@
             function addMaterials(material) {
                 $MaterialName.append('<input type="checkbox" value="' + material.MaterialName + '">' + material.MaterialName + ' </input>');
             }
+            $.ajax({
+                type: 'GET',
+                url: '/api/materials',
+                dataType: 'json',
+                success: function (materials) {
+                    $.each(materials, function (i, material) {
+                        addMaterials(material);
+                    });
+                },
+                error: function () {
+                    alert: ('Virhe ladattaessa')
+                }
+            });
 
+            function calcHourswr() {
+                var hourwr = document.getElementsByName("hourwr")[0].value * 60;
+                var minwr = document.getElementsByName("minwr")[0].value;
+                var sum = Number(hourwr) + Number(minwr);
+                return sum;
+            }
 
-            // console.log(localStorage.getItem('key'));
+            //lomakkeen muokkaus
             if (localStorage.hasOwnProperty('key')) {
+                console.log(localStorage); //testiä varten
 
-                $(function editform() {
+
+                $(function () {
                     //tuo data localStoragesta
                     var lsdata = JSON.parse(localStorage.getItem('key'));
+
+                        var totalMinutes = $(lsdata.WorkHoursWR);
+                        //var hours = Math.floor(totalMinutes / 60);
+                        //var mins = totalMinutes % 60;
+                   
+                    
+                    console.log(totalMinutes)
+                    
                     //Vie tiedot lomakkeeseen
                     $('#formid').val(lsdata.FormID);
+                    $('#createdate').val(lsdata.CreateDate);
                     $('#formfiller').val(lsdata.FormFiller);
-                    $('#readytodate').val(lsdata.ReadyToDate);
-                    $('#materiallist').val(lsdata.MaterialName);
-                    $('#worklist').val(lsdata.WorkName);
-                    $('#customerlist').val(lsdata.CustomerName);
+                    $('#customerlist').empty().append(lsdata.CustomerName.split(',').map(c => new Option(c, c)));
                     $('#contact').val(lsdata.CustomerContact);
+                    $('#worklist').empty().append(lsdata.WorkName.split(',').map(c => new Option(c, c)));
+                    $('#readytodate').val(lsdata.ReadyToDate);
                     $('#instructions').val(lsdata.Instructions);
                     $('#amount').val(lsdata.Amount);
                     $('#amountpcs').val(lsdata.PcsAmount);
                     $('#chargefull').val(lsdata.ChargeFull);
                     $('#chargepcs').val(lsdata.ChargeByPcs);
                     $('#freightcost').val(lsdata.FreightCost);
-                    $('#createdate').val(lsdata.CreateDate);
+
+                    //var totalMinutes = $(lsdata.WorkHoursWR);
+                    $('#hourwr').val(lsdata.WorkHoursWR);
+                 //   $('#minwr').val(time_convert);
+                    //$('#minwr').val(minutes);   
+
+                    //   $('#materiallist').append('<input type="checkbox" checked>' + lsdata.MaterialName + ' </input>');
+                    // alert(lsdata.MaterialName);
+                    //var chkArray = lsdata.MaterialName.split(',');
+                    //for (var i = 0; i < chkArray.length; i++) {
+                    //    $('#materiallist').find('[value="' + chkArray[i] + '"]').attr('checked', true)
+                    //}
 
 
 
@@ -156,7 +159,8 @@
                             CustomerName: $CustomerName.val(),
                             WorkName: $WorkName.val(),
                             MaterialName: getCheckedMaterials(),
-                            CreateDate: getDate(),
+                            CreateDate: $CreateDate.val(),
+                            WorkHoursWR: calcHourswr()
                         };
 
                         $.ajax({
@@ -164,7 +168,7 @@
                             url: 'api/forms/' + form.FormID,
                             data: JSON.stringify(form),
                             contentType: 'application/json',
-                            success: function (editform) {
+                            success: function () {
                                 alert('Muokkaus onnistui');
                                 location.reload();
                             },
@@ -172,36 +176,28 @@
                                 alert('Virhe muokatessa lomaketta');
                             }
                         });
-
                         localStorage.removeItem('key');
-
                     });
-
+                    $('#backtolist').click(function () {
+                        localStorage.removeItem('key');
+                    });
                 });
             }
+            //uusi lomake
 
             else {
-                //testausta varten
-              
-               
 
-                
+                function getDate() {
+                    var d = new Date();
+                    var month = d.getMonth() + 1;
+                    var day = d.getDate();
+                    var year = d.getFullYear();
+                    return date = year + '/' +
+                        (('' + month).length < 2 ? '0' : '') + month + '/' +
+                        (('' + day).length < 2 ? '0' : '') + day;
+                    $('#createdate').text();
+                }
 
-                $.ajax({
-                    type: 'GET',
-                    url: '/api/materials',
-                    dataType: 'json',
-                    success: function (materials) {
-                        $.each(materials, function (i, material) {
-                            // console.log(work);
-                            addMaterials(material);
-                        });
-                    },
-                    error: function () {
-                        alert: ('Virhe ladattaessa')
-                    }
-                });
-           
                 $('#saveform').click(function (e) {
                     e.preventDefault();
 
@@ -218,29 +214,27 @@
                         FreightCost: $FreightCost.val(),
                         CustomerName: $CustomerName.val(),
                         WorkName: $WorkName.val(),
-                        MaterialName: getCheckedMaterials()
+                        MaterialName: getCheckedMaterials(),
+                        WorkHoursWR: calcHourswr()
                     };
 
                     $.ajax({
                         type: 'post',
                         url: 'api/forms',
                         data: form,
-                        success: function (newform) {
-                            addForm(newform);
+                        success: function () {
+
                             alert('Uusi lomake tallennettu');
-                            // location.reload();
+                            location.reload();
                         },
                         error: function () {
                             alert('Virhe ladattaessa uutta lomaketta');
                         }
                     });
-
                     localStorage.removeItem('key');
-
                 });
 
                 $('#backtolist').click(function () {
-
                     localStorage.removeItem('key');
                 });
             }
@@ -253,12 +247,7 @@
     <div class="container-fluid">
 
         <h1>ErVe</h1>
-        <!--<ul id="formlist">Lomakkeet</ul>
-        <ul id="custlist">Asiakkaat</ul>
-        <ul id="worklist1">Työt</ul>-->
-        <!--<div>
-            <button id="tallenna">Tallenna</button>
-        </div>-->
+
         <form class="form-horizontal">
 
             <div class="form-group">
@@ -279,14 +268,14 @@
                 </div>
             </div>
 
-
             <div class="form-group">
                 <label for="filler"
                        class="col-xs-3 control-label">Oma Nimi*</label>
                 <div class="col-xs-7">
                     <input type="text"
                            class="form-control"
-                           id="formfiller">
+                           id="formfiller"
+                           required>
                 </div>
                 <p class="help-block col-xs-offset-3 col-xs-7 clearfix" style="color: white">
                     Lomakkeen täyttäjän nimi
@@ -423,7 +412,20 @@
             <div class="form-group">
                 <label for="material" class="col-xs-3 control-label header">Käytetyt materiaalit</label>
                 <div class="col-xs-7">
-                    <div class="checkbox" id="materiallist"></div>
+                    <div class="checkbox" id="materiallist">
+                        <!--<label>
+                            Xpohja
+                            <input type="checkbox" value="X-pohja" />
+                        </label>
+                        <label>
+                            Tarra
+                            <input type="checkbox" value="Tarra" />
+                        </label>
+                        <label>
+                            Other
+                            <input type="checkbox" value="Other" />
+                        </label>-->
+                    </div>
                 </div>
             </div>
 
@@ -481,12 +483,6 @@
                         <div class="col-sm-3 form-group">
                             <button type="submit" id="saveform" class="btn button1">Tallenna</button>
                         </div>
-                        <!--testiä-->
-                        <div class="col-sm-3 form-group">
-                            <button type="submit" id="editform" class="btn button1">Edit</button>
-                        </div>
-
-
                         <div class="col-sm-3 form-group">
                             <p id="backtolist"><a href="Mainpage.html">Takaisin listaan</a></p>
                         </div>
