@@ -12,7 +12,29 @@
 
         //haetaan tiedot listaan
         $(document).ready(function () {
+
+
+            var $StatusID = $('#statuslist');
             var forms = $('#forms');
+
+            function addStatus(stat) {
+                $StatusID.append('<option>' + stat.StatusName + ' </option>');
+            }
+            $.ajax({
+                type: 'GET',
+                url: '/api/status',
+                dataType: 'json',
+                success: function (status) {
+                    $.each(status, function (i, stat) {
+                        console.log(stat)
+                        addStatus(stat);
+                    });
+                },
+                error: function () {
+                    alert: ('Virhe statuksessa')
+                }
+            });
+           
             $.ajax({
                 type: 'GET',
                 url: 'api/Forms',
@@ -23,13 +45,18 @@
                             "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
                             "<td>" + val.FormID + "</td>" +
                             "<td>" + val.CreateDate + "</td>" +
-                            "<td>" + val.FormFiller + "</td>" +
+                            "<td>" + val.WorkName + "</td>" +
                             "<td>" + val.ReadyToDate + "</td>" +
                             "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+                            "<td class='dropdown'><select>" + addStatus + "</select></td>" +
                             '</tr>';
                     });
                     $('#forms_table').append(forms);
                     console.log(localStorage.getItem('key'));
+                    
+
+                    
+
 
                     //  tietojen muokkaus
                     $(".glyphicon-pencil").on("click", function () {
@@ -96,10 +123,16 @@
                 <label for="save" class="col-xs-2 control-label"></label>
                 <div class="row">
                     <div class="col-xs-3 form-group">
-                        <button type="submit" class="btn button1 btn-lg" ><a href="Form.html">Luo uusi lomake</button>
+                        <button type="submit" class="btn button1 btn-lg"><a href="Form.html">Luo uusi lomake</button>
                     </div>
                 </div>
             </div>
+            <div class="dropdown">
+                <select class="btn button1" type="button" data-toggle="dropdown" id="statuslist">
+                    <option>Valitse status</option>
+                </select>
+            </div>
+
 
             <div class="form-group">
                 <div class="container">
@@ -109,10 +142,11 @@
                         <tr>
                             <th>Muokkaa</th>
                             <th>id</th>
-                            <th>pvm</th>
-                            <th>nimi</th>
-                            <th>valmis</th>
+                            <th>Luontipäivä</th>
+                            <th>Työn nimi</th>
+                            <th>Valmistumispäivä</th>
                             <th>Poista</th>
+                            <th>Merkitse valmiiksi</th>
                         </tr>
                     </table>
                 </div>

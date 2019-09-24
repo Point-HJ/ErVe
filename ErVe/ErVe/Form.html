@@ -30,14 +30,7 @@
             var $WorkMinIT = $('#minit');
             var $FormID = $('#formid');
             var $CreateDate = $('#createdate');
-
-            function getCheckedMaterials() {
-                var materialArray = $("#materiallist input:checked").map(function () {
-                    return this.value;
-                }).get();
-                return materialArray.join(',');
-            }
-
+           
             function addCustomer(cust) {
                 $CustomerName.append('<option>' + cust.CustomerName + ' </option>');
             }
@@ -51,7 +44,7 @@
                     });
                 },
                 error: function () {
-                    alert: ('Virhe ladattaessa')
+                    alert: ('Virhe ladattaessa asiakkaita')
                 }
             });
 
@@ -68,7 +61,7 @@
                     });
                 },
                 error: function () {
-                    alert: ('Virhe ladattaessa')
+                    alert: ('Virhe ladattaessa töitä')
                 }
             });
 
@@ -85,7 +78,7 @@
                     });
                 },
                 error: function () {
-                    alert: ('Virhe ladattaessa')
+                    alert: ('Virhe ladattaessa materiaaleja')
                 }
             });
 
@@ -95,6 +88,15 @@
                 var sum = Number(hourwr) + Number(minwr);
                 return sum;
             }
+
+            function getCheckedMaterials() {
+                var materialArray = $("#materiallist input:checked").map(function () {
+                    return this.value;
+                }).get();
+                return materialArray.join(',');
+            }
+
+            
 
             //lomakkeen muokkaus
             if (localStorage.hasOwnProperty('key')) {
@@ -138,9 +140,6 @@
                     //for (var i = 0; i < chkArray.length; i++) {
                     //    $('#materiallist').find('[value="' + chkArray[i] + '"]').attr('checked', true)
                     //}
-
-
-
 
                     $('#saveform').click(function (e) {
                         e.preventDefault();
@@ -198,6 +197,24 @@
                     $('#createdate').text();
                 }
 
+                function addStatus() {
+                    
+                    return StatusID = 3;
+                }
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/status',
+                    dataType: 'json',
+                    success: function (status) {
+                        $.each(status, function (i, stat) {
+                            addStatus(stat);
+                        });
+                    },
+                    error: function () {
+                        alert: ('Virhe statuksessa')
+                    }
+                });
+
                 $('#saveform').click(function (e) {
                     e.preventDefault();
 
@@ -215,7 +232,8 @@
                         CustomerName: $CustomerName.val(),
                         WorkName: $WorkName.val(),
                         MaterialName: getCheckedMaterials(),
-                        WorkHoursWR: calcHourswr()
+                        WorkHoursWR: calcHourswr(),
+                        StatusID: addStatus(),
                     };
 
                     $.ajax({
