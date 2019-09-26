@@ -35,6 +35,7 @@ namespace DataAccess2
         public Nullable<int> WorkHoursIT { get; set; }
         public Nullable<int> WorkHoursCS { get; set; }
         public Nullable<int> StatusID { get; set; }
+        public string StatusName { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Material Material { get; set; }

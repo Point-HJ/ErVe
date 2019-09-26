@@ -14,96 +14,83 @@
         $(document).ready(function () {
 
 
-            var $StatusID = $('#statuslist');
+
             var forms = $('#forms');
 
-            function addStatus(stat) {
-                $StatusID.append('<option>' + stat.StatusName + ' </option>');
-            }
-            $.ajax({
-                type: 'GET',
-                url: '/api/status',
-                dataType: 'json',
-                success: function (status) {
-                    $.each(status, function (i, stat) {
-                        console.log(stat)
-                        addStatus(stat);
-                    });
-                },
-                error: function () {
-                    alert: ('Virhe statuksessa')
-                }
-            });
            
-            $.ajax({
-                type: 'GET',
-                url: 'api/Forms',
-                dataType: 'json',
-                success: function (data) {
-                    $.each(data, function (index, val) {
-                        forms += '<tr>' +
-                            "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
-                            "<td>" + val.FormID + "</td>" +
-                            "<td>" + val.CreateDate + "</td>" +
-                            "<td>" + val.WorkName + "</td>" +
-                            "<td>" + val.ReadyToDate + "</td>" +
-                            "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
-                            "<td class='dropdown'><select>" + addStatus + "</select></td>" +
-                            '</tr>';
-                    });
-                    $('#forms_table').append(forms);
-                    console.log(localStorage.getItem('key'));
-                    
 
-                    
-
-
-                    //  tietojen muokkaus
-                    $(".glyphicon-pencil").on("click", function () {
-
-                        // etsitään lomakkeen tiedot klikatulta riviltä
-                        var FormID = $(this).parent().parent().next().text();
-                        console.log(FormID);
-
-                        $.ajax({
-                            type: 'GET',
-                            url: 'api/Forms/' + FormID,
-                            dataType: 'json',
-                            success: function (form) {
-                                localStorage.setItem('key', JSON.stringify(form));
-                                var retrievedForm = localStorage.getItem('key');
-                                console.log('retrievedForm: ', JSON.parse(retrievedForm));
-                                location.href = "Form.html";
-                            },
-                            error: function () {
-                                console.log('tietoja ei haettu');
-                            },
+                $.ajax({
+                    type: 'GET',
+                    url: 'api/Forms',
+                    dataType: 'json',
+                    success: function (data) {
+                        $.each(data, function (index, val) {
+                            if (val.StatusName != "Valmis") {
+                            forms += '<tr>' +
+                                "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
+                                "<td>" + val.FormID + "</td>" +
+                                "<td>" + val.CreateDate + "</td>" +
+                                "<td>" + val.WorkName + "</td>" +
+                                "<td>" + val.ReadyToDate + "</td>" +
+                                "<td>" + val.StatusName + "</td>" +
+                                "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
+                                    '</tr>';
+                            }
                         });
-                    });
-                   
-                    // tietojen poisto
-                    $(".glyphicon-trash").click(function () {
-                        // etsitään lomakkeen tiedot klikatulta riviltä
-                        var FormID = $(this).parent().parent().prev().prev().prev().prev().text();
-                        var ok = confirm("Haluatko varmasti poistaa lomakkeen " + FormID + "?");
-                        //Poistetaan lomake tietokannasta
-                        if (ok == true) {
+
+                        $('#forms_table').append(forms);
+                        console.log(localStorage.getItem('key'));
+
+                        //  tietojen muokkaus
+                        $(".glyphicon-pencil").on("click", function () {
+
+                            // etsitään lomakkeen tiedot klikatulta riviltä
+                            var FormID = $(this).parent().parent().next().text();
+
                             $.ajax({
-                                type: 'DELETE',
-                                url: 'http://localhost:50453/api/forms/' + FormID,
-                                contentType: 'application/json',
-                                success: function () {
-                                    alert('Lomake poistettu');
-                                    location.reload(); //sivun uudelleen lataus
+                                type: 'GET',
+                                url: 'api/Forms/' + FormID,
+                                dataType: 'json',
+                                success: function (form) {
+                                    localStorage.setItem('key', JSON.stringify(form));
+                                    var retrievedForm = localStorage.getItem('key');
+                                    console.log('retrievedForm: ', JSON.parse(retrievedForm));
+                                    location.href = "Form.html";
                                 },
                                 error: function () {
-                                    alert('Poisto epäonnistui')
-                                }
+                                    console.log('tietoja ei haettu');
+                                },
                             });
-                        }
-                    });
-                }
-            });
+                        });
+
+                        // tietojen poisto
+                        $(".glyphicon-trash").click(function () {
+                            // etsitään lomakkeen tiedot klikatulta riviltä
+                            var FormID = $(this).parent().parent().prev().prev().prev().prev().prev().text();
+                            var ok = confirm("Haluatko varmasti poistaa lomakkeen " + FormID + "? Kaikki tiedot poistetaan tietokannasta.");
+                            //Poistetaan lomake tietokannasta
+                            if (ok == true) {
+                                $.ajax({
+                                    type: 'DELETE',
+                                    url: 'http://localhost:50453/api/forms/' + FormID,
+                                    contentType: 'application/json',
+                                    success: function () {
+                                        alert('Lomake poistettu');
+                                        location.reload(); //sivun uudelleen lataus
+                                    },
+                                    error: function () {
+                                        alert('Poisto epäonnistui')
+                                    }
+                                });
+                            }
+                        });
+
+
+                    }
+
+                });
+            
+
         });
     </script>
 </head>
@@ -127,11 +114,6 @@
                     </div>
                 </div>
             </div>
-            <div class="dropdown">
-                <select class="btn button1" type="button" data-toggle="dropdown" id="statuslist">
-                    <option>Valitse status</option>
-                </select>
-            </div>
 
 
             <div class="form-group">
@@ -145,8 +127,8 @@
                             <th>Luontipäivä</th>
                             <th>Työn nimi</th>
                             <th>Valmistumispäivä</th>
+                            <th>Status</th>
                             <th>Poista</th>
-                            <th>Merkitse valmiiksi</th>
                         </tr>
                     </table>
                 </div>

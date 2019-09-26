@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿<!DOCTYPE HTML>
 <html lang="fi">
 <head>
     <title>ErVe lomake</title>
@@ -10,7 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
-            var $MaterialName = $('#materiallist');
+
             var $WorkName = $('#worklist');
             var $CustomerName = $('#customerlist');
             var $FormFiller = $('#formfiller');
@@ -22,15 +22,11 @@
             var $ChargeFull = $('#chargefull');
             var $ChargeByPcs = $('#chargepcs');
             var $FreightCost = $('#freightcost');
-            var $WorkHoursWR = $('#hourwr');
-            var $WorkMinWR = $('#minwr');
-            var $WorkHoursCS = $('#hourcs');
-            var $WorkMinCS = $('#mincs');
-            var $WorkHoursIT = $('#hourit');
-            var $WorkMinIT = $('#minit');
             var $FormID = $('#formid');
             var $CreateDate = $('#createdate');
-           
+            var $StatusName = $('#statuslist')
+
+
             function addCustomer(cust) {
                 $CustomerName.append('<option>' + cust.CustomerName + ' </option>');
             }
@@ -49,7 +45,7 @@
             });
 
             function addWork(work) {
-                $WorkName.append('<option>' + work.WorkName + ' </option>');
+                $WorkName.append(work.WorkID + '<option>' + work.WorkName + ' </option>');
             }
             $.ajax({
                 type: 'GET',
@@ -65,30 +61,48 @@
                 }
             });
 
-            function addMaterials(material) {
-                $MaterialName.append('<input type="checkbox" value="' + material.MaterialName + '">' + material.MaterialName + ' </input>');
-            }
-            $.ajax({
-                type: 'GET',
-                url: '/api/materials',
-                dataType: 'json',
-                success: function (materials) {
-                    $.each(materials, function (i, material) {
-                        addMaterials(material);
-                    });
-                },
-                error: function () {
-                    alert: ('Virhe ladattaessa materiaaleja')
-                }
-            });
-
-            function calcHourswr() {
+            function calcNewHourswr() {
                 var hourwr = document.getElementsByName("hourwr")[0].value * 60;
                 var minwr = document.getElementsByName("minwr")[0].value;
                 var sum = Number(hourwr) + Number(minwr);
                 return sum;
             }
-
+            function calcNewHourscs() {
+                var hourwr = document.getElementsByName("hourcs")[0].value * 60;
+                var minwr = document.getElementsByName("mincs")[0].value;
+                var sum = Number(hourwr) + Number(minwr);
+                return sum;
+            }
+            function calcNewHoursIT() {
+                var hourwr = document.getElementsByName("hourit")[0].value * 60;
+                var minwr = document.getElementsByName("minit")[0].value;
+                var sum = Number(hourwr) + Number(minwr);
+                return sum;
+            }
+            function calcHourswr() {
+                var hourwr = document.getElementsByName("hourwr")[0].value * 60;
+                var minwr = document.getElementsByName("minwr")[0].value;
+                var lsdata = JSON.parse(localStorage.getItem('key'));
+                var oldval = lsdata.WorkHoursWR;
+                var sum = Number(hourwr) + Number(minwr) + Number(oldval);
+                return sum;
+            }
+            function calcHourscs() {
+                var hourwr = document.getElementsByName("hourcs")[0].value * 60;
+                var minwr = document.getElementsByName("mincs")[0].value;
+                var lsdata = JSON.parse(localStorage.getItem('key'));
+                var oldval = lsdata.WorkHoursCS;
+                var sum = Number(hourwr) + Number(minwr) + Number(oldval);
+                return sum;
+            }
+            function calcHoursIT() {
+                var hourwr = document.getElementsByName("hourit")[0].value * 60;
+                var minwr = document.getElementsByName("minit")[0].value;
+                var lsdata = JSON.parse(localStorage.getItem('key'));
+                var oldval = lsdata.WorkHoursIT;
+                var sum = Number(hourwr) + Number(minwr) + Number(oldval);
+                return sum;
+            }
             function getCheckedMaterials() {
                 var materialArray = $("#materiallist input:checked").map(function () {
                     return this.value;
@@ -96,7 +110,6 @@
                 return materialArray.join(',');
             }
 
-            
 
             //lomakkeen muokkaus
             if (localStorage.hasOwnProperty('key')) {
@@ -107,17 +120,11 @@
                     //tuo data localStoragesta
                     var lsdata = JSON.parse(localStorage.getItem('key'));
 
-                        var totalMinutes = $(lsdata.WorkHoursWR);
-                        //var hours = Math.floor(totalMinutes / 60);
-                        //var mins = totalMinutes % 60;
-                   
-                    
-                    console.log(totalMinutes)
-                    
                     //Vie tiedot lomakkeeseen
                     $('#formid').val(lsdata.FormID);
                     $('#createdate').val(lsdata.CreateDate);
                     $('#formfiller').val(lsdata.FormFiller);
+                    $('#statuslist').val(lsdata.StatusName);
                     $('#customerlist').empty().append(lsdata.CustomerName.split(',').map(c => new Option(c, c)));
                     $('#contact').val(lsdata.CustomerContact);
                     $('#worklist').empty().append(lsdata.WorkName.split(',').map(c => new Option(c, c)));
@@ -128,26 +135,24 @@
                     $('#chargefull').val(lsdata.ChargeFull);
                     $('#chargepcs').val(lsdata.ChargeByPcs);
                     $('#freightcost').val(lsdata.FreightCost);
-
-                    //var totalMinutes = $(lsdata.WorkHoursWR);
-                    $('#hourwr').val(lsdata.WorkHoursWR);
-                 //   $('#minwr').val(time_convert);
-                    //$('#minwr').val(minutes);   
-
-                    //   $('#materiallist').append('<input type="checkbox" checked>' + lsdata.MaterialName + ' </input>');
-                    // alert(lsdata.MaterialName);
-                    //var chkArray = lsdata.MaterialName.split(',');
-                    //for (var i = 0; i < chkArray.length; i++) {
-                    //    $('#materiallist').find('[value="' + chkArray[i] + '"]').attr('checked', true)
-                    //}
+                    if (lsdata.MaterialName != null) {
+                        var chkArray = lsdata.MaterialName.split(',');
+                        for (var i = 0; i < chkArray.length; i++) {
+                            $('#materiallist').find('[value="' + chkArray[i] + '"]').attr('checked', true)
+                        }
+                    };
 
                     $('#saveform').click(function (e) {
                         e.preventDefault();
 
                         var form = {
                             FormID: $FormID.val(),
+                            CreateDate: $CreateDate.val(),
                             FormFiller: $FormFiller.val(),
+                            StatusName: $StatusName.val(),
+                            CustomerName: $CustomerName.val(),
                             CustomerContact: $CustomerContact.val(),
+                            WorkName: $WorkName.val(),
                             ReadyToDate: $ReadyToDate.val(),
                             Instructions: $Instructions.val(),
                             Amount: $Amount.val(),
@@ -155,11 +160,10 @@
                             ChargeFull: $ChargeFull.val(),
                             ChargeByPcs: $ChargeByPcs.val(),
                             FreightCost: $FreightCost.val(),
-                            CustomerName: $CustomerName.val(),
-                            WorkName: $WorkName.val(),
                             MaterialName: getCheckedMaterials(),
-                            CreateDate: $CreateDate.val(),
-                            WorkHoursWR: calcHourswr()
+                            WorkHoursWR: calcHourswr(),
+                            WorkHoursCS: calcHourscs(),
+                            WorkHoursIT: calcHoursIT(),
                         };
 
                         $.ajax({
@@ -169,7 +173,7 @@
                             contentType: 'application/json',
                             success: function () {
                                 alert('Muokkaus onnistui');
-                                location.reload();
+                                location.href = "MainPage.html";
                             },
                             error: function () {
                                 alert('Virhe muokatessa lomaketta');
@@ -197,29 +201,12 @@
                     $('#createdate').text();
                 }
 
-                function addStatus() {
-                    
-                    return StatusID = 3;
-                }
-                $.ajax({
-                    type: 'GET',
-                    url: '/api/status',
-                    dataType: 'json',
-                    success: function (status) {
-                        $.each(status, function (i, stat) {
-                            addStatus(stat);
-                        });
-                    },
-                    error: function () {
-                        alert: ('Virhe statuksessa')
-                    }
-                });
-
                 $('#saveform').click(function (e) {
                     e.preventDefault();
 
                     var form = {
                         CreateDate: getDate(),
+                        StatusName: $StatusName.val(),
                         FormFiller: $FormFiller.val(),
                         CustomerContact: $CustomerContact.val(),
                         ReadyToDate: $ReadyToDate.val(),
@@ -232,8 +219,9 @@
                         CustomerName: $CustomerName.val(),
                         WorkName: $WorkName.val(),
                         MaterialName: getCheckedMaterials(),
-                        WorkHoursWR: calcHourswr(),
-                        StatusID: addStatus(),
+                        WorkHoursWR: calcNewHourswr(),
+                        WorkHoursCS: calcNewHourscs(),
+                        WorkHoursIT: calcNewHoursIT(),
                     };
 
                     $.ajax({
@@ -290,15 +278,27 @@
                 <label for="filler"
                        class="col-xs-3 control-label">Oma Nimi*</label>
                 <div class="col-xs-7">
-                    <input type="text"
-                           class="form-control"
-                           id="formfiller"
-                           required>
+                    <input type="text" class="form-control" id="formfiller" required />
                 </div>
                 <p class="help-block col-xs-offset-3 col-xs-7 clearfix" style="color: white">
                     Lomakkeen täyttäjän nimi
                 </p>
             </div>
+
+            <div class="form-group">
+                <label for="status" class="col-xs-3 control-label">Lomakkeen status*</label>
+                <div class="col-xs-7">
+                    <div class="dropdown">
+                        <select class="btn button1" type="button" data-toggle="dropdown" id="statuslist">
+                            <option>Valitse Status</option>
+                            <option value="Odottaa lisätietoja">Odottaa lisätietoja</option>
+                            <option value="Kesken">Kesken/Työn alla</option>
+                            <option value="Valmis">Valmis laskutettavaksi</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
 
             <div class="form-group">
                 <div class="row control-label">
@@ -310,7 +310,7 @@
                 <label for="customer" class="col-xs-3 control-label">Yrityksen nimi*</label>
                 <div class="col-xs-7">
                     <div class="dropdown">
-                        <select class="btn button1" type="button" data-toggle="dropdown" id="customerlist">
+                        <select class="btn button1" type="button" data-toggle="dropdown" id="customerlist" required>
                             <option>Valitse yritys</option>
                         </select>
                     </div>
@@ -336,7 +336,7 @@
                 <label for="work" class="col-xs-3 control-label">Työn nimi*</label>
                 <div class="col-xs-7">
                     <div class="dropdown">
-                        <select class="btn button1" type="button" data-toggle="dropdown" id="worklist">
+                        <select class="btn button1" type="button" data-toggle="dropdown" id="worklist" required>
                             <option>Valitse työ</option>
                         </select>
                     </div>
@@ -352,7 +352,6 @@
                            id="readytodate">
                 </div>
             </div>
-
 
             <div class="form-group">
                 <label for="directions" class="col-xs-3 control-label">Lisäohjeet</label>
@@ -430,19 +429,51 @@
             <div class="form-group">
                 <label for="material" class="col-xs-3 control-label header">Käytetyt materiaalit</label>
                 <div class="col-xs-7">
-                    <div class="checkbox" id="materiallist">
-                        <!--<label>
-                            Xpohja
-                            <input type="checkbox" value="X-pohja" />
+                    <div class="custom-control custom-checkbox" id="materiallist">
+                        <label>
+                            <input type="checkbox" value="AB-01" />
+                            AB-01
                         </label>
                         <label>
-                            Tarra
+                            <input type="checkbox" value="AB-02" />
+                            AB-02
+                        </label>
+                        <label>
+                            <input type="checkbox" value="AB-03" />
+                            AB-03
+                        </label>
+                        <label>
+                            <input type="checkbox" value="AB-04" />
+                            AB-04
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Pahvipussi 5" />
+                            Pahvipussi 5
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Pieni X-pohja" />
+                            Pieni X-pohja
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Iso X-pohja" />
+                            Iso X-pohja
+                        </label>
+                        <label>
+                            <input type="checkbox" value="EuroLava" />
+                            EuroLava
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Teholava" />
+                            Teholava
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Muovi" />
+                            Muovi
+                        </label>
+                        <label>
                             <input type="checkbox" value="Tarra" />
+                            Tarra
                         </label>
-                        <label>
-                            Other
-                            <input type="checkbox" value="Other" />
-                        </label>-->
                     </div>
                 </div>
             </div>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ErveDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ErveDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="CustomerID" />
@@ -37,6 +37,7 @@
           <Property Name="WorkHoursIT" Type="int" />
           <Property Name="WorkHoursCS" Type="int" />
           <Property Name="StatusID" Type="int" />
+          <Property Name="StatusName" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -130,8 +131,7 @@
             <End Role="FORM" EntitySet="FORM" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ErveDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -172,6 +172,7 @@
           <NavigationProperty Name="Material" Relationship="Self.FK__FORM__MaterialID__35BCFE0A" FromRole="FORM" ToRole="Material" />
           <NavigationProperty Name="Status" Relationship="Self.FK__FORM__StatusID__36B12243" FromRole="FORM" ToRole="Status" />
           <NavigationProperty Name="Work" Relationship="Self.FK__FORM__WorkID__34C8D9D1" FromRole="FORM" ToRole="Work" />
+          <Property Name="StatusName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -285,6 +286,7 @@
           <EntitySetMapping Name="FORM">
             <EntityTypeMapping TypeName="ErveDataModel.FORM">
               <MappingFragment StoreEntitySet="FORM">
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
                 <ScalarProperty Name="FormID" ColumnName="FormID" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="FormFiller" ColumnName="FormFiller" />
