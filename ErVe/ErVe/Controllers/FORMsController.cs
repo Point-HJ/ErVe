@@ -21,7 +21,6 @@ namespace ErVe.Controllers
         private ErveEntities db = new ErveEntities();
 
         // GET: /api/FORMs
-      
         //[HttpGet, HttpPost]
         //[Route("api/FORMs")]
         public IQueryable<FORM> GetFORMs()

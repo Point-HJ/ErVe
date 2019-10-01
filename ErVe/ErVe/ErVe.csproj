@@ -168,7 +168,6 @@
     <Compile Include="Controllers\MaterialsController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\WorksController.cs" />
-    <Compile Include="ViewModel\FormViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -269,7 +268,6 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

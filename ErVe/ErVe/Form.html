@@ -176,7 +176,7 @@
                                 location.href = "MainPage.html";
                             },
                             error: function () {
-                                alert('Virhe muokatessa lomaketta');
+                                alert('Virhe muokatessa lomaketta. Tarkista ettei numero-kentissä ole kirjaimia!');
                             }
                         });
                         localStorage.removeItem('key');
@@ -234,7 +234,7 @@
                             location.reload();
                         },
                         error: function () {
-                            alert('Virhe ladattaessa uutta lomaketta');
+                            alert('Virhe tallennettaessa uutta lomaketta. Tarkista ettei numero-kentissä ole kirjaimia!');
                         }
                     });
                     localStorage.removeItem('key');
@@ -264,7 +264,9 @@
 
             <div class="form-group">
                 <div class="row control-label">
-                    <output class="col-xs-3" id="formid" style="color:white"></output>
+                    <label for="filler"
+                           class="col-xs-3 control-label">ID</label>
+                    <output class="col-xs-1" id="formid" style="color:white"></output>
                 </div>
             </div>
 
@@ -292,13 +294,13 @@
                         <select class="btn button1" type="button" data-toggle="dropdown" id="statuslist">
                             <option>Valitse Status</option>
                             <option value="Odottaa lisätietoja">Odottaa lisätietoja</option>
-                            <option value="Kesken">Kesken/Työn alla</option>
+                            <option value="Tekemättä">Tekemättä</option>
+                            <option value="Työnalla">Työn alla</option>
                             <option value="Valmis">Valmis laskutettavaksi</option>
                         </select>
                     </div>
                 </div>
             </div>
-
 
             <div class="form-group">
                 <div class="row control-label">
@@ -489,10 +491,10 @@
                 <div class="row">
                     <div class="col-xs-7">
                         <div class="col-xs-3 form-group">
-                            <input class="form-control" id="hourwr" name="hourwr" placeholder="Tunnit" type="text">
+                            <input class="form-control" id="hourwr" name="hourwr" placeholder="Tunnit" type="number">
                         </div>
                         <div class="col-xs-3 form-group">
-                            <input class="form-control" id="minwr" name="minwr" placeholder="Minuutit" type="text">
+                            <input class="form-control" id="minwr" name="minwr" placeholder="Minuutit" type="number">
                         </div>
                     </div>
                 </div>
@@ -502,10 +504,10 @@
                 <div class="row">
                     <div class="col-xs-7">
                         <div class="col-xs-3 form-group">
-                            <input class="form-control" id="hourcs" name="hourcs" placeholder="Tunnit" type="text">
+                            <input class="form-control" id="hourcs" name="hourcs" placeholder="Tunnit" type="number">
                         </div>
                         <div class="col-xs-3 form-group">
-                            <input class="form-control" id="mincs" name="mincs" placeholder="Minuutit" type="text">
+                            <input class="form-control" id="mincs" name="mincs" placeholder="Minuutit" type="number">
                         </div>
                     </div>
                 </div>
@@ -515,10 +517,10 @@
                 <div class="row">
                     <div class="col-xs-7">
                         <div class="col-xs-3 form-group">
-                            <input class="form-control" id="hourit" name="hourit" placeholder="Tunnit" type="text">
+                            <input class="form-control" id="hourit" name="hourit" placeholder="Tunnit" type="number">
                         </div>
                         <div class="col-xs-3 form-group">
-                            <input class="form-control" id="minit" name="minit" placeholder="Minuutit" type="text">
+                            <input class="form-control" id="minit" name="minit" placeholder="Minuutit" type="number">
                         </div>
                     </div>
                 </div>
