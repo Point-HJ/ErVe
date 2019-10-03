@@ -10,7 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
-
+           //luodaan muuttujat ja niille kohteet
             var $WorkName = $('#worklist');
             var $CustomerName = $('#customerlist');
             var $FormFiller = $('#formfiller');
@@ -26,7 +26,7 @@
             var $CreateDate = $('#createdate');
             var $StatusName = $('#statuslist')
 
-
+            //Lisätään Ajax-kutsun hakemat asiakkaat sivulle
             function addCustomer(cust) {
                 $CustomerName.append('<option>' + cust.CustomerName + ' </option>');
             }
@@ -43,7 +43,7 @@
                     alert: ('Virhe ladattaessa asiakkaita')
                 }
             });
-
+            //lisätään Ajax-kutsun hakemat työt sivulle
             function addWork(work) {
                 $WorkName.append(work.WorkID + '<option>' + work.WorkName + ' </option>');
             }
@@ -60,7 +60,7 @@
                     alert: ('Virhe ladattaessa töitä')
                 }
             });
-
+            //Konvertoidaan tunnit ja minuutit minuuteiksi tietokantaan
             function calcNewHourswr() {
                 var hourwr = document.getElementsByName("hourwr")[0].value * 60;
                 var minwr = document.getElementsByName("minwr")[0].value;
@@ -79,6 +79,8 @@
                 var sum = Number(hourwr) + Number(minwr);
                 return sum;
             }
+
+            //Konvertoidaan tunnit ja minuutit minuuteiksi sekä lasketaan LocalStorageen säilöttyjen minuuttien kanssa yhteen ja tallennetaan tietokantaan
             function calcHourswr() {
                 var hourwr = document.getElementsByName("hourwr")[0].value * 60;
                 var minwr = document.getElementsByName("minwr")[0].value;
@@ -103,6 +105,8 @@
                 var sum = Number(hourwr) + Number(minwr) + Number(oldval);
                 return sum;
             }
+
+            //Valittujen checkboxien arvot tietokantaan tekstinä pilkulla erotettuna
             function getCheckedMaterials() {
                 var materialArray = $("#materiallist input:checked").map(function () {
                     return this.value;
@@ -112,6 +116,7 @@
 
 
             //lomakkeen muokkaus
+            // Jos LocalStoragessa on sisältöä
             if (localStorage.hasOwnProperty('key')) {
                 console.log(localStorage); //testiä varten
 
@@ -141,7 +146,7 @@
                             $('#materiallist').find('[value="' + chkArray[i] + '"]').attr('checked', true)
                         }
                     };
-
+                    //Tallenna muokatut tiedot tietokantaan
                     $('#saveform').click(function (e) {
                         e.preventDefault();
 
@@ -179,17 +184,17 @@
                                 alert('Virhe muokatessa lomaketta. Tarkista ettei numero-kentissä ole kirjaimia!');
                             }
                         });
-                        localStorage.removeItem('key');
+                        localStorage.removeItem('key'); // Tyhjennä LocalStorage
                     });
                     $('#backtolist').click(function () {
-                        localStorage.removeItem('key');
+                        localStorage.removeItem('key'); // Tyhjennä LocalStorage
                     });
                 });
             }
             //uusi lomake
-
+            // Jos LocalStorage on tyhjä
             else {
-
+                //Luo tämä päivämäärä
                 function getDate() {
                     var d = new Date();
                     var month = d.getMonth() + 1;
@@ -200,7 +205,7 @@
                         (('' + day).length < 2 ? '0' : '') + day;
                     $('#createdate').text();
                 }
-
+                //Tallenna uusi lomake
                 $('#saveform').click(function (e) {
                     e.preventDefault();
 
@@ -231,17 +236,17 @@
                         success: function () {
 
                             alert('Uusi lomake tallennettu');
-                            location.reload();
+                            location.href = "MainPage.html";
                         },
                         error: function () {
                             alert('Virhe tallennettaessa uutta lomaketta. Tarkista ettei numero-kentissä ole kirjaimia!');
                         }
                     });
-                    localStorage.removeItem('key');
+                    localStorage.removeItem('key'); //Tyhjennä LocalStorage
                 });
 
                 $('#backtolist').click(function () {
-                    localStorage.removeItem('key');
+                    localStorage.removeItem('key'); //Tyhjennä LocalStorage
                 });
             }
         });
