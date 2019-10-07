@@ -70,7 +70,7 @@
                             if (ok == true) {
                                 $.ajax({
                                     type: 'DELETE',
-                                    url: 'http://localhost:50453/api/forms/' + FormID,
+                                    url: '/api/Forms/' + FormID,
                                     contentType: 'application/json',
                                     success: function () {
                                         alert('Lomake poistettu');
