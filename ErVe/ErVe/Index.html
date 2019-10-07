@@ -10,7 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
 
-        //haetaan tiedot listaan
+        //haetaan tiedot tietokannasta
         $(document).ready(function () {
             var forms = $('#forms');
 
@@ -20,7 +20,7 @@
                     dataType: 'json',
                     success: function (data) {
                         $.each(data, function (index, val) {
-                            //Tuodaan listaan tiedot, joiden statusName ei ole Valmis
+                            //Tuodaan tiedot, joiden statusName ei ole Valmis
                             if (val.StatusName != "Valmis") {
 
                                 //luodaan taulukko, johon arvot tuodaan halutuista sarakkeista
@@ -108,7 +108,7 @@
                 <label for="save" class="col-xs-2 control-label"></label>
                 <div class="row">
                     <div class="col-xs-3 form-group">
-                        <button type="submit" class="btn button1 btn-lg"><a href="Form.html">Luo uusi lomake</button>
+                        <a href="Form.html"  type="submit" class="btn button1 btn-lg" >Luo uusi lomake</a>
                     </div>
                 </div>
             </div>

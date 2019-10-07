@@ -9,9 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using AutoMapper;
 using DataAccess2;
-using Microsoft.AspNetCore.JsonPatch;
 
 namespace ErVe.Controllers
 {
@@ -22,11 +20,16 @@ namespace ErVe.Controllers
 
         // GET: /api/FORMs
         //[HttpGet, HttpPost]
-        //[Route("api/FORMs")]
+        //[Route("api/FORMs")]         
         public IQueryable<FORM> GetFORMs()
         {
-             return db.FORM;
+            return db.FORM;
         }
+        //public string GetFORMs ()
+        //{
+        //     return "testi";
+        //}
+
 
         // GET: api/FORMs/5
         [ResponseType(typeof(FORM))]
