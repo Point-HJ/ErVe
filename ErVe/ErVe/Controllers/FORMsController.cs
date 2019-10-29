@@ -25,10 +25,7 @@ namespace ErVe.Controllers
         {
             return db.FORM;
         }
-        //public string GetFORMs ()
-        //{
-        //     return "testi";
-        //}
+       
 
 
         // GET: api/FORMs/5

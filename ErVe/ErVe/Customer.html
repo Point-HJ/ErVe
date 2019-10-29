@@ -1,10 +1,11 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Customer</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="Content/New.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
@@ -13,7 +14,7 @@
             var $CustomerName = $('#customername');
 
             function addCustomer(customer) {
-                $customers.append('<li>name: ' + customer.CustomerName + ' </li>');
+                $customers.append('<li><h4>' + customer.CustomerName + ' </h4></li>');
             }
 
             $.ajax({
@@ -21,7 +22,6 @@
                 url: 'api/Customers',
                 success: function (customers) {
                     $.each(customers, function (i, customer) {
-                        console.log(customer);
                         addCustomer(customer);
                     });
                 },
@@ -29,34 +29,46 @@
                     alert('Virhe ladattaessa yrityksiä')
                 }
             });
-                $('#addCustomer').on('click', function () {
-                    var customer = {
-                        CustomerName: $CustomerName.val()
-                    };
+            $('#addCustomer').on('click', function () {
+                var customer = {
+                    CustomerName: $CustomerName.val()
+                };
 
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/customers',
-                        data: customer,
-                        success: function (newcust) {
-                            addCustomer(newcust);
-                        },
-                        error: function () {
-                            alert('virhe lisätessä uutta yritystä');
-                        }
-                    });
-                 });
+                $.ajax({
+                    type: 'post',
+                    url: 'api/customers',
+                    data: customer,
+                    success: function (newcust) {
+                        addCustomer(newcust);
+                         location.reload();
+                    },
+                    error: function () {
+                        alert('virhe lisätessä uutta yritystä');
+                    }
+                });
+                 
+            });
+           
         });
 
     </script>
 
 </head>
 <body>
-    <h1>Yritykset</h1>
-    <ul id="customers"></ul>
 
-    <h4>Lisää yritys</h4>
-    <p>Nimi: <input type="text" id="customername"></p>
-    <button id="addCustomer">Lisää yritys</button>
+    <div class="grid-container">
+
+        <div class="item1">Yritykset</div>
+
+        <div class="item3">
+            <label for="customer">Yrityksen nimi</label>
+            <input type="text" id="customername" style="color:black">
+            <button class="btn button1" id="addCustomer">Lisää uusi yritys</button>
+            <br />
+            <br />
+            <ul style="list-style-type:none;" id="customers"></ul>
+        </div>
+     
+    </div>
 </body>
 </html>

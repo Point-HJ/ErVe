@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link href="../../Content/MyStyle.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
 
         $(document).ajaxStart(function () {
@@ -18,9 +17,8 @@
 
         //haetaan tiedot tietokannasta
         $(document).ready(function () {
-
-
             var forms = $('#forms');
+
             $.ajax({
                 type: 'GET',
                 url: 'api/Forms',
@@ -29,7 +27,6 @@
                     $.each(data, function (index, val) {
                         //Tuodaan tiedot, joiden statusName ei ole Valmis
                         if (val.StatusName != "Valmis") {
-
                             //luodaan taulukko, johon arvot tuodaan halutuista sarakkeista
                             forms += '<tr>' +
                                 "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
@@ -42,6 +39,7 @@
                                 '</tr>';
                         }
                     });
+                 
                     //näytetään taulukko sivulla
                     $('#forms_table').append(forms);
                     console.log(localStorage.getItem('key')); //testiä varten
@@ -56,7 +54,7 @@
                             type: 'GET',
                             url: 'api/Forms/' + FormID,
                             dataType: 'json',
-                             global: false, 
+                            global: false,
                             success: function (form) {
                                 localStorage.setItem('key', JSON.stringify(form)); //Tuodaan rivin tiedot LocalStorageen
                                 var retrievedForm = localStorage.getItem('key');
@@ -80,7 +78,7 @@
                                 type: 'DELETE',
                                 url: '/api/Forms/' + FormID,
                                 contentType: 'application/json',
-                                 global: false, 
+                                global: false,
                                 success: function () {
                                     alert('Lomake poistettu');
                                     location.reload(); //sivun uudelleen lataus
@@ -93,8 +91,10 @@
                     });
 
 
+                },
+                error: function () {
+                    alert('Lataus ei onnistunut, yritä uudelleen')
                 }
-
             });
 
 
@@ -127,7 +127,7 @@
             <div class="form-group">
                 <div class="container">
                     <h2>Keskeneräiset työt</h2>
-                    <table class="table table-bordered" id="forms_table">
+                    <table class="table table-bordered" id="forms_table" >
                         <tr>
                             <th>Muokkaa</th>
                             <th>id</th>

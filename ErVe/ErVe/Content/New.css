@@ -1,0 +1,82 @@
+﻿
+h1 {
+    text-align: center;
+    padding: 30px;
+}
+
+a {
+    color: white;
+}
+
+    a:hover {
+        color: white;
+    }
+
+    a:focus {
+        color: white;
+    }
+
+.control-label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.header {
+    font-size: 18px;
+    text-decoration: underline;
+}
+
+body {
+    background-color: rgb(18, 89, 117);
+    color: black;
+}
+
+.button1 {
+    background-color: #002f40;
+    color: white;
+    border: 1px solid white;
+}
+
+    .button1:hover {
+        background-color: #002f40;
+        color: white;
+    }
+
+    .button1:focus {
+        background-color: #002f40;
+        color: white;
+    }
+.item1 {
+    grid-area: header;
+}
+
+.item2 {
+    grid-area: menu;
+}
+
+.item3 {
+    grid-area: main;
+}
+
+.item4 {
+    grid-area: right;
+}
+
+.item5 {
+    grid-area: footer;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-areas: 'header header header header header header' 'menu main main main right right' 'menu footer footer footer footer footer';
+    grid-gap: 10px;
+    background-color: rgb(18, 89, 117);
+    padding: 10px;
+}
+
+    .grid-container > div {
+        background-color: rgb(18, 89, 117);
+        text-align: center;
+        padding: 20px 0;
+        font-size: 30px;
+    }
