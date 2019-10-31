@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>Work</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link href="Content/New.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script>
+        $(document).ready(function () {
+            var $works = $('#works');
+            var $WorkName = $('#workname');
+
+            function addWork(work) {
+                $works.append('<li><h4>' + work.WorkName + ' </h4></li>');
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: 'api/Works',
+                success: function (works) {
+                    $.each(works, function (i, work) {
+                        addWork(work);
+                    });
+                },
+                error: function () {
+                    alert('Virhe ladattaessa töitä')
+                }
+            });
+            $('#addWork').on('click', function () {
+                var work = {
+                    WorkName: $WorkName.val()
+                };
+
+                $.ajax({
+                    type: 'post',
+                    url: 'api/works',
+                    data: work,
+                    success: function (newwork) {
+                        addWork(newwork);
+                         location.reload();
+                    },
+                    error: function () {
+                        alert('virhe lisätessä uutta työtä');
+                    }
+                });
+
+            });
+
+        });
+
+</script>
+
+</head>
+<body>
+
+    <div class="grid-container">
+
+        <div class="item3">
+            <label for="work">Työn nimi</label>
+            <input type="text" id="workname" style="color:black">
+            <button class="btn button1" id="addWork">Lisää uusi työ</button>
+            <br />
+            <br />
+            <ul style="list-style-type:none;" id="works"></ul>
+        </div>
+
+    </div>
+</body>
+</html>

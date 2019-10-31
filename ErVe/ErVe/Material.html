@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="Content/New.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var $materials = $('#materials');
+            var $MaterialName = $('#materialname');
+
+            function addMaterial(material) {
+                $materials.append('<li><h4>' + material.MaterialName + ' </h4></li>');
+            }
+
+            $.ajax({
+                type: 'GET',
+                url: 'api/Materials',
+                success: function (materials) {
+                    $.each(materials, function (i, material) {
+                        addMaterial(material);
+                    });
+                },
+                error: function () {
+                    alert('Virhe ladattaessa materiaaleja')
+                }
+            });
+            $('#addMaterial').on('click', function () {
+                var material = {
+                    MaterialName: $MaterialName.val()
+                };
+
+                $.ajax({
+                    type: 'post',
+                    url: 'api/materials',
+                    data: material,
+                    success: function (newmatr) {
+                        addMaterial(newmatr);
+                         location.reload();
+                    },
+                    error: function () {
+                        alert('virhe lisätessä uutta materiaalia');
+                    }
+                });
+            });
+        });
+
+    </script>
+
+</head>
+<body>
+
+    <div class="grid-container">
+
+        <div class="item1">Materiaalit</div>
+
+        <div class="item3">
+            <label for="material">Materiaalin nimi</label>
+            <input type="text" id="materialname" style="color:black">
+            <button type="submit" class="btn button1" id="addMaterial">Lisää uusi materiaali</button>
+            <br />
+            <br />
+            <br />
+            <br />
+            <ul style="list-style-type:none;" id="materials"></ul>
+        </div>
+
+    </div>
+
+</body>
+</html>
