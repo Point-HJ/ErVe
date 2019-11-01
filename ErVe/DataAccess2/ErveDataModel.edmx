@@ -11,6 +11,8 @@
           </Key>
           <Property Name="CustomerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomerName" Type="varchar" MaxLength="255" />
+          <Property Name="Company" Type="int" />
+          <Property Name="CC" Type="int" />
         </EntityType>
         <EntityType Name="FORM">
           <Key>
@@ -20,6 +22,8 @@
           <Property Name="CreateDate" Type="date" />
           <Property Name="FormFiller" Type="nvarchar" MaxLength="255" />
           <Property Name="CustomerID" Type="int" />
+          <Property Name="Company" Type="int" />
+          <Property Name="CC" Type="int" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="255" />
           <Property Name="CustomerContact" Type="nvarchar" MaxLength="255" />
           <Property Name="WorkID" Type="int" />
@@ -30,12 +34,14 @@
           <Property Name="PcsAmount" Type="int" />
           <Property Name="ChargeFull" Type="decimal" Precision="10" Scale="2" />
           <Property Name="ChargeByPcs" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Compensation" Type="decimal" Precision="10" Scale="2" />
           <Property Name="FreightCost" Type="decimal" Precision="10" Scale="2" />
           <Property Name="MaterialID" Type="int" />
           <Property Name="MaterialName" Type="varchar" MaxLength="255" />
-          <Property Name="WorkHoursWR" Type="int" />
-          <Property Name="WorkHoursIT" Type="int" />
-          <Property Name="WorkHoursCS" Type="int" />
+          <Property Name="WorkMinsWR" Type="int" />
+          <Property Name="WorkMinsIT" Type="int" />
+          <Property Name="WorkMinsCS" Type="int" />
+          <Property Name="BillReference" Type="nchar" MaxLength="30" />
           <Property Name="StatusID" Type="int" />
           <Property Name="StatusName" Type="varchar" MaxLength="100" />
         </EntityType>
@@ -60,7 +66,7 @@
           <Property Name="WorkID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="WorkName" Type="varchar" MaxLength="255" />
         </EntityType>
-        <Association Name="FK__FORM__CustomerID__33D4B598">
+        <Association Name="FK__FORM__CustomerID__4E88ABD4">
           <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
           <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
           <ReferentialConstraint>
@@ -72,7 +78,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__FORM__MaterialID__35BCFE0A">
+        <Association Name="FK__FORM__MaterialID__4F7CD00D">
           <End Role="Material" Type="Self.Material" Multiplicity="0..1" />
           <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
           <ReferentialConstraint>
@@ -84,7 +90,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__FORM__StatusID__36B12243">
+        <Association Name="FK__FORM__StatusID__5070F446">
           <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
           <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
           <ReferentialConstraint>
@@ -96,7 +102,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__FORM__WorkID__34C8D9D1">
+        <Association Name="FK__FORM__WorkID__5165187F">
           <End Role="Work" Type="Self.Work" Multiplicity="0..1" />
           <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
           <ReferentialConstraint>
@@ -114,19 +120,19 @@
           <EntitySet Name="Material" EntityType="Self.Material" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Work" EntityType="Self.Work" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__FORM__CustomerID__33D4B598" Association="Self.FK__FORM__CustomerID__33D4B598">
+          <AssociationSet Name="FK__FORM__CustomerID__4E88ABD4" Association="Self.FK__FORM__CustomerID__4E88ABD4">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="FORM" EntitySet="FORM" />
           </AssociationSet>
-          <AssociationSet Name="FK__FORM__MaterialID__35BCFE0A" Association="Self.FK__FORM__MaterialID__35BCFE0A">
+          <AssociationSet Name="FK__FORM__MaterialID__4F7CD00D" Association="Self.FK__FORM__MaterialID__4F7CD00D">
             <End Role="Material" EntitySet="Material" />
             <End Role="FORM" EntitySet="FORM" />
           </AssociationSet>
-          <AssociationSet Name="FK__FORM__StatusID__36B12243" Association="Self.FK__FORM__StatusID__36B12243">
+          <AssociationSet Name="FK__FORM__StatusID__5070F446" Association="Self.FK__FORM__StatusID__5070F446">
             <End Role="Status" EntitySet="Status" />
             <End Role="FORM" EntitySet="FORM" />
           </AssociationSet>
-          <AssociationSet Name="FK__FORM__WorkID__34C8D9D1" Association="Self.FK__FORM__WorkID__34C8D9D1">
+          <AssociationSet Name="FK__FORM__WorkID__5165187F" Association="Self.FK__FORM__WorkID__5165187F">
             <End Role="Work" EntitySet="Work" />
             <End Role="FORM" EntitySet="FORM" />
           </AssociationSet>
@@ -142,6 +148,8 @@
           <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FORM" Relationship="Self.FK__FORM__CustomerID__33D4B598" FromRole="Customer" ToRole="FORM" />
+          <Property Name="Company" Type="Int32" />
+          <Property Name="CC" Type="Int32" />
         </EntityType>
         <EntityType Name="FORM">
           <Key>
@@ -164,15 +172,19 @@
           <Property Name="FreightCost" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="MaterialID" Type="Int32" />
           <Property Name="MaterialName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="WorkHoursWR" Type="Int32" />
-          <Property Name="WorkHoursIT" Type="Int32" />
-          <Property Name="WorkHoursCS" Type="Int32" />
           <Property Name="StatusID" Type="Int32" />
           <NavigationProperty Name="Customer" Relationship="Self.FK__FORM__CustomerID__33D4B598" FromRole="FORM" ToRole="Customer" />
           <NavigationProperty Name="Material" Relationship="Self.FK__FORM__MaterialID__35BCFE0A" FromRole="FORM" ToRole="Material" />
           <NavigationProperty Name="Status" Relationship="Self.FK__FORM__StatusID__36B12243" FromRole="FORM" ToRole="Status" />
           <NavigationProperty Name="Work" Relationship="Self.FK__FORM__WorkID__34C8D9D1" FromRole="FORM" ToRole="Work" />
           <Property Name="StatusName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Company" Type="Int32" />
+          <Property Name="CC" Type="Int32" />
+          <Property Name="WorkMinsWR" Type="Int32" />
+          <Property Name="WorkMinsIT" Type="Int32" />
+          <Property Name="WorkMinsCS" Type="Int32" />
+          <Property Name="BillReference" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="Compensation" Type="Decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -278,6 +290,8 @@
           <EntitySetMapping Name="Customer">
             <EntityTypeMapping TypeName="ErveDataModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CC" ColumnName="CC" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
                 <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
               </MappingFragment>
@@ -286,6 +300,13 @@
           <EntitySetMapping Name="FORM">
             <EntityTypeMapping TypeName="ErveDataModel.FORM">
               <MappingFragment StoreEntitySet="FORM">
+                <ScalarProperty Name="Compensation" ColumnName="Compensation" />
+                <ScalarProperty Name="BillReference" ColumnName="BillReference" />
+                <ScalarProperty Name="WorkMinsCS" ColumnName="WorkMinsCS" />
+                <ScalarProperty Name="WorkMinsIT" ColumnName="WorkMinsIT" />
+                <ScalarProperty Name="WorkMinsWR" ColumnName="WorkMinsWR" />
+                <ScalarProperty Name="CC" ColumnName="CC" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
                 <ScalarProperty Name="FormID" ColumnName="FormID" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
@@ -304,9 +325,6 @@
                 <ScalarProperty Name="FreightCost" ColumnName="FreightCost" />
                 <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
                 <ScalarProperty Name="MaterialName" ColumnName="MaterialName" />
-                <ScalarProperty Name="WorkHoursWR" ColumnName="WorkHoursWR" />
-                <ScalarProperty Name="WorkHoursIT" ColumnName="WorkHoursIT" />
-                <ScalarProperty Name="WorkHoursCS" ColumnName="WorkHoursCS" />
                 <ScalarProperty Name="StatusID" ColumnName="StatusID" />
               </MappingFragment>
             </EntityTypeMapping>

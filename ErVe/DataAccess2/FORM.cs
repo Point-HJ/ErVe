@@ -31,11 +31,15 @@ namespace DataAccess2
         public Nullable<decimal> FreightCost { get; set; }
         public Nullable<int> MaterialID { get; set; }
         public string MaterialName { get; set; }
-        public Nullable<int> WorkHoursWR { get; set; }
-        public Nullable<int> WorkHoursIT { get; set; }
-        public Nullable<int> WorkHoursCS { get; set; }
         public Nullable<int> StatusID { get; set; }
         public string StatusName { get; set; }
+        public Nullable<int> Company { get; set; }
+        public Nullable<int> CC { get; set; }
+        public Nullable<int> WorkMinsWR { get; set; }
+        public Nullable<int> WorkMinsIT { get; set; }
+        public Nullable<int> WorkMinsCS { get; set; }
+        public string BillReference { get; set; }
+        public Nullable<decimal> Compensation { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Material Material { get; set; }

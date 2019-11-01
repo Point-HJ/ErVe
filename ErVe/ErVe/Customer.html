@@ -12,9 +12,11 @@
         $(document).ready(function () {
             var $customers = $('#customers');
             var $CustomerName = $('#customername');
+            var $Company = $('#company');
+            var $CC = $('#cc');
 
             function addCustomer(customer) {
-                $customers.append('<li><h4>' + customer.CustomerName + ' </h4></li>');
+                $customers.append('<li><h4>' + customer.CustomerName + ' ' + customer.Company + ' cc' + customer.CC + ' </h4></li>');
             }
 
             $.ajax({
@@ -31,7 +33,9 @@
             });
             $('#addCustomer').on('click', function () {
                 var customer = {
-                    CustomerName: $CustomerName.val()
+                    CustomerName: $CustomerName.val(),
+                    Company: $Company.val(),
+                    CC: $CC.val()
                 };
 
                 $.ajax({
@@ -59,16 +63,22 @@
     <div class="grid-container">
 
         <div class="item1">Yritykset</div>
-
-        <div class="item3">
+        <br />  
+        <br />
+        <div class="item2">
             <label for="customer">Yrityksen nimi</label>
             <input type="text" id="customername" style="color:black">
+            <br />
+            <label for="customer">Yritystunnus</label>
+            <input type="text" id="company" style="color:black">
+            <br />
+            <label for="customer">Kustannuspaikka</label>
+            <input type="text" id="cc" style="color:black">
+            <br />
             <button class="btn button1" id="addCustomer">Lisää uusi yritys</button>
-            <br />
-            <br />
             <ul style="list-style-type:none;" id="customers"></ul>
         </div>
-     
+
     </div>
 </body>
 </html>

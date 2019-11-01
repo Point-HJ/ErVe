@@ -14,6 +14,7 @@
             var $WorkName = $('#worklist');
             var $CustomerName = $('#customerlist');
             var $FormFiller = $('#formfiller');
+            var $Reference = $('#ref');
             var $CustomerContact = $('#contact');
             var $ReadyToDate = $('#readytodate');
             var $Instructions = $('#instructions');
@@ -25,13 +26,14 @@
             var $FormID = $('#formid');
             var $CreateDate = $('#createdate');
             var $StatusName = $('#statuslist');
-            var $WorkHoursWR = $('#wrtotal');
-            var $WorkHoursCS = $('#wrtotal');
-            var $WorkHoursIT = $('#wrtotal');
+            var $WorkMinsWR = $('#wrtotal');
+            var $WorkMinsCS = $('#wrtotal');
+            var $WorkMinsIT = $('#wrtotal');
+            var $Compensation = $('#compensation')
 
             //Lisätään Ajax-kutsun hakemat asiakkaat sivulle
             function addCustomer(cust) {
-                $CustomerName.append('<option>' + cust.CustomerName + ' </option>');
+                $CustomerName.append('<option>' + cust.Company + '/cc '+ cust.CC + ' ' + cust.CustomerName + ' </option>');
             }
             $.ajax({
                 type: 'GET',
@@ -88,7 +90,7 @@
                 var hourwr = document.getElementsByName("hourwr")[0].value * 60;
                 var minwr = document.getElementsByName("minwr")[0].value;
                 var lsdata = JSON.parse(localStorage.getItem('key'));
-                var oldval = lsdata.WorkHoursWR;
+                var oldval = lsdata.WorkMinsWR;
                 var sum = Number(hourwr) + Number(minwr) + Number(oldval);
                 return sum;
             }
@@ -96,15 +98,16 @@
                 var hourwr = document.getElementsByName("hourcs")[0].value * 60;
                 var minwr = document.getElementsByName("mincs")[0].value;
                 var lsdata = JSON.parse(localStorage.getItem('key'));
-                var oldval = lsdata.WorkHoursCS;
+                var oldval = lsdata.WorkMinsCS;
                 var sum = Number(hourwr) + Number(minwr) + Number(oldval);
                 return sum;
             }
+
             function calcHoursIT() {
                 var hourwr = document.getElementsByName("hourit")[0].value * 60;
                 var minwr = document.getElementsByName("minit")[0].value;
                 var lsdata = JSON.parse(localStorage.getItem('key'));
-                var oldval = lsdata.WorkHoursIT;
+                var oldval = lsdata.WorkMinsIT;
                 var sum = Number(hourwr) + Number(minwr) + Number(oldval);
                 return sum;
             }
@@ -144,6 +147,7 @@
                     $('#statuslist').val(lsdata.StatusName);
                     $('#customerlist').empty().append(lsdata.CustomerName.split(',').map(c => new Option(c, c)));
                     $('#contact').val(lsdata.CustomerContact);
+                    $('#ref').val(lsdata.BillReference);
                     $('#worklist').empty().append(lsdata.WorkName.split(',').map(c => new Option(c, c)));
                     $('#readytodate').val(lsdata.ReadyToDate);
                     $('#instructions').val(lsdata.Instructions);
@@ -152,9 +156,11 @@
                     $('#chargefull').val(lsdata.ChargeFull);
                     $('#chargepcs').val(lsdata.ChargeByPcs);
                     $('#freightcost').val(lsdata.FreightCost);
-                    $('#wrtotal').val(time_convert(lsdata.WorkHoursWR));
-                    $('#cstotal').val(time_convert(lsdata.WorkHoursCS));
-                    $('#ittotal').val(time_convert(lsdata.WorkHoursIT));
+                    $('#wrtotal').val(time_convert(lsdata.WorkMinsWR));
+                    $('#cstotal').val(time_convert(lsdata.WorkMinsCS));
+                    $('#ittotal').val(time_convert(lsdata.WorkMinsIT));
+                    $('#compensation').val(lsdata.Compensation);
+
 
                     if (lsdata.MaterialName != null) {
                         var chkArray = lsdata.MaterialName.split(',');
@@ -173,6 +179,7 @@
                             StatusName: $StatusName.val(),
                             CustomerName: $CustomerName.val(),
                             CustomerContact: $CustomerContact.val(),
+                            BillReference: $Reference.val(),
                             WorkName: $WorkName.val(),
                             ReadyToDate: $ReadyToDate.val(),
                             Instructions: $Instructions.val(),
@@ -185,6 +192,7 @@
                             WorkHoursWR: calcHourswr(),
                             WorkHoursCS: calcHourscs(),
                             WorkHoursIT: calcHoursIT(),
+                            Compensation: $Compensation.val(),
                         };
 
                         $.ajax({
@@ -240,9 +248,11 @@
                         CustomerName: $CustomerName.val(),
                         WorkName: $WorkName.val(),
                         MaterialName: getCheckedMaterials(),
-                        WorkHoursWR: calcNewHourswr(),
-                        WorkHoursCS: calcNewHourscs(),
-                        WorkHoursIT: calcNewHoursIT(),
+                        WorkMinsWR: calcNewHourswr(),
+                        WorkMinsCS: calcNewHourscs(),
+                        WorkMinsIT: calcNewHoursIT(),
+                        BillReference: $Reference.val(),
+
                     };
 
                     $.ajax({
@@ -349,6 +359,16 @@
                            id="contact">
                 </div>
             </div>
+            <div class="form-group">
+                <label for="reference" class="col-xs-3 control-label">Laskurivin viite</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="ref">
+                </div>
+            </div>
+
+
 
             <div class="form-group">
                 <div class="row control-label">
@@ -432,6 +452,21 @@
                     <input type="text"
                            class="form-control"
                            id="chargepcs">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3 header">Hyvitys</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="compensation" class="col-xs-3 control-label">Hyvitys yht.</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="compensation">
                 </div>
             </div>
 
