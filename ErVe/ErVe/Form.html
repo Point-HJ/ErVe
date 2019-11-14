@@ -9,6 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
+
         $(document).ready(function () {
             //luodaan muuttujat ja niille kohteet
             var $WorkName = $('#worklist');
@@ -27,14 +28,21 @@
             var $CreateDate = $('#createdate');
             var $StatusName = $('#statuslist');
             var $WorkMinsWR = $('#wrtotal');
-            var $WorkMinsCS = $('#wrtotal');
-            var $WorkMinsIT = $('#wrtotal');
+            var $WorkMinsCS = $('#cstotal');
+            var $WorkMinsIT = $('#ittotal');
             var $Compensation = $('#compensation')
 
             //Lisätään Ajax-kutsun hakemat asiakkaat sivulle
             function addCustomer(cust) {
-                $CustomerName.append('<option>' + cust.Company + '/cc '+ cust.CC + ' ' + cust.CustomerName + ' </option>');
+                $CustomerName.append('<option>' + cust.Company + '/cc ' + cust.CC + ' ' + cust.CustomerName + ' </option>');
             }
+
+            //function addCompany(cust) {
+
+            //    var company = cust.Company;
+            //    return company;
+            //}
+
             $.ajax({
                 type: 'GET',
                 url: '/api/customers',
@@ -42,6 +50,7 @@
                 success: function (custs) {
                     $.each(custs, function (i, cust) {
                         addCustomer(cust);
+                        //addCompany(cust);
                     });
                 },
                 error: function () {
@@ -50,7 +59,7 @@
             });
             //lisätään Ajax-kutsun hakemat työt sivulle
             function addWork(work) {
-                $WorkName.append(work.WorkID + '<option>' + work.WorkName + ' </option>');
+                $WorkName.append('<option>' + work.WorkName + ' </option>');
             }
             $.ajax({
                 type: 'GET',
@@ -73,15 +82,15 @@
                 return sum;
             }
             function calcNewHourscs() {
-                var hourwr = document.getElementsByName("hourcs")[0].value * 60;
-                var minwr = document.getElementsByName("mincs")[0].value;
-                var sum = Number(hourwr) + Number(minwr);
+                var hourcs = document.getElementsByName("hourcs")[0].value * 60;
+                var mincs = document.getElementsByName("mincs")[0].value;
+                var sum = Number(hourcs) + Number(mincs);
                 return sum;
             }
             function calcNewHoursIT() {
-                var hourwr = document.getElementsByName("hourit")[0].value * 60;
-                var minwr = document.getElementsByName("minit")[0].value;
-                var sum = Number(hourwr) + Number(minwr);
+                var hourit = document.getElementsByName("hourit")[0].value * 60;
+                var minit = document.getElementsByName("minit")[0].value;
+                var sum = Number(hourit) + Number(minit);
                 return sum;
             }
 
@@ -95,23 +104,21 @@
                 return sum;
             }
             function calcHourscs() {
-                var hourwr = document.getElementsByName("hourcs")[0].value * 60;
-                var minwr = document.getElementsByName("mincs")[0].value;
+                var hourcs = document.getElementsByName("hourcs")[0].value * 60;
+                var mincs = document.getElementsByName("mincs")[0].value;
                 var lsdata = JSON.parse(localStorage.getItem('key'));
                 var oldval = lsdata.WorkMinsCS;
-                var sum = Number(hourwr) + Number(minwr) + Number(oldval);
+                var sum = Number(hourcs) + Number(mincs) + Number(oldval);
                 return sum;
             }
-
             function calcHoursIT() {
-                var hourwr = document.getElementsByName("hourit")[0].value * 60;
-                var minwr = document.getElementsByName("minit")[0].value;
+                var hourit = document.getElementsByName("hourit")[0].value * 60;
+                var minit = document.getElementsByName("minit")[0].value;
                 var lsdata = JSON.parse(localStorage.getItem('key'));
                 var oldval = lsdata.WorkMinsIT;
-                var sum = Number(hourwr) + Number(minwr) + Number(oldval);
+                var sum = Number(hourit) + Number(minit) + Number(oldval);
                 return sum;
             }
-
 
             //Konvertoidaan LocalStoragen minuutit muotoon hh:mm kokonaistuntimäärän näyttämiseksi
 
@@ -129,7 +136,6 @@
                 }).get();
                 return materialArray.join(',');
             }
-
 
             //lomakkeen muokkaus
             // Jos LocalStoragessa on sisältöä
@@ -189,10 +195,12 @@
                             ChargeByPcs: $ChargeByPcs.val(),
                             FreightCost: $FreightCost.val(),
                             MaterialName: getCheckedMaterials(),
-                            WorkHoursWR: calcHourswr(),
-                            WorkHoursCS: calcHourscs(),
-                            WorkHoursIT: calcHoursIT(),
+                            WorkMinsWR: calcHourswr(),
+                            WorkMinsCS: calcHourscs(),
+                            WorkMinsIT: calcHoursIT(),
                             Compensation: $Compensation.val(),
+                            //Company: addCompany(cust),
+                            //CC: (),
                         };
 
                         $.ajax({
@@ -218,6 +226,7 @@
             //uusi lomake
             // Jos LocalStorage on tyhjä
             else {
+                
                 //Luo tämä päivämäärä
                 function getDate() {
                     var d = new Date();
@@ -252,6 +261,8 @@
                         WorkMinsCS: calcNewHourscs(),
                         WorkMinsIT: calcNewHoursIT(),
                         BillReference: $Reference.val(),
+                        //Company: addCompany(),
+
 
                     };
 

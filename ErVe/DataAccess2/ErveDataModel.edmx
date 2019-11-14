@@ -41,7 +41,7 @@
           <Property Name="WorkMinsWR" Type="int" />
           <Property Name="WorkMinsIT" Type="int" />
           <Property Name="WorkMinsCS" Type="int" />
-          <Property Name="BillReference" Type="nchar" MaxLength="30" />
+          <Property Name="BillReference" Type="nvarchar" MaxLength="200" />
           <Property Name="StatusID" Type="int" />
           <Property Name="StatusName" Type="varchar" MaxLength="100" />
         </EntityType>
@@ -66,7 +66,7 @@
           <Property Name="WorkID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="WorkName" Type="varchar" MaxLength="255" />
         </EntityType>
-        <Association Name="FK__FORM__CustomerID__4E88ABD4">
+        <Association Name="FK__FORM__CustomerID__5629CD9C">
           <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
           <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
           <ReferentialConstraint>
@@ -78,7 +78,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__FORM__MaterialID__4F7CD00D">
+        <Association Name="FK__FORM__MaterialID__571DF1D5">
           <End Role="Material" Type="Self.Material" Multiplicity="0..1" />
           <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
           <ReferentialConstraint>
@@ -90,7 +90,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__FORM__StatusID__5070F446">
+        <Association Name="FK__FORM__StatusID__5812160E">
           <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
           <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
           <ReferentialConstraint>
@@ -102,7 +102,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__FORM__WorkID__5165187F">
+        <Association Name="FK__FORM__WorkID__59063A47">
           <End Role="Work" Type="Self.Work" Multiplicity="0..1" />
           <End Role="FORM" Type="Self.FORM" Multiplicity="*" />
           <ReferentialConstraint>
@@ -120,19 +120,19 @@
           <EntitySet Name="Material" EntityType="Self.Material" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Work" EntityType="Self.Work" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__FORM__CustomerID__4E88ABD4" Association="Self.FK__FORM__CustomerID__4E88ABD4">
+          <AssociationSet Name="FK__FORM__CustomerID__5629CD9C" Association="Self.FK__FORM__CustomerID__5629CD9C">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="FORM" EntitySet="FORM" />
           </AssociationSet>
-          <AssociationSet Name="FK__FORM__MaterialID__4F7CD00D" Association="Self.FK__FORM__MaterialID__4F7CD00D">
+          <AssociationSet Name="FK__FORM__MaterialID__571DF1D5" Association="Self.FK__FORM__MaterialID__571DF1D5">
             <End Role="Material" EntitySet="Material" />
             <End Role="FORM" EntitySet="FORM" />
           </AssociationSet>
-          <AssociationSet Name="FK__FORM__StatusID__5070F446" Association="Self.FK__FORM__StatusID__5070F446">
+          <AssociationSet Name="FK__FORM__StatusID__5812160E" Association="Self.FK__FORM__StatusID__5812160E">
             <End Role="Status" EntitySet="Status" />
             <End Role="FORM" EntitySet="FORM" />
           </AssociationSet>
-          <AssociationSet Name="FK__FORM__WorkID__5165187F" Association="Self.FK__FORM__WorkID__5165187F">
+          <AssociationSet Name="FK__FORM__WorkID__59063A47" Association="Self.FK__FORM__WorkID__59063A47">
             <End Role="Work" EntitySet="Work" />
             <End Role="FORM" EntitySet="FORM" />
           </AssociationSet>
@@ -183,7 +183,7 @@
           <Property Name="WorkMinsWR" Type="Int32" />
           <Property Name="WorkMinsIT" Type="Int32" />
           <Property Name="WorkMinsCS" Type="Int32" />
-          <Property Name="BillReference" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="BillReference" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Compensation" Type="Decimal" Precision="10" Scale="2" />
         </EntityType>
         <EntityType Name="Material">
