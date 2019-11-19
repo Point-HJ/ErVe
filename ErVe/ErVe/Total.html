@@ -5,6 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+            table, th, td {
+            border: 1px solid white;
+            text-align: center;
+        }
+        th {
+            cursor:pointer;
+        }
+       </style>
     <link href="../../Content/MyStyle.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
@@ -121,8 +130,21 @@
                 }
             });
 
+            const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
+            const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+                v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+            )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+
+            // do the work...
+            document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+                const table = th.closest('#forms_table')
+                Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
+                    .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+                    .forEach(tr => table.appendChild(tr));
+            })));
         });
+
     </script>
 </head>
 <body>
@@ -135,8 +157,6 @@
         <br>
         <br>
         <form class="form-horizontal">
-
-
             <div class="form-group">
                 <label for="save" class="col-xs-2 control-label"></label>
                 <div class="container">
@@ -154,7 +174,7 @@
             <div class="form-group">
                 <div class="container-fluid">
                     <h2>Kaikki rivit</h2>
-                    <table class="table table-bordered" id="forms_table">
+                    <table class="table table-bordered" id="forms_table" >
                         <tr>
                             <th>Muokkaa</th>
                             <th>ID</th>
@@ -194,4 +214,3 @@
 
 </body>
 </html>
->

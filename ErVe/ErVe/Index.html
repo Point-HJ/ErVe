@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link href="../../Content/MyStyle.css" rel="stylesheet" />
+    <style>
+        table, th, td {
+            border: 1px solid white;
+            text-align: center;
+        }
+        th {
+            cursor: pointer;
+        }
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
 
@@ -50,24 +59,24 @@
 
                         // etsitään lomakkeen tiedot klikatulta riviltä
                         var FormID = $(this).parent().parent().next().text();
-                       
-                        
-                            $.ajax({
-                                type: 'GET',
-                                url: 'api/Forms/' + FormID,
-                                dataType: 'json',
-                                global: false,
-                                success: function (form) {
-                                    localStorage.setItem('key', JSON.stringify(form)); //Tuodaan rivin tiedot LocalStorageen
-                                    var retrievedForm = localStorage.getItem('key');
-                                    console.log('retrievedForm: ', JSON.parse(retrievedForm));
-                                    location.href = "Form.html"; //siirrytään sivulle Form.html
-                                },
-                                error: function () {
-                                    console.log('tietoja ei haettu');
-                                },
-                            });
-                       
+
+
+                        $.ajax({
+                            type: 'GET',
+                            url: 'api/Forms/' + FormID,
+                            dataType: 'json',
+                            global: false,
+                            success: function (form) {
+                                localStorage.setItem('key', JSON.stringify(form)); //Tuodaan rivin tiedot LocalStorageen
+                                var retrievedForm = localStorage.getItem('key');
+                                console.log('retrievedForm: ', JSON.parse(retrievedForm));
+                                location.href = "Form.html"; //siirrytään sivulle Form.html
+                            },
+                            error: function () {
+                                console.log('tietoja ei haettu');
+                            },
+                        });
+
                     });
 
                     // tietojen poisto
@@ -99,9 +108,22 @@
                     alert('Lataus ei onnistunut, yritä uudelleen')
                 }
             });
+         const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
+            const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+                v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+            )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+
+            // do the work...
+            document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
+                const table = th.closest('#forms_table')
+                Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
+                    .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+                    .forEach(tr => table.appendChild(tr));
+            })));
 
         });
+       
     </script>
 </head>
 <body>
