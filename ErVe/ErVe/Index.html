@@ -25,21 +25,22 @@
                 dataType: 'json',
                 success: function (data) {
                     $.each(data, function (index, val) {
-                        //Tuodaan tiedot, joiden statusName ei ole Valmis
-                        if (val.StatusName != "Valmis") {
+                        //Tuodaan tiedot, joiden statusName ei ole Valmis tai Laskutettu
+                        if (val.StatusName != "Valmis" && val.StatusName != "Laskutettu") {
                             //luodaan taulukko, johon arvot tuodaan halutuista sarakkeista
                             forms += '<tr>' +
                                 "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
                                 "<td>" + val.FormID + "</td>" +
                                 "<td>" + val.CreateDate + "</td>" +
                                 "<td>" + val.WorkName + "</td>" +
+                                "<td>" + val.BillReference + "</td>" +
                                 "<td>" + val.ReadyToDate + "</td>" +
                                 "<td>" + val.StatusName + "</td>" +
                                 "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
                                 '</tr>';
                         }
                     });
-                 
+
                     //näytetään taulukko sivulla
                     $('#forms_table').append(forms);
                     console.log(localStorage.getItem('key')); //testiä varten
@@ -49,28 +50,30 @@
 
                         // etsitään lomakkeen tiedot klikatulta riviltä
                         var FormID = $(this).parent().parent().next().text();
-
-                        $.ajax({
-                            type: 'GET',
-                            url: 'api/Forms/' + FormID,
-                            dataType: 'json',
-                            global: false,
-                            success: function (form) {
-                                localStorage.setItem('key', JSON.stringify(form)); //Tuodaan rivin tiedot LocalStorageen
-                                var retrievedForm = localStorage.getItem('key');
-                                console.log('retrievedForm: ', JSON.parse(retrievedForm));
-                                location.href = "Form.html"; //siirrytään sivulle Form.html
-                            },
-                            error: function () {
-                                console.log('tietoja ei haettu');
-                            },
-                        });
+                       
+                        
+                            $.ajax({
+                                type: 'GET',
+                                url: 'api/Forms/' + FormID,
+                                dataType: 'json',
+                                global: false,
+                                success: function (form) {
+                                    localStorage.setItem('key', JSON.stringify(form)); //Tuodaan rivin tiedot LocalStorageen
+                                    var retrievedForm = localStorage.getItem('key');
+                                    console.log('retrievedForm: ', JSON.parse(retrievedForm));
+                                    location.href = "Form.html"; //siirrytään sivulle Form.html
+                                },
+                                error: function () {
+                                    console.log('tietoja ei haettu');
+                                },
+                            });
+                       
                     });
 
                     // tietojen poisto
                     $(".glyphicon-trash").click(function () {
                         // etsitään lomakkeen tiedot klikatulta riviltä
-                        var FormID = $(this).parent().parent().prev().prev().prev().prev().prev().text();
+                        var FormID = $(this).parent().parent().prev().prev().prev().prev().prev().prev().text();
                         var ok = confirm("Haluatko varmasti poistaa lomakkeen " + FormID + "? Kaikki tiedot poistetaan tietokannasta.");
                         //Poistetaan lomake tietokannasta
                         if (ok == true) {
@@ -120,6 +123,9 @@
                         <div class="col-xs-3 form-group">
                             <a href="Form.html" type="submit" class="btn button1 btn-lg">Luo uusi lomake</a>
                         </div>
+                        <div class="col-xs-3 form-group">
+                            <a href="Total.html" type="submit" class="btn button1 btn-lg">Näytä kaikki rivit</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -127,12 +133,13 @@
             <div class="form-group">
                 <div class="container">
                     <h2>Keskeneräiset työt</h2>
-                    <table class="table table-bordered" id="forms_table" >
+                    <table class="table table-bordered" id="forms_table">
                         <tr>
                             <th>Muokkaa</th>
-                            <th>id</th>
+                            <th>ID</th>
                             <th>Luontipäivä</th>
                             <th>Työn nimi</th>
+                            <th>Viite</th>
                             <th>Valmistumispäivä</th>
                             <th>Status</th>
                             <th>Poista</th>
