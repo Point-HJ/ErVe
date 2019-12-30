@@ -11,6 +11,7 @@
             border: 1px solid white;
             text-align: center;
         }
+
         th {
             cursor: pointer;
         }
@@ -48,7 +49,9 @@
                                 "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
                                 '</tr>';
                         }
+                        
                     });
+                    
 
                     //näytetään taulukko sivulla
                     $('#forms_table').append(forms);
@@ -59,7 +62,6 @@
 
                         // etsitään lomakkeen tiedot klikatulta riviltä
                         var FormID = $(this).parent().parent().next().text();
-
 
                         $.ajax({
                             type: 'GET',
@@ -108,13 +110,20 @@
                     alert('Lataus ei onnistunut, yritä uudelleen')
                 }
             });
-         const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+             //etsi -toiminto
+            $("#search").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#forms_table tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+            const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
             const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
                 v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
             )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
 
-            // do the work...
             document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
                 const table = th.closest('#forms_table')
                 Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
@@ -123,35 +132,44 @@
             })));
 
         });
-       
+
     </script>
 </head>
 <body>
+
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>ErVe</h1>
+        </div>
+    </div>
     <div class="container-fluid">
+        <nav class="navbar navbar-inverse" style="background-color: #002f40;
+">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
 
-        <h1>ErVe</h1>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <form class="form-horizontal">
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <img src="../Content/Images/pkirjakeskus_logo2018_nega_RGB.png" alt="Logo" style="width: 7%; height: 7%;
+">
+                    <input id="search" type="text" placeholder="Etsi..">
+                    <a href="Form.html" type="submit" class="btn button1 btn-lg">Luo uusi lomake</></a>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="Total.html" class="nav navbar-nav navbar-right">Näytä kaikki rivit</a></li>
 
+                    </ul>
+                   
 
-            <div class="form-group">
-                <label for="save" class="col-xs-2 control-label"></label>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-3 form-group">
-                            <a href="Form.html" type="submit" class="btn button1 btn-lg">Luo uusi lomake</a>
-                        </div>
-                        <div class="col-xs-3 form-group">
-                            <a href="Total.html" type="submit" class="btn button1 btn-lg">Näytä kaikki rivit</a>
-                        </div>
-                    </div>
                 </div>
             </div>
+        </nav>
 
+ 
             <div class="form-group">
                 <div class="container">
                     <h2>Keskeneräiset työt</h2>
@@ -177,7 +195,7 @@
                     </div>
                 </div>
             </div>
-        </form>
+        
     </div>
 
 </body>

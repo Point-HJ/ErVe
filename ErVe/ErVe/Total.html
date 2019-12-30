@@ -6,14 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <style>
-            table, th, td {
+        table, th, td {
             border: 1px solid white;
             text-align: center;
         }
+
         th {
-            cursor:pointer;
+            cursor: pointer;
         }
-       </style>
+    </style>
     <link href="../../Content/MyStyle.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
@@ -34,7 +35,7 @@
                 dataType: 'json',
                 success: function (data) {
                     $.each(data, function (index, val) {
-
+                         
                         //luodaan taulukko, johon arvot tuodaan halutuista sarakkeista
                         forms += '<tr>' +
                             "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
@@ -59,10 +60,19 @@
                             "<td>" + val.StatusName + "</td>" +
                             "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
                             '</tr>';
-
+                        
                     });
 
+               
+                    //function replaceNull(forms, replaceValue = "") {
+                    //    const replacer = (key, value) =>
+                    //        String(value) === "null" || String(value) === "undefined" ? replaceValue : value;
+                       
+                    //    return JSON.parse(JSON.stringify(forms, replacer));
+                    //}
+
                     //näytetään taulukko sivulla
+
                     $('#forms_table').append(forms);
                     console.log(localStorage.getItem('key')); //testiä varten
 
@@ -129,7 +139,15 @@
                     alert('Lataus ei onnistunut, yritä uudelleen')
                 }
             });
+             //etsi -toiminto
+            $("#search").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#forms_table tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
 
+            //taulun sorttaus
             const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
             const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
@@ -148,68 +166,78 @@
     </script>
 </head>
 <body>
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>ErVe</h1>
+        </div>
+    </div>
     <div class="container-fluid">
+        <nav class="navbar navbar-inverse" style="background-color: #002f40;
+">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
 
-        <h1>ErVe</h1>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <form class="form-horizontal">
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <img src="../Content/Images/pkirjakeskus_logo2018_nega_RGB.png" alt="Logo" style="width: 7%; height: 7%;
+">
+                    <input id="search" type="text" placeholder="Etsi..">
+                    <a href="Form.html" type="submit" class="btn button1 btn-lg">Luo uusi lomake</></a>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="Index.html" class="nav navbar-nav navbar-right">Näytä keskeneräiset rivit</a></li>
+                    </ul>
+
+
+                </div>
+            </div>
+        </nav>
+
+        <div class="form-group">
+            <div class="container-fluid">
+                <h2>
+                    Kaikki rivit   
+                </h2>
+                <table class="table table-bordered" id="forms_table">
+                    <tr>
+                        <th>Muokkaa</th>
+                        <th>ID</th>
+                        <th>Luontipäivä</th>
+                        <th>Lomakkeen täyttäjä</th>
+                        <th>Yritys</th>
+                        <th>Yhteyshenkilö</th>
+                        <th>Työn nimi</th>
+                        <th>Valmistumispäivä</th>
+                        <th>Määrä</th>
+                        <th>Kappalemäärä</th>
+                        <th>Erikseen veloitus</th>
+                        <th>Erikseen veloitus €/kpl</th>
+                        <th>Hyvitys</th>
+                        <th>Rahtikulut</th>
+                        <th>Materiaalit</th>
+                        <th>Varastotyö minuuteissa</th>
+                        <th>IT-työ minuuteissa</th>
+                        <th>Asiakaspalvelutyö minuuteissa</th>
+                        <th>Viite</th>
+                        <th>Status</th>
+                        <th>Poista</th>
+                    </tr>
+                </table>
+            </div>
+            <br>
+            <br>
+            <br>
             <div class="form-group">
-                <label for="save" class="col-xs-2 control-label"></label>
                 <div class="container">
-                    <div class="row">
-                        <div class="col-xs-3 form-group">
-                            <a href="Form.html" type="submit" class="btn button1 btn-lg">Luo uusi lomake</a>
-                        </div>
-                        <div class="col-xs-3 form-group">
-                            <a href="Index.html" type="submit" class="btn button1 btn-lg">Näytä keskeneräiset</a>
-                        </div>
-                    </div>
+                    <div class="row col-md-8" id="loading"><h2>Lataa tietoja, odota hetki</h2></div>
                 </div>
             </div>
-
-            <div class="form-group">
-                <div class="container-fluid">
-                    <h2>Kaikki rivit</h2>
-                    <table class="table table-bordered" id="forms_table" >
-                        <tr>
-                            <th>Muokkaa</th>
-                            <th>ID</th>
-                            <th>Luontipäivä</th>
-                            <th>Lomakkeen täyttäjä</th>
-                            <th>Yritys</th>
-                            <th>Yhteyshenkilö</th>
-                            <th>Työn nimi</th>
-                            <th>Valmistumispäivä</th>
-                            <th>Määrä</th>
-                            <th>Kappalemäärä</th>
-                            <th>Erikseen veloitus</th>
-                            <th>Erikseen veloitus/kpl</th>
-                            <th>Hyvitys</th>
-                            <th>Rahtikulut</th>
-                            <th>Materiaalit</th>
-                            <th>Varastotyö minuuteissa</th>
-                            <th>IT-työ minuuteissa</th>
-                            <th>Asiakaspalvelutyö minuuteissa</th>
-                            <th>Viite</th>
-                            <th>Status</th>
-                            <th>Poista</th>
-                        </tr>
-                    </table>
-                </div>
-                <br>
-                <br>
-                <br>
-                <div class="form-group">
-                    <div class="container">
-                        <div class="row col-md-8" id="loading"><h2>Lataa tietoja, odota hetki</h2></div>
-                    </div>
-                </div>
-            </div>
-        </form>
+        </div>
+       
     </div>
 
 </body>
