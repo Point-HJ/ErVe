@@ -32,10 +32,11 @@
             $.ajax({
                 type: 'GET',
                 url: 'api/Forms',
-                dataType: 'json',
+              //  dataType: 'json',
                 success: function (data) {
+                    data = JSON.parse(JSON.stringify(data).replace(/\:null/gi, "\:\"\"")); //Null arvojen poisto taulukosta
                     $.each(data, function (index, val) {
-                         
+                     
                         //luodaan taulukko, johon arvot tuodaan halutuista sarakkeista
                         forms += '<tr>' +
                             "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
@@ -60,22 +61,21 @@
                             "<td>" + val.StatusName + "</td>" +
                             "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
                             '</tr>';
-                        
-                    });
 
-               
+                    });
+                     
+
                     //function replaceNull(forms, replaceValue = "") {
                     //    const replacer = (key, value) =>
                     //        String(value) === "null" || String(value) === "undefined" ? replaceValue : value;
-                       
+
                     //    return JSON.parse(JSON.stringify(forms, replacer));
                     //}
 
                     //näytetään taulukko sivulla
 
                     $('#forms_table').append(forms);
-                    console.log(localStorage.getItem('key')); //testiä varten
-
+                   
                     //  tietojen muokkaus
                     $(".glyphicon-pencil").on("click", function () {
 
@@ -139,7 +139,7 @@
                     alert('Lataus ei onnistunut, yritä uudelleen')
                 }
             });
-             //etsi -toiminto
+            //etsi -toiminto
             $("#search").on("keyup", function () {
                 var value = $(this).val().toLowerCase();
                 $("#forms_table tr").filter(function () {
@@ -200,7 +200,7 @@
         <div class="form-group">
             <div class="container-fluid">
                 <h2>
-                    Kaikki rivit   
+                    Kaikki rivit
                 </h2>
                 <table class="table table-bordered" id="forms_table">
                     <tr>
@@ -237,7 +237,7 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
 
 </body>

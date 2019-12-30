@@ -34,6 +34,7 @@
                 url: 'api/Forms',
                 dataType: 'json',
                 success: function (data) {
+                     data = JSON.parse(JSON.stringify(data).replace(/\:null/gi, "\:\"\"")); //Null arvojen poisto taulukosta
                     $.each(data, function (index, val) {
                         //Tuodaan tiedot, joiden statusName ei ole Valmis tai Laskutettu
                         if (val.StatusName != "Valmis" && val.StatusName != "Laskutettu") {
