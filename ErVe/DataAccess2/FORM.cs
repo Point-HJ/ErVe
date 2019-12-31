@@ -17,10 +17,8 @@ namespace DataAccess2
         public int FormID { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string FormFiller { get; set; }
-        public Nullable<int> CustomerID { get; set; }
         public string CustomerName { get; set; }
         public string CustomerContact { get; set; }
-        public Nullable<int> WorkID { get; set; }
         public string WorkName { get; set; }
         public Nullable<System.DateTime> ReadyToDate { get; set; }
         public string Instructions { get; set; }
@@ -29,9 +27,7 @@ namespace DataAccess2
         public Nullable<decimal> ChargeFull { get; set; }
         public Nullable<decimal> ChargeByPcs { get; set; }
         public Nullable<decimal> FreightCost { get; set; }
-        public Nullable<int> MaterialID { get; set; }
         public string MaterialName { get; set; }
-        public Nullable<int> StatusID { get; set; }
         public string StatusName { get; set; }
         public Nullable<int> Company { get; set; }
         public Nullable<int> CC { get; set; }
@@ -40,10 +36,6 @@ namespace DataAccess2
         public Nullable<int> WorkMinsCS { get; set; }
         public string BillReference { get; set; }
         public Nullable<decimal> Compensation { get; set; }
-    
-        public virtual Customer Customer { get; set; }
-        public virtual Material Material { get; set; }
-        public virtual Status Status { get; set; }
-        public virtual Work Work { get; set; }
+        public Nullable<System.DateTime> SentToBilling { get; set; }
     }
 }

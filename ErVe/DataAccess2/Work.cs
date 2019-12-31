@@ -14,16 +14,7 @@ namespace DataAccess2
     
     public partial class Work
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Work()
-        {
-            this.FORM = new HashSet<FORM>();
-        }
-    
         public int WorkID { get; set; }
         public string WorkName { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FORM> FORM { get; set; }
     }
 }

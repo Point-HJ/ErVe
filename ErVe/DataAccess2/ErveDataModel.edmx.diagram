@@ -10,10 +10,6 @@
         <EntityTypeShape EntityType="ErveDataModel.Material" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="ErveDataModel.Status" Width="1.5" PointX="0.75" PointY="6.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ErveDataModel.Work" Width="1.5" PointX="6.125" PointY="4.375" IsExpanded="true" />
-        <AssociationConnector Association="ErveDataModel.FK__FORM__CustomerID__33D4B598" ManuallyRouted="false" />
-        <AssociationConnector Association="ErveDataModel.FK__FORM__MaterialID__35BCFE0A" ManuallyRouted="false" />
-        <AssociationConnector Association="ErveDataModel.FK__FORM__StatusID__36B12243" ManuallyRouted="false" />
-        <AssociationConnector Association="ErveDataModel.FK__FORM__WorkID__34C8D9D1" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

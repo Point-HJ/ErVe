@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link href="../../Content/MyStyle.css" rel="stylesheet" />
-    <style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--<style>
         table, th, td {
             border: 1px solid white;
             text-align: center;
@@ -15,8 +17,7 @@
         th {
             cursor: pointer;
         }
-    </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    </style>-->
     <script>
 
         $(document).ajaxStart(function () {
@@ -34,7 +35,7 @@
                 url: 'api/Forms',
                 dataType: 'json',
                 success: function (data) {
-                     data = JSON.parse(JSON.stringify(data).replace(/\:null/gi, "\:\"\"")); //Null arvojen poisto taulukosta
+                    data = JSON.parse(JSON.stringify(data).replace(/\:null/gi, "\:\"\"")); //Null arvojen poisto taulukosta
                     $.each(data, function (index, val) {
                         //Tuodaan tiedot, joiden statusName ei ole Valmis tai Laskutettu
                         if (val.StatusName != "Valmis" && val.StatusName != "Laskutettu") {
@@ -50,9 +51,9 @@
                                 "<td><a href='#'><span class='glyphicon glyphicon-trash'></span></a></td>" +
                                 '</tr>';
                         }
-                        
+
                     });
-                    
+
 
                     //näytetään taulukko sivulla
                     $('#forms_table').append(forms);
@@ -112,7 +113,7 @@
                 }
             });
 
-             //etsi -toiminto
+            //etsi -toiminto
             $("#search").on("keyup", function () {
                 var value = $(this).val().toLowerCase();
                 $("#forms_table tr").filter(function () {

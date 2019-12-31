@@ -18,20 +18,11 @@ namespace ErVe.Controllers
         private ErveEntities db = new ErveEntities();
 
         // GET: api/Customers
-        //public IQueryable<Customer> GetCustomerOrderBy()
-        //{
-        //    var customer = (from c in db.Customer
-
-        //                    orderby c.CustomerName descending
-        //                    select c).FirstOrDefault();
-
-        //    return customer;
-        //}
         public IQueryable<Customer> GetCustomer()
         {
             return db.Customer;
         }
-        // GET: api/Customers/5
+       //  GET: api/Customers/5
         [ResponseType(typeof(Customer))]
         public async Task<IHttpActionResult> GetCustomer(int id)
         {

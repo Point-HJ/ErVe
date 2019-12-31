@@ -21,10 +21,7 @@ namespace ErVe.Controllers
         // GET: /api/FORMs
         //[HttpGet, HttpPost]
         //[Route("api/FORMs")]         
-        //public IQueryable<FORM> GetFORMs()
-        //{
-        //    return db.FORM;
-        //}
+       
         public IQueryable<FORM> GetFORMs()
         {
             return db.FORM;

@@ -35,6 +35,7 @@
               //  dataType: 'json',
                 success: function (data) {
                     data = JSON.parse(JSON.stringify(data).replace(/\:null/gi, "\:\"\"")); //Null arvojen poisto taulukosta
+                   
                     $.each(data, function (index, val) {
                      
                         //luodaan taulukko, johon arvot tuodaan halutuista sarakkeista

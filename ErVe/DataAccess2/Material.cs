@@ -14,16 +14,7 @@ namespace DataAccess2
     
     public partial class Material
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Material()
-        {
-            this.FORM = new HashSet<FORM>();
-        }
-    
         public int MaterialID { get; set; }
         public string MaterialName { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FORM> FORM { get; set; }
     }
 }
