@@ -1,0 +1,669 @@
+﻿<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>ErVe lomake</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="../../Content/MyStyle.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            //luodaan muuttujat ja niille kohteet
+            var $WorkName = $('#worklist');
+            var $CustomerName = $('#customerlist');
+            var $FormFiller = $('#formfiller');
+            var $Reference = $('#ref');
+            var $CustomerContact = $('#contact');
+            var $ReadyToDate = $('#readytodate');
+            var $Instructions = $('#instructions');
+            var $Amount = $('#amount');
+            var $PcsAmount = $('#amountpcs');
+            var $ChargeFull = $('#chargefull');
+            var $ChargeByPcs = $('#chargepcs');
+            var $FreightCost = $('#freightcost');
+            var $FormID = $('#formid');
+            var $CreateDate = $('#createdate');
+            var $StatusName = $('#statuslist');
+            var $WorkMinsWR = $('#wrtotal');
+            var $WorkMinsCS = $('#cstotal');
+            var $WorkMinsIT = $('#ittotal');
+            var $Compensation = $('#compensation')
+            var $Company = $('#company')
+            var $CC = $('#cc')
+
+
+
+           
+
+            //Lisätään Ajax-kutsun hakemat asiakkaat sivulle ja aakkostetaan
+            function addCustomer(cust) {
+                $CustomerName.append('<option>' + cust.CustomerName + ' / ' + cust.Company + ' /cc ' + cust.CC + ' </option>');
+                $("#customerlist").html($("#customerlist option").sort(function (a, b) {
+                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+                }));
+                $('#customerlist').get(0).selectedIndex = 0;
+                //$Company.append(cust.Company);
+                //$CC.append(cust.CC);
+            }
+            //Ajax-kutsu /api/customers
+            $.ajax({
+                type: 'GET',
+                url: '/api/customers',
+                dataType: 'json',
+                success: function (custs) {
+                    $.each(custs, function (i, cust) {
+                        addCustomer(cust);
+                        //addCompany(cust.Company); //Tee hidden kenttä jossa tieto kulkee
+                        //addCC(cust.CC); //Tee hidden kenttä jossa tieto kulkee
+                    });
+                },
+                error: function () {
+                    alert: ('Virhe ladattaessa asiakkaita')
+                }
+            });
+            //lisätään Ajax-kutsun hakemat työt sivulle ja aakkostetaan
+            function addWork(work) {
+                $WorkName.append('<option>' + work + ' </option>');
+                $("#worklist").html($("#worklist option").sort(function (a, b) {
+                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+                }));
+                $('#worklist').get(0).selectedIndex = 0;
+            }
+            //Ajax-kutsu /api/works
+            $.ajax({
+                type: 'GET',
+                url: '/api/works',
+                dataType: 'json',
+                success: function (works) {
+                    $.each(works, function (i, work) {
+                        addWork(work.WorkName);
+                    });
+                },
+                error: function () {
+                    alert: ('Virhe ladattaessa töitä')
+                }
+            });
+
+            //lisätään Ajax-kutsun hakemat statukset sivulle
+            function addStatus(status) {
+                $StatusName.append('<option>' + status + ' </option>');
+            }
+            //Ajax-kutsu /api/status
+            $.ajax({
+                type: 'GET',
+                url: '/api/status',
+                dataType: 'json',
+                success: function (statuss) {
+                    $.each(statuss, function (i, status) {
+                        addStatus(status.StatusName);
+                    });
+                },
+                error: function () {
+                    alert: ('Virhe ladattaessa statuksia')
+                }
+            });
+
+            //Konvertoidaan tunnit ja minuutit minuuteiksi tietokantaan
+            function calcNewHourswr() {
+                var hourwr = document.getElementsByName("hourwr")[0].value * 60;
+                var minwr = document.getElementsByName("minwr")[0].value;
+                var sum = Number(hourwr) + Number(minwr);
+                return sum;
+            }
+            function calcNewHourscs() {
+                var hourcs = document.getElementsByName("hourcs")[0].value * 60;
+                var mincs = document.getElementsByName("mincs")[0].value;
+                var sum = Number(hourcs) + Number(mincs);
+                return sum;
+            }
+            function calcNewHoursIT() {
+                var hourit = document.getElementsByName("hourit")[0].value * 60;
+                var minit = document.getElementsByName("minit")[0].value;
+                var sum = Number(hourit) + Number(minit);
+                return sum;
+            }
+
+            //Konvertoidaan tunnit ja minuutit minuuteiksi sekä lasketaan LocalStorageen säilöttyjen minuuttien kanssa yhteen ja tallennetaan tietokantaan
+            function calcHourswr() {
+                var hourwr = document.getElementsByName("hourwr")[0].value * 60;
+                var minwr = document.getElementsByName("minwr")[0].value;
+                var lsdata = JSON.parse(localStorage.getItem('key'));
+                var oldval = lsdata.WorkMinsWR;
+                var sum = Number(hourwr) + Number(minwr) + Number(oldval);
+                return sum;
+            }
+            function calcHourscs() {
+                var hourcs = document.getElementsByName("hourcs")[0].value * 60;
+                var mincs = document.getElementsByName("mincs")[0].value;
+                var lsdata = JSON.parse(localStorage.getItem('key'));
+                var oldval = lsdata.WorkMinsCS;
+                var sum = Number(hourcs) + Number(mincs) + Number(oldval);
+                return sum;
+            }
+            function calcHoursIT() {
+                var hourit = document.getElementsByName("hourit")[0].value * 60;
+                var minit = document.getElementsByName("minit")[0].value;
+                var lsdata = JSON.parse(localStorage.getItem('key'));
+                var oldval = lsdata.WorkMinsIT;
+                var sum = Number(hourit) + Number(minit) + Number(oldval);
+                return sum;
+            }
+
+            //Konvertoidaan LocalStoragen minuutit muotoon hh:mm kokonaistuntimäärän näyttämiseksi
+
+            function time_convert(num) {
+                var hours = Math.floor(num / 60);
+                var minutes = num % 60;
+                return hours + " h " + minutes + " min ";
+            }
+
+
+            //Valittujen checkboxien arvot tietokantaan tekstinä pilkulla erotettuna
+            function getCheckedMaterials() {
+                var materialArray = $("#materiallist input:checked").map(function () {
+                    return this.value;
+                }).get();
+                return materialArray.join(',');
+            }
+
+            //lomakkeen muokkaus
+            // Jos LocalStoragessa on sisältöä
+            if (localStorage.hasOwnProperty('key')) {
+                console.log(localStorage); //testiä varten
+
+                $(function () {
+                    //tuo data localStoragesta
+                    var lsdata = JSON.parse(localStorage.getItem('key'));
+
+                    //Vie tiedot lomakkeeseen
+                    $('#formid').val(lsdata.FormID);
+                    $('#createdate').val(lsdata.CreateDate);
+                    $('#formfiller').val(lsdata.FormFiller);
+                    $('#statuslist').val(lsdata.StatusName);
+                    $('#customerlist').empty().append(lsdata.CustomerName.split(',').map(c => new Option(c, c)));
+                    $('#contact').val(lsdata.CustomerContact);
+                    $('#ref').val(lsdata.BillReference);
+                    $('#worklist').empty().append(lsdata.WorkName.split(',').map(c => new Option(c, c)));
+                    $('#readytodate').val(lsdata.ReadyToDate);
+                    $('#instructions').val(lsdata.Instructions);
+                    $('#amount').val(lsdata.Amount);
+                    $('#amountpcs').val(lsdata.PcsAmount);
+                    $('#chargefull').val(lsdata.ChargeFull);
+                    $('#chargepcs').val(lsdata.ChargeByPcs);
+                    $('#freightcost').val(lsdata.FreightCost);
+                    $('#wrtotal').val(time_convert(lsdata.WorkMinsWR));
+                    $('#cstotal').val(time_convert(lsdata.WorkMinsCS));
+                    $('#ittotal').val(time_convert(lsdata.WorkMinsIT));
+                    $('#compensation').val(lsdata.Compensation);
+
+
+                    if (lsdata.MaterialName != null) {
+                        var chkArray = lsdata.MaterialName.split(',');
+                        for (var i = 0; i < chkArray.length; i++) {
+                            $('#materiallist').find('[value="' + chkArray[i] + '"]').attr('checked', true)
+                        }
+                    };
+                    //Tallenna muokatut tiedot tietokantaan
+                    $('#saveform').click(function (e) {
+                        e.preventDefault();
+
+                        var form = {
+                            FormID: $FormID.val(),
+                            CreateDate: $CreateDate.val(),
+                            FormFiller: $FormFiller.val(),
+                            StatusName: $StatusName.val(),
+                            CustomerName: $CustomerName.val(),
+                            CustomerContact: $CustomerContact.val(),
+                            BillReference: $Reference.val(),
+                            WorkName: $WorkName.val(),
+                            ReadyToDate: $ReadyToDate.val(),
+                            Instructions: $Instructions.val(),
+                            Amount: $Amount.val(),
+                            PcsAmount: $PcsAmount.val(),
+                            ChargeFull: $ChargeFull.val(),
+                            ChargeByPcs: $ChargeByPcs.val(),
+                            FreightCost: $FreightCost.val(),
+                            MaterialName: getCheckedMaterials(),
+                            WorkMinsWR: calcHourswr(),
+                            WorkMinsCS: calcHourscs(),
+                            WorkMinsIT: calcHoursIT(),
+                            Compensation: $Compensation.val(),
+                            Company: $Company.val(),
+                            CC: $CC.val(),
+                        };
+
+                        $.ajax({
+                            method: 'put',
+                            url: 'api/forms/' + form.FormID,
+                            data: JSON.stringify(form),
+                            contentType: 'application/json',
+                            success: function () {
+                                alert('Muokkaus onnistui');
+                                location.href = "IndexTest.html";
+                            },
+                            error: function () {
+                                alert('Virhe muokatessa lomaketta. Tarkista ettei numero-kentissä ole kirjaimia!');
+                            }
+                        });
+                        localStorage.removeItem('key'); // Tyhjennä LocalStorage
+                    });
+                    $('#backtolist').click(function () {
+                        localStorage.removeItem('key'); // Tyhjennä LocalStorage
+                    });
+                });
+            }
+            //uusi lomake
+            // Jos LocalStorage on tyhjä
+            else {
+
+                //Luo tämä päivämäärä
+                function getDate() {
+                    var d = new Date();
+                    var month = d.getMonth() + 1;
+                    var day = d.getDate();
+                    var year = d.getFullYear();
+                    return date = year + '/' +
+                        (('' + month).length < 2 ? '0' : '') + month + '/' +
+                        (('' + day).length < 2 ? '0' : '') + day;
+                    $('#createdate').text();
+                }
+                //Tallenna uusi lomake
+                $('#saveform').click(function (e) {
+                    e.preventDefault();
+
+                    var form = {
+                        CreateDate: getDate(),
+                        StatusName: $StatusName.val(),
+                        FormFiller: $FormFiller.val(),
+                        CustomerContact: $CustomerContact.val(),
+                        ReadyToDate: $ReadyToDate.val(),
+                        Instructions: $Instructions.val(),
+                        Amount: $Amount.val(),
+                        PcsAmount: $PcsAmount.val(),
+                        ChargeFull: $ChargeFull.val(),
+                        ChargeByPcs: $ChargeByPcs.val(),
+                        FreightCost: $FreightCost.val(),
+                        CustomerName: $CustomerName.val(),
+                        WorkName: $WorkName.val(),
+                        MaterialName: getCheckedMaterials(),
+                        WorkMinsWR: calcNewHourswr(),
+                        WorkMinsCS: calcNewHourscs(),
+                        WorkMinsIT: calcNewHoursIT(),
+                        BillReference: $Reference.val(),
+                        Company: $Company.val(),
+                        CC: $CC.val(),
+
+                    };
+
+                    $.ajax({
+                        type: 'post',
+                        url: 'api/forms',
+                        data: form,
+                        success: function () {
+
+                            alert('Uusi lomake tallennettu');
+                            location.href = "IndexTest.html";
+                        },
+                        error: function () {
+                            alert('Virhe tallennettaessa uutta lomaketta. Tarkista ettei numero-kentissä ole kirjaimia!');
+                        }
+                    });
+                    localStorage.removeItem('key'); //Tyhjennä LocalStorage
+                });
+
+                $('#backtolist').click(function () {
+                    localStorage.removeItem('key'); //Tyhjennä LocalStorage
+                });
+            }
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+
+        <h1>ErVe</h1>
+
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-sm-9"><h3>*Pakollinen tieto</h3></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <label for="filler"
+                           class="col-xs-3 control-label">ID</label>
+                    <output class="col-xs-1" id="formid" style="color:white"></output>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <output class="col-xs-3" typeof="date" id="createdate" style="color:white"></output>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="filler"
+                       class="col-xs-3 control-label">Oma nimi*</label>
+                <div class="col-xs-7">
+                    <input type="text" class="form-control" id="formfiller" required />
+                </div>
+                <p class="help-block col-xs-offset-3 col-xs-7 clearfix" style="color: white">
+                    Lomakkeen täyttäjän nimi
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="status" class="col-xs-3 control-label">Lomakkeen status*</label>
+                <div class="col-xs-7">
+                    <div class="dropdown">
+                        <select class="btn button1" type="button" data-toggle="dropdown" id="statuslist">
+                            <option>"Valitse Status</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3 header">Laskutettavan tiedot</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="customer" class="col-xs-3 control-label">Yrityksen nimi*</label>
+                <div class="col-xs-7">
+                    <div class="dropdown">
+                        <select class="btn button1" type="button" data-toggle="dropdown" id="customerlist" required>
+                            <option>"Valitse yritys</option>
+                        </select>
+                        <!--<input hidden id="company" />
+                        <input hidden id="cc" />-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="contact" class="col-xs-3 control-label">Yhteyshenkilö</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="contact">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="reference" class="col-xs-3 control-label">Laskurivin viite</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="ref">
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3 header">Työ</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="work" class="col-xs-3 control-label">Työn nimi*</label>
+                <div class="col-xs-7">
+                    <div class="dropdown">
+                        <select class="btn button1" type="button" data-toggle="dropdown" id="worklist" required>
+                            <option>"Valitse työ</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="duedate" class="col-xs-3 control-label">Viim. valmistuspvm</label>
+                <div class="col-xs-7">
+                    <input type="date"
+                           class="form-control"
+                           id="readytodate">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="directions" class="col-xs-3 control-label">Lisäohjeet</label>
+                <div class="col-xs-7">
+                    <textarea class="form-control" rows="7" id="instructions"></textarea>
+                </div>
+                <p class="help-block col-xs-offset-3 col-xs-7 clearfix" style="color: white">
+                    Kirjattava kaikki tuotteet ean-numeroineen!
+                </p>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3 header">Määrä</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="amount" class="col-xs-3 control-label">Määrä yht.</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="amount">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="amountpcs" class="col-xs-3 control-label">Tuotekappalemäärä yht.</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="amountpcs">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-4 header">Veloitus (Täytetään jos hinta erikseen sovittu)</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="chargefull" class="col-xs-3 control-label">Veloitettava kokonaissumma (alv 0) yht.</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="chargefull">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="chargepcs" class="col-xs-3 control-label">Veloitettava kappalehinta €(alv 0)</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="chargepcs">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3 header">Hyvitys</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="compensation" class="col-xs-3 control-label">Hyvitys yht.</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="compensation">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3 header">Rahtihinta</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="freightCost" class="col-xs-3 control-label">Rahtihinta (alv 0) yht.</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="freightcost">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="material" class="col-xs-3 control-label header">Käytetyt materiaalit</label>
+                <div class="col-xs-7">
+                    <div class="custom-control custom-checkbox" id="materiallist">
+                        <label>
+                            <input type="checkbox" value="AB-01" />
+                            AB-01
+                        </label>
+                        <label>
+                            <input type="checkbox" value="AB-02" />
+                            AB-02
+                        </label>
+                        <label>
+                            <input type="checkbox" value="AB-03" />
+                            AB-03
+                        </label>
+                        <label>
+                            <input type="checkbox" value="AB-04" />
+                            AB-04
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Pahvipussi 5" />
+                            Pahvipussi 5
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Pieni X-pohja" />
+                            Pieni X-pohja
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Iso X-pohja" />
+                            Iso X-pohja
+                        </label>
+                        <label>
+                            <input type="checkbox" value="EuroLava" />
+                            EuroLava
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Teholava" />
+                            Teholava
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Muovi" />
+                            Muovi
+                        </label>
+                        <label>
+                            <input type="checkbox" value="Tarra" />
+                            Tarra
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3 header">Käytetyt tunnit</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="hourswr" class="col-xs-3 control-label">Tuntityö varasto</label>
+                <div class="row">
+                    <div class="col-xs-7">
+                        <div class="col-xs-3 form-group">
+                            <input class="form-control" id="hourwr" name="hourwr" placeholder="Tunnit" type="number">
+                        </div>
+                        <div class="col-xs-3 form-group">
+                            <input class="form-control" id="minwr" name="minwr" placeholder="Minuutit" type="number">
+                        </div>
+                        <div class="col-xs-3 form-group">
+                            <div class="row control-label">
+                                <label for="wrtotal"
+                                       class="col-xs-4 control-label">Yhteensä </label>
+                                <output class="col-xs-8" id="wrtotal" style="color:white"></output>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="hourscs" class="col-xs-3 control-label">Tuntityö aspa</label>
+                <div class="row">
+                    <div class="col-xs-7">
+                        <div class="col-xs-3 form-group">
+                            <input class="form-control" id="hourcs" name="hourcs" placeholder="Tunnit" type="number">
+                        </div>
+                        <div class="col-xs-3 form-group">
+                            <input class="form-control" id="mincs" name="mincs" placeholder="Minuutit" type="number">
+                        </div>
+                        <div class="col-xs-3 form-group">
+                            <div class="row control-label">
+                                <label for="cstotal"
+                                       class="col-xs-4 control-label">Yhteensä</label>
+                                <output class="col-xs-8" id="cstotal" style="color:white"></output>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="hoursit" class="col-xs-3 control-label">Tuntityö IT</label>
+                <div class="row">
+                    <div class="col-xs-7">
+                        <div class="col-xs-3 form-group">
+                            <input class="form-control" id="hourit" name="hourit" placeholder="Tunnit" type="number">
+                        </div>
+                        <div class="col-xs-3 form-group">
+                            <input class="form-control" id="minit" name="minit" placeholder="Minuutit" type="number">
+                        </div>
+                        <div class="col-xs-3 form-group">
+                            <div class="row control-label">
+                                <label for="ittotal"
+                                       class="col-xs-4 control-label">Yhteensä</label>
+                                <output class="col-xs-8" id="ittotal" style="color:white"></output>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="save" class="col-sm-3 control-label"></label>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="col-sm-3 form-group">
+                            <button type="submit" id="saveform" class="btn button1">Tallenna</button>
+                        </div>
+                        <div class="col-sm-3 form-group">
+                            <p id="backtolist"><a href="IndexTest.html">Takaisin listaan</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+
+
+    </div>
+</body>
+</html>

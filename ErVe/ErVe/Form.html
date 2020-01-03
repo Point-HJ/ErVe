@@ -34,15 +34,19 @@
             var $Company = $('#company')
             var $CC = $('#cc')
 
+             if (performance.navigation.type == 2) {
+                localStorage.removeItem('key'); // Tyhjennä LocalStorage kun selaimen "takaisin-painiketta painetaan"
+            }
+
             //Lisätään Ajax-kutsun hakemat asiakkaat sivulle ja aakkostetaan
             function addCustomer(cust) {
                 $CustomerName.append('<option>' + cust.CustomerName +' / '+ cust.Company + ' /cc '+cust.CC +' </option>');
-                $("#customerlist").html($("#customerlist option").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
-                }));
-                $('#customerlist').get(0).selectedIndex = 0;
-                $Company.append(cust.Company);
-                $CC.append(cust.CC);
+                //$("#customerlist").html($("#customerlist option").sort(function (a, b) {
+                //    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+                //}));
+                //$('#customerlist').get(0).selectedIndex = 0;
+                //$Company.append(cust.Company);
+                //$CC.append(cust.CC);
             }
             //Ajax-kutsu /api/customers
             $.ajax({
@@ -63,10 +67,10 @@
             //lisätään Ajax-kutsun hakemat työt sivulle ja aakkostetaan
             function addWork(work) {
                 $WorkName.append('<option>' + work + ' </option>');
-                 $("#worklist").html($("#worklist option").sort(function (a, b) {
-                    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
-                }));
-                $('#worklist').get(0).selectedIndex = 0;
+                // $("#worklist").html($("#worklist option").sort(function (a, b) {
+                //    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+                //}));
+                //$('#worklist').get(0).selectedIndex = 0;
             }
             //Ajax-kutsu /api/works
             $.ajax({
@@ -178,7 +182,7 @@
                     $('#formid').val(lsdata.FormID);
                     $('#createdate').val(lsdata.CreateDate);
                     $('#formfiller').val(lsdata.FormFiller);
-                    $('#statuslist').val(lsdata.StatusName);
+                    $('#statuslist').empty().append(lsdata.StatusName.split(',').map(c => new Option(c, c)));
                     $('#customerlist').empty().append(lsdata.CustomerName.split(',').map(c => new Option(c, c)));
                     $('#contact').val(lsdata.CustomerContact);
                     $('#ref').val(lsdata.BillReference);
@@ -251,70 +255,7 @@
                     });
                 });
             }
-            //uusi lomake
-            // Jos LocalStorage on tyhjä
-            else {
-
-                //Luo tämä päivämäärä
-                function getDate() {
-                    var d = new Date();
-                    var month = d.getMonth() + 1;
-                    var day = d.getDate();
-                    var year = d.getFullYear();
-                    return date = year + '/' +
-                        (('' + month).length < 2 ? '0' : '') + month + '/' +
-                        (('' + day).length < 2 ? '0' : '') + day;
-                    $('#createdate').text();
-                }
-                //Tallenna uusi lomake
-                $('#saveform').click(function (e) {
-                    e.preventDefault();
-
-                    var form = {
-                        CreateDate: getDate(),
-                        StatusName: $StatusName.val(),
-                        FormFiller: $FormFiller.val(),
-                        CustomerContact: $CustomerContact.val(),
-                        ReadyToDate: $ReadyToDate.val(),
-                        Instructions: $Instructions.val(),
-                        Amount: $Amount.val(),
-                        PcsAmount: $PcsAmount.val(),
-                        ChargeFull: $ChargeFull.val(),
-                        ChargeByPcs: $ChargeByPcs.val(),
-                        FreightCost: $FreightCost.val(),
-                        CustomerName: $CustomerName.val(),
-                        WorkName: $WorkName.val(),
-                        MaterialName: getCheckedMaterials(),
-                        WorkMinsWR: calcNewHourswr(),
-                        WorkMinsCS: calcNewHourscs(),
-                        WorkMinsIT: calcNewHoursIT(),
-                        BillReference: $Reference.val(),
-                        Company: $Company.val(),
-                        CC:  $CC.val(),
-
-
-                    };
-
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/forms',
-                        data: form,
-                        success: function () {
-
-                            alert('Uusi lomake tallennettu');
-                            location.href = "Index.html";
-                        },
-                        error: function () {
-                            alert('Virhe tallennettaessa uutta lomaketta. Tarkista ettei numero-kentissä ole kirjaimia!');
-                        }
-                    });
-                    localStorage.removeItem('key'); //Tyhjennä LocalStorage
-                });
-
-                $('#backtolist').click(function () {
-                    localStorage.removeItem('key'); //Tyhjennä LocalStorage
-                });
-            }
+           
         });
     </script>
 </head>
@@ -363,12 +304,7 @@
                 <div class="col-xs-7">
                     <div class="dropdown">
                         <select class="btn button1" type="button" data-toggle="dropdown" id="statuslist">
-                            <option>"Valitse Status</option>
-                            <!--<option value="Odottaa lisätietoja">Odottaa lisätietoja</option>
-                            <option value="Tekemättä">Tekemättä</option>
-                            <option value="Työnalla">Työn alla</option>
-                            <option value="Odottaa rahtihintaa">Odottaa rahtihintaa</option>
-                            <option value="Valmis">Valmis laskutettavaksi</option>-->
+                            <option></option>
                         </select>
                     </div>
                 </div>
@@ -385,10 +321,10 @@
                 <div class="col-xs-7">
                     <div class="dropdown">
                         <select class="btn button1" type="button" data-toggle="dropdown" id="customerlist" required>
-                            <option>"Valitse yritys</option>
+                            <option></option>
                         </select>
-                        <input  id="company" />
-                        <input  id="cc" />
+                        <input hidden id="company" />
+                        <input hidden id="cc" />
                     </div>
                 </div>
             </div>
@@ -423,7 +359,7 @@
                 <div class="col-xs-7">
                     <div class="dropdown">
                         <select class="btn button1" type="button" data-toggle="dropdown" id="worklist" required>
-                            <option>"Valitse työ</option>
+                            <option></option>
                         </select>
                     </div>
                 </div>

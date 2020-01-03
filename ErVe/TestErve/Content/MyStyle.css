@@ -1,4 +1,7 @@
-﻿
+﻿/*
+	Comment
+*/
+
 h1 {
     text-align: center;
     padding: 30px;
@@ -6,6 +9,7 @@ h1 {
 
 a {
     color: white;
+    font-size: 20px;
 }
 
     a:hover {
@@ -28,7 +32,8 @@ a {
 
 body {
     background-color: rgb(18, 89, 117);
-    color: black;
+    color: white;
+    
 }
 
 .button1 {
@@ -46,19 +51,31 @@ body {
         background-color: #002f40;
         color: white;
     }
-
-
-.grid-container {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    grid-gap: 10px;
-    background-color: rgb(18, 89, 117);
-    padding: 10px;
+.navbar {
+    margin-bottom: 50px;
+    border-radius: 0;
+    background-color: #f2f2f2;
 }
 
-    .grid-container > div {
-        background-color: rgb(18, 89, 117);
-        text-align: center;
-        padding: 20px 0;
-        font-size: 30px;
-    }
+/* Remove the jumbotron's default bottom margin */
+.jumbotron {
+    margin-bottom: 0;
+    background-color: rgb(18, 89, 117);
+    color: white;
+}
+#search {
+    color: black;
+    height: 40px;
+}
+th {
+    cursor: pointer;
+
+}
+table, th, td {
+    border: 1px solid white;
+    text-align: center;
+    padding: 8px;
+}
+
+
+

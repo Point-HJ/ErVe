@@ -5,18 +5,33 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="Content/MyStyle.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <style>
         table, th, td {
             border: 1px solid white;
             text-align: center;
+            padding: 8px;
         }
-
         th {
             cursor: pointer;
         }
+        .jumbotron {
+            margin-bottom: 0;
+            background-color: rgb(18, 89, 117);
+            color: white;
+        }
+        #search {
+            color: black;
+            height: 40px;
+        }
+        .navbar {
+            margin-bottom: 50px;
+            border-radius: 0;
+            background-color: #f2f2f2;
+        }
     </style>
-    <link href="../../Content/MyStyle.css" rel="stylesheet" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
     <script>
 
         $(document).ajaxStart(function () {
@@ -32,12 +47,12 @@
             $.ajax({
                 type: 'GET',
                 url: 'api/Forms',
-              //  dataType: 'json',
+                //  dataType: 'json',
                 success: function (data) {
                     data = JSON.parse(JSON.stringify(data).replace(/\:null/gi, "\:\"\"")); //Null arvojen poisto taulukosta
-                   
+
                     $.each(data, function (index, val) {
-                     
+
                         //luodaan taulukko, johon arvot tuodaan halutuista sarakkeista
                         forms += '<tr>' +
                             "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
@@ -64,19 +79,10 @@
                             '</tr>';
 
                     });
-                     
-
-                    //function replaceNull(forms, replaceValue = "") {
-                    //    const replacer = (key, value) =>
-                    //        String(value) === "null" || String(value) === "undefined" ? replaceValue : value;
-
-                    //    return JSON.parse(JSON.stringify(forms, replacer));
-                    //}
-
+                  
                     //näytetään taulukko sivulla
-
                     $('#forms_table').append(forms);
-                   
+
                     //  tietojen muokkaus
                     $(".glyphicon-pencil").on("click", function () {
 
@@ -133,8 +139,6 @@
                             }
                         }
                     });
-
-
                 },
                 error: function () {
                     alert('Lataus ei onnistunut, yritä uudelleen')
@@ -155,7 +159,6 @@
                 v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
             )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
 
-            // do the work...
             document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
                 const table = th.closest('#forms_table')
                 Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
@@ -190,7 +193,7 @@
                     <input id="search" type="text" placeholder="Etsi..">
                     <a href="Form.html" type="submit" class="btn button1 btn-lg">Luo uusi lomake</></a>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="Index.html" class="nav navbar-nav navbar-right">Näytä keskeneräiset rivit</a></li>
+                        <li><a href="Index.html" class="nav navbar-nav navbar-right" style="font-size:20px">Näytä keskeneräiset rivit</a></li>
                     </ul>
 
 
