@@ -41,17 +41,12 @@
             //Lisätään Ajax-kutsun hakemat asiakkaat sivulle ja aakkostetaan
             function addCustomer(cust) {
                 $CustomerName.append('<option>' + cust.CustomerName +' / '+ cust.Company + ' /cc '+cust.CC +' </option>');
-                //$("#customerlist").html($("#customerlist option").sort(function (a, b) {
-                //    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
-                //}));
-                //$('#customerlist').get(0).selectedIndex = 0;
-                //$Company.append(cust.Company);
-                //$CC.append(cust.CC);
+               
             }
             //Ajax-kutsu /api/customers
             $.ajax({
                 type: 'GET',
-                url: '/api/customers',
+                url: '/api/customers?$orderby=CustomerName',
                 dataType: 'json',
                 success: function (custs) {
                     $.each(custs, function (i, cust) {
@@ -67,15 +62,12 @@
             //lisätään Ajax-kutsun hakemat työt sivulle ja aakkostetaan
             function addWork(work) {
                 $WorkName.append('<option>' + work + ' </option>');
-                // $("#worklist").html($("#worklist option").sort(function (a, b) {
-                //    return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
-                //}));
-                //$('#worklist').get(0).selectedIndex = 0;
+              
             }
             //Ajax-kutsu /api/works
             $.ajax({
                 type: 'GET',
-                url: '/api/works',
+                url: '/api/works?$orderby=WorkName',
                 dataType: 'json',
                 success: function (works) {
                     $.each(works, function (i, work) {

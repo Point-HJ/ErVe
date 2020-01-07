@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.OData.Extensions;
 
 namespace ErVe
 {
@@ -10,6 +11,7 @@ namespace ErVe
     {
         public static void Register(HttpConfiguration config)
         {
+            config.AddODataQueryFilter();
             // Web API configuration and services
 
             // Web API routes

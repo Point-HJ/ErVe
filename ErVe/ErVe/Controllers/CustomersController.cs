@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.OData;
 using DataAccess2;
 
 namespace ErVe.Controllers
@@ -18,6 +19,7 @@ namespace ErVe.Controllers
         private ErveEntities db = new ErveEntities();
 
         // GET: api/Customers
+        [EnableQuery]
         public IQueryable<Customer> GetCustomer()
         {
             return db.Customer;
