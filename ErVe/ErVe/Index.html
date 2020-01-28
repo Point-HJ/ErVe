@@ -55,12 +55,13 @@
                     data = JSON.parse(JSON.stringify(data).replace(/\:null/gi, "\:\"\"")); //Null arvojen poisto taulukosta
                     $.each(data, function (index, val) {
                         //Tuodaan tiedot, joiden statusName ei ole Valmis tai Laskutettu
-                        if (val.StatusName != "Valmis" && val.StatusName != "Laskutettu") {
+                        if (val.StatusName != "Valmis laskutettavaksi" && val.StatusName != "Valmis EI LASKUTETA" && val.StatusName != "Laskutettu") {
                             //luodaan taulukko, johon arvot tuodaan halutuista sarakkeista
                             forms += '<tr>' +
                                 "<td><a href='#'><span class='glyphicon glyphicon-pencil'></span></a></td>" +
                                 "<td>" + val.FormID + "</td>" +
                                 "<td>" + val.CreateDate + "</td>" +
+                                "<td>" + val.CustomerName + "</td>" +
                                 "<td>" + val.WorkName + "</td>" +
                                 "<td>" + val.BillReference + "</td>" +
                                 "<td>" + val.ReadyToDate + "</td>" +
@@ -103,7 +104,7 @@
                     // tietojen poisto
                     $(".glyphicon-trash").click(function () {
                         // etsitään lomakkeen tiedot klikatulta riviltä
-                        var FormID = $(this).parent().parent().prev().prev().prev().prev().prev().prev().text();
+                        var FormID = $(this).parent().parent().prev().prev().prev().prev().prev().prev().prev().text();
                         var ok = confirm("Haluatko varmasti poistaa lomakkeen " + FormID + "? Kaikki tiedot poistetaan tietokannasta.");
                         //Poistetaan lomake tietokannasta
                         if (ok == true) {
@@ -227,6 +228,7 @@
                         <th>Muokkaa</th>
                         <th>ID</th>
                         <th>Luontipäivä</th>
+                        <th>Yritys</th>
                         <th>Työn nimi</th>
                         <th>Viite</th>
                         <th>Valmistumispäivä</th>
