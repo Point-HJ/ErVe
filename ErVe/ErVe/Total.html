@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link href="Content/MyStyle.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="Scripts/jquery.freezeheader.js"></script>
     <style>
         table, th, td {
             border: 1px solid white;
@@ -43,7 +44,7 @@
         //haetaan tiedot tietokannasta
         $(document).ready(function () {
             var forms = $('#forms');
-
+         $('#forms_table').freezeHeader();
             $.ajax({
                 type: 'GET',
                 url: 'api/Forms',
@@ -130,6 +131,7 @@
                                     global: false,
                                     success: function () {
                                         alert('Lomake poistettu');
+                                        localStorage.removeItem('key');
                                         location.reload(); //sivun uudelleen lataus
                                     },
                                     error: function () {
@@ -139,6 +141,38 @@
                             }
                         }
                     });
+                    //Luo tämä päivämäärä
+                    function getDate() {
+                        var d = new Date();
+                        var month = d.getMonth() + 1;
+                        var day = d.getDate();
+                        var year = d.getFullYear();
+                        return date = year + '/' +
+                            (('' + month).length < 2 ? '0' : '') + month + '/' +
+                            (('' + day).length < 2 ? '0' : '') + day;
+                        $('#createdate').text();
+                    }
+                    $("#newform").click(function () {
+                        var data = {
+                            CreateDate: getDate(),
+                            StatusName: 'Valitse status',
+                            CustomerName: 'Valitse yritys',
+                            WorkName: 'Valitse työ',
+                        }
+                        $.ajax({
+                            type: 'post',
+                            url: 'api/forms',
+                            data: data,
+                            success: function (newform) {
+                                localStorage.setItem('key', JSON.stringify(newform)); //Tuodaan rivin tiedot LocalStorageen
+                                var retrievedForm = localStorage.getItem('key');
+                                location.href = "Form.html";
+                            },
+                            error: function () {
+                                console.log('Virhe tallennettaessa uutta lomaketta. ');
+                            }
+                        });
+                    })
                 },
                 error: function () {
                     alert('Lataus ei onnistunut, yritä uudelleen')
@@ -191,7 +225,7 @@
                     <img src="../Content/Images/pkirjakeskus_logo2018_nega_RGB.png" alt="Logo" style="width: 7%; height: 7%;
 ">
                     <input id="search" type="text" placeholder="Etsi..">
-                    <a href="Form.html" type="submit" class="btn button1 btn-lg">Luo uusi lomake</></a>
+                    <button type="submit" class="btn button1 btn-lg" id="newform">Luo uusi lomake</></button>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="Index.html" class="nav navbar-nav navbar-right" style="font-size:20px">Näytä keskeneräiset rivit</a></li>
                     </ul>
@@ -206,30 +240,32 @@
                 <h2>
                     Kaikki rivit
                 </h2>
-                <table class="table table-bordered" id="forms_table">
-                    <tr>
-                        <th>Muokkaa</th>
-                        <th>ID</th>
-                        <th>Luontipäivä</th>
-                        <th>Lomakkeen täyttäjä</th>
-                        <th>Yritys</th>
-                        <th>Yhteyshenkilö</th>
-                        <th>Työn nimi</th>
-                        <th>Valmistumispäivä</th>
-                        <th>Määrä</th>
-                        <th>Kappalemäärä</th>
-                        <th>Erikseen veloitus</th>
-                        <th>Erikseen veloitus €/kpl</th>
-                        <th>Hyvitys</th>
-                        <th>Rahtikulut</th>
-                        <th>Materiaalit</th>
-                        <th>Varastotyö minuuteissa</th>
-                        <th>IT-työ minuuteissa</th>
-                        <th>Asiakaspalvelutyö minuuteissa</th>
-                        <th>Viite</th>
-                        <th>Status</th>
-                        <th>Poista</th>
-                    </tr>
+                <table class="table table-bordered" id="forms_table" style="background-color:rgb(18, 89, 117)">
+                    <thead>
+                        <tr>
+                            <th>Muokkaa</th>
+                            <th>ID</th>
+                            <th>Luontipäivä</th>
+                            <th>Lomakkeen täyttäjä</th>
+                            <th>Yritys</th>
+                            <th>Yhteyshenkilö</th>
+                            <th>Työn nimi</th>
+                            <th>Valmistumispäivä</th>
+                            <th>Määrä</th>
+                            <th>Kappalemäärä</th>
+                            <th>Erikseen veloitus</th>
+                            <th>Erikseen veloitus €/kpl</th>
+                            <th>Hyvitys</th>
+                            <th>Rahtikulut</th>
+                            <th>Materiaalit</th>
+                            <th>Varastotyö minuuteissa</th>
+                            <th>IT-työ minuuteissa</th>
+                            <th>Asiakaspalvelutyö minuuteissa</th>
+                            <th>Viite</th>
+                            <th>Status</th>
+                            <th>Poista</th>
+                        </tr>
+                    </thead>
                 </table>
             </div>
             <br>

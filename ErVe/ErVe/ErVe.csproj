@@ -222,6 +222,7 @@
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\jquery.freezeheader.js" />
     <Content Include="Scripts\knockout-3.5.1.debug.js" />
     <Content Include="Scripts\knockout-3.5.1.js" />
     <Content Include="Scripts\popper-utils.js" />

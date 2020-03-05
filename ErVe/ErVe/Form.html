@@ -34,17 +34,18 @@
             var $Company = $('#company')
             var $CC = $('#cc')
 
-             if (performance.navigation.type == 2) {
+            if (performance.navigation.type == 2) {
                 localStorage.removeItem('key'); // Tyhjennä LocalStorage kun selaimen "takaisin-painiketta painetaan"
             }
 
+         
             //Lisätään Ajax-kutsun hakemat asiakkaat sivulle ja aakkostetaan
             function addCustomer(cust) {
-               var customername = cust.CustomerName;
-                    var company = cust.Company;
-                    var cc = cust.CC;
-                    $CustomerName.append('<option>' + customername + ' / ' + company + ' /cc ' + cc + ' </option>');
-               
+                var customername = cust.CustomerName;
+                var company = cust.Company;
+                var cc = cust.CC;
+                $CustomerName.append('<option>' + customername + ' / ' + company + ' /cc ' + cc + ' </option>');
+
             }
             //Ajax-kutsu /api/customers
             $.ajax({
@@ -54,7 +55,7 @@
                 success: function (custs) {
                     $.each(custs, function (i, cust) {
                         addCustomer(cust);
-                                            });
+                    });
                 },
                 error: function () {
                     alert: ('Virhe ladattaessa asiakkaita')
@@ -63,7 +64,7 @@
             //lisätään Ajax-kutsun hakemat työt sivulle ja aakkostetaan
             function addWork(work) {
                 $WorkName.append('<option>' + work + ' </option>');
-              
+
             }
             //Ajax-kutsu /api/works
             $.ajax({
@@ -84,7 +85,7 @@
             function addStatus(status) {
                 $StatusName.append('<option>' + status + ' </option>');
             }
-             //Ajax-kutsu /api/status
+            //Ajax-kutsu /api/status
             $.ajax({
                 type: 'GET',
                 url: '/api/status',
@@ -246,7 +247,7 @@
 
                     $('#deleteform').click(function (e) {
                         e.preventDefault();
-                        
+
                         var lsdata = JSON.parse(localStorage.getItem('key'));
                         var FormID = lsdata.FormID;
                         var ok = confirm("Haluatko varmasti poistaa lomakkeen " + FormID + "? Kaikki tiedot poistetaan tietokannasta.");
@@ -259,7 +260,8 @@
                                 global: false,
                                 success: function () {
                                     alert('Lomake poistettu');
-                                    location.href = "TestiIndex.html";
+                                    localStorage.removeItem('key');
+                                    location.href = "Index.html";
                                 },
                                 error: function () {
                                     alert('Poisto epäonnistui')
@@ -272,7 +274,7 @@
                     });
                 });
             }
-           
+
         });
     </script>
 </head>
