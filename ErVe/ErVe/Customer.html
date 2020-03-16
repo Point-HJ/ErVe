@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link href="Content/New.css" rel="stylesheet" />
+    <link href="Content/MyStyle.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
@@ -16,12 +16,12 @@
             var $CC = $('#cc');
 
             function addCustomer(customer) {
-                $customers.append('<li><h4>' + customer.CustomerName + ' ' + customer.Company + ' cc' + customer.CC + ' </h4></li>');
+                $customers.append('<li><h4>' + customer.CustomerName + ' / ' + customer.Company + ' / cc ' + customer.CC + ' </h4></li>');
             }
 
             $.ajax({
                 type: 'GET',
-                url: 'api/Customers',
+                url: 'api/Customers?$orderby=CustomerName',
                 success: function (customers) {
                     $.each(customers, function (i, customer) {
                         addCustomer(customer);
@@ -44,15 +44,13 @@
                     data: customer,
                     success: function (newcust) {
                         addCustomer(newcust);
-                         location.reload();
+                        location.reload();
                     },
                     error: function () {
                         alert('virhe lisätessä uutta yritystä');
                     }
                 });
-                 
             });
-           
         });
 
     </script>
@@ -60,25 +58,79 @@
 </head>
 <body>
 
-    <div class="grid-container">
+    <div class="container">
 
-        <div class="item1">Yritykset</div>
-        <br />  
-        <br />
-        <div class="item2">
-            <label for="customer">Yrityksen nimi</label>
-            <input type="text" id="customername" style="color:black">
-            <br />
-            <label for="customer">Yritystunnus</label>
-            <input type="text" id="company" style="color:black">
-            <br />
-            <label for="customer">Kustannuspaikka</label>
-            <input type="text" id="cc" style="color:black">
-            <br />
-            <button class="btn button1" id="addCustomer">Lisää uusi yritys</button>
-            <ul style="list-style-type:none;" id="customers"></ul>
-        </div>
+        <h1>Yritykset</h1>
+        <form class="form-horizontal">
 
+            <div class="form-group">
+                <label for="contact" class="col-xs-3 control-label">Yrityksen nimi</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="customername">
+                    <p class="help-block clearfix" style="color: white"> 
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="contact" class="col-xs-3 control-label">Yritystunnus</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="company">
+                    <p class="help-block clearfix" style="color: white">
+                        Jos kyseessä pienkustantaja, laita 3000. Jos yritys ei ole Kamussa, laita 0.
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="contact" class="col-xs-3 control-label">Kustannuspaikka</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="cc">
+                    <p class="help-block clearfix" style="color: white">
+                        Jos kyseessä pienkustantaja, laita Kamusta löytyvä kustannuspaikka. Jos yritys ei ole Kamussa, laita 0.
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="save" class="col-sm-3 control-label"></label>
+                <div class="row">
+                    <div class="col-sm-7">
+                        <div class="col-sm-3 form-group">
+                            <button type="submit" id="addCustomer" class="btn button1">Tallenna</button>
+                        </div>
+                        <div class="col-sm-3 form-group">
+                            <p id="backtolist"><a href="Form.html">Takaisin lomakkeeseen</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+
+            <div class="form-group">
+                <label for="contact" class="col-xs-3 control-label"></label>
+                <div class="col-xs-7">
+                    <h2>Tallennetut yritykset</h2>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="list" class="col-sm-3 control-label"></label>
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="col-xs-12">
+                            <ul id="customers"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </body>
 </html>

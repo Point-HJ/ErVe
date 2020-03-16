@@ -38,7 +38,6 @@
                 localStorage.removeItem('key'); // Tyhjennä LocalStorage kun selaimen "takaisin-painiketta painetaan"
             }
 
-         
             //Lisätään Ajax-kutsun hakemat asiakkaat sivulle ja aakkostetaan
             function addCustomer(cust) {
                 var customername = cust.CustomerName;
@@ -344,6 +343,7 @@
                         </select>
                         <input hidden id="company" />
                         <input hidden id="cc" />
+                        <a href="Customer.html"><h5>Eikö löydy yritystä? Lisää uusi yritys tästä</h5></a>
                     </div>
                 </div>
             </div>
@@ -365,8 +365,6 @@
                 </div>
             </div>
 
-
-
             <div class="form-group">
                 <div class="row control-label">
                     <div class="col-xs-3 header">Työ</div>
@@ -383,7 +381,6 @@
                     </div>
                 </div>
             </div>
-
 
             <div class="form-group">
                 <label for="duedate" class="col-xs-3 control-label">Viim. valmistuspvm</label>
@@ -614,7 +611,6 @@
                 </div>
             </div>
 
-
             <div class="form-group">
                 <label for="save" class="col-sm-3 control-label"></label>
                 <div class="row">
@@ -632,9 +628,7 @@
                 </div>
             </div>
 
-
         </form>
-
 
     </div>
 </body>
