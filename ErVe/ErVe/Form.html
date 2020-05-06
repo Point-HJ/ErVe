@@ -30,9 +30,11 @@
             var $WorkMinsWR = $('#wrtotal');
             var $WorkMinsCS = $('#cstotal');
             var $WorkMinsIT = $('#ittotal');
-            var $Compensation = $('#compensation')
-            var $Company = $('#company')
-            var $CC = $('#cc')
+            var $Compensation = $('#compensation');
+            var $Company = $('#company');
+            var $CC = $('#cc');
+            var $ReadyDate = $('#readydate')
+            
 
             if (performance.navigation.type == 2) {
                 localStorage.removeItem('key'); // Tyhjennä LocalStorage kun selaimen "takaisin-painiketta painetaan"
@@ -153,6 +155,17 @@
                 return hours + " h " + minutes + " min ";
             }
 
+             //Luo tämä päivämäärä
+            function getDate() {
+                var d = new Date();
+                var month = d.getMonth() + 1;
+                var day = d.getDate();
+                var year = d.getFullYear();
+                return date = year + '/' +
+                    (('' + month).length < 2 ? '0' : '') + month + '/' +
+                    (('' + day).length < 2 ? '0' : '') + day;
+                $('#createdate').text();
+            }
 
             //Valittujen checkboxien arvot tietokantaan tekstinä pilkulla erotettuna
             function getCheckedMaterials() {
@@ -191,6 +204,8 @@
                     $('#cstotal').val(time_convert(lsdata.WorkMinsCS));
                     $('#ittotal').val(time_convert(lsdata.WorkMinsIT));
                     $('#compensation').val(lsdata.Compensation);
+                    $('#readydate').val(lsdata.ReadyDate);
+
 
 
                     if (lsdata.MaterialName != null) {
@@ -226,6 +241,7 @@
                             Compensation: $Compensation.val(),
                             Company: $Company.val(),
                             CC: $CC.val(),
+                            ReadyDate: $ReadyDate.val(),
                         };
 
                         $.ajax({
@@ -383,7 +399,7 @@
             </div>
 
             <div class="form-group">
-                <label for="duedate" class="col-xs-3 control-label">Viim. valmistuspvm</label>
+                <label for="duedate" class="col-xs-3 control-label">Toivottu valmistuspäivä</label>
                 <div class="col-xs-7">
                     <input type="date"
                            class="form-control"
@@ -609,6 +625,18 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label for="readydate" class="col-xs-3 control-label">Valmistumispäivä</label>
+                <div class="col-xs-7">
+                    <input type="date"
+                           class="form-control"
+                           id="readydate">
+                </div>
+                <p class="help-block col-xs-offset-3 col-xs-7 clearfix" style="color: white">
+                    Merkitse pvm jolloin työ on valmistunut
+                </p>
             </div>
 
             <div class="form-group">

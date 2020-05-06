@@ -37,5 +37,6 @@ namespace DataAccess2
         public string BillReference { get; set; }
         public Nullable<decimal> Compensation { get; set; }
         public Nullable<System.DateTime> SentToBilling { get; set; }
+        public Nullable<System.DateTime> ReadyDate { get; set; }
     }
 }

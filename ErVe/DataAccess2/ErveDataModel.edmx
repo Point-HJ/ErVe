@@ -41,6 +41,7 @@
           <Property Name="BillReference" Type="nvarchar" MaxLength="200" />
           <Property Name="StatusName" Type="varchar" MaxLength="100" />
           <Property Name="SentToBilling" Type="date" />
+          <Property Name="ReadyDate" Type="date" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -110,6 +111,7 @@
           <Property Name="BillReference" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Compensation" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="SentToBilling" Type="DateTime" Precision="0" />
+          <Property Name="ReadyDate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -158,6 +160,7 @@
           <EntitySetMapping Name="FORM">
             <EntityTypeMapping TypeName="ErveDataModel.FORM">
               <MappingFragment StoreEntitySet="FORM">
+                <ScalarProperty Name="ReadyDate" ColumnName="ReadyDate" />
                 <ScalarProperty Name="SentToBilling" ColumnName="SentToBilling" />
                 <ScalarProperty Name="Compensation" ColumnName="Compensation" />
                 <ScalarProperty Name="BillReference" ColumnName="BillReference" />
