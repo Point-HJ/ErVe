@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Customer.cs">
-      <DependentUpon>ErveDataModel.tt</DependentUpon>
+      <DependentUpon>ErveDataModeldb01.tt</DependentUpon>
     </Compile>
     <Compile Include="ErveDataModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -69,18 +69,36 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ErveDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="ErveDataModeldb01.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErveDataModeldb01.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ErveDataModeldb01.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErveDataModeldb01.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ErveDataModeldb01.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErveDataModeldb01.edmx</DependentUpon>
+    </Compile>
     <Compile Include="FORM.cs">
-      <DependentUpon>ErveDataModel.tt</DependentUpon>
+      <DependentUpon>ErveDataModeldb01.tt</DependentUpon>
     </Compile>
     <Compile Include="Material.cs">
-      <DependentUpon>ErveDataModel.tt</DependentUpon>
+      <DependentUpon>ErveDataModeldb01.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Status.cs">
-      <DependentUpon>ErveDataModel.tt</DependentUpon>
+      <DependentUpon>ErveDataModeldb01.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Testi2.cs">
+      <DependentUpon>ErveDataModeldb01.tt</DependentUpon>
     </Compile>
     <Compile Include="Work.cs">
-      <DependentUpon>ErveDataModel.tt</DependentUpon>
+      <DependentUpon>ErveDataModeldb01.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +112,13 @@
     <None Include="ErveDataModel.edmx.diagram">
       <DependentUpon>ErveDataModel.edmx</DependentUpon>
     </None>
+    <EntityDeploy Include="ErveDataModeldb01.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ErveDataModeldb01.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="ErveDataModeldb01.edmx.diagram">
+      <DependentUpon>ErveDataModeldb01.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +131,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ErveDataModel.edmx</DependentUpon>
       <LastGenOutput>ErveDataModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="ErveDataModeldb01.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ErveDataModeldb01.edmx</DependentUpon>
+      <LastGenOutput>ErveDataModeldb01.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="ErveDataModeldb01.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ErveDataModeldb01.edmx</DependentUpon>
+      <LastGenOutput>ErveDataModeldb01.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

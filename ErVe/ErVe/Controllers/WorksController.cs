@@ -16,7 +16,7 @@ namespace ErVe.Controllers
 {
     public class WorksController : ApiController
     {
-        private ErveEntities db = new ErveEntities();
+        private ErveEntitiesdb01 db = new ErveEntitiesdb01();
 
         // GET: api/Works
         [EnableQuery]

@@ -16,7 +16,7 @@ namespace ErVe.Controllers
     
     public class FORMsController : ApiController
     {
-        private ErveEntities db = new ErveEntities();
+        private ErveEntitiesdb01 db = new ErveEntitiesdb01();
 
         // GET: /api/FORMs
         //[HttpGet, HttpPost]

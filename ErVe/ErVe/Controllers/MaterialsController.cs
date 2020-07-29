@@ -15,7 +15,7 @@ namespace ErVe.Controllers
 {
     public class MaterialsController : ApiController
     {
-        private ErveEntities db = new ErveEntities();
+        private ErveEntitiesdb01 db = new ErveEntitiesdb01();
 
         // GET: api/Materials
         public IQueryable<Material> GetMaterials()
