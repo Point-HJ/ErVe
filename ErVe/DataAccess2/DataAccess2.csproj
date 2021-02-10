@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Customer.cs">
-      <DependentUpon>ErveDataModeldb01.tt</DependentUpon>
+      <DependentUpon>ErveDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ErveDataModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -85,20 +85,20 @@
       <DependentUpon>ErveDataModeldb01.edmx</DependentUpon>
     </Compile>
     <Compile Include="FORM.cs">
-      <DependentUpon>ErveDataModeldb01.tt</DependentUpon>
+      <DependentUpon>ErveDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Material.cs">
-      <DependentUpon>ErveDataModeldb01.tt</DependentUpon>
+      <DependentUpon>ErveDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Status.cs">
-      <DependentUpon>ErveDataModeldb01.tt</DependentUpon>
+      <DependentUpon>ErveDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Testi2.cs">
       <DependentUpon>ErveDataModeldb01.tt</DependentUpon>
     </Compile>
     <Compile Include="Work.cs">
-      <DependentUpon>ErveDataModeldb01.tt</DependentUpon>
+      <DependentUpon>ErveDataModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

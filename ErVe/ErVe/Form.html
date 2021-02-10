@@ -33,7 +33,9 @@
             var $Compensation = $('#compensation');
             var $Company = $('#company');
             var $CC = $('#cc');
-            var $ReadyDate = $('#readydate')
+            var $ReadyDate = $('#readydate');
+            var $Cprints = $('#cprints');
+            var $BWprints = $('#bwprints');
             
 
             if (performance.navigation.type == 2) {
@@ -148,7 +150,6 @@
             }
 
             //Konvertoidaan LocalStoragen minuutit muotoon hh:mm kokonaistuntimäärän näyttämiseksi
-
             function time_convert(num) {
                 var hours = Math.floor(num / 60);
                 var minutes = num % 60;
@@ -178,7 +179,7 @@
             //lomakkeen muokkaus
             // Jos LocalStoragessa on sisältöä
             if (localStorage.hasOwnProperty('key')) {
-                console.log(localStorage); //testiä varten
+                console.log(localStorage.getItem('key')); //testiä varten
 
                 $(function () {
                     //tuo data localStoragesta
@@ -205,6 +206,8 @@
                     $('#ittotal').val(time_convert(lsdata.WorkMinsIT));
                     $('#compensation').val(lsdata.Compensation);
                     $('#readydate').val(lsdata.ReadyDate);
+                    $('#cprints').val(lsdata.Cprints);
+                    $('#bwprints').val(lsdata.BWprints);
 
 
 
@@ -242,6 +245,8 @@
                             Company: $Company.val(),
                             CC: $CC.val(),
                             ReadyDate: $ReadyDate.val(),
+                            Cprints: $Cprints.val(),
+                            BWprints: $BWprints.val()
                         };
 
                         $.ajax({
@@ -556,6 +561,30 @@
                             Tarra
                         </label>
                     </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row control-label">
+                    <div class="col-xs-3 header">Tulosteet</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="bwprints" class="col-xs-3 control-label">Musta-valko tuloste</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="bwprints">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="cprints" class="col-xs-3 control-label">Värillinen tuloste</label>
+                <div class="col-xs-7">
+                    <input type="text"
+                           class="form-control"
+                           id="cprints">
                 </div>
             </div>
 

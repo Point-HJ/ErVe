@@ -74,6 +74,7 @@
                             "<td>" + val.WorkMinsWR + "</td>" +
                             "<td>" + val.WorkMinsIT + "</td>" +
                             "<td>" + val.WorkMinsCS + "</td>" +
+                            "<td>" + val.Instructions + "</td>" +
                             "<td>" + val.BillReference + "</td>" +
                             "<td>" + val.ReadyDate + "</td>" +
                             "<td>" + val.StatusName + "</td>" +
@@ -181,24 +182,19 @@
             });
             //etsi -toiminto
             $("#search").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("table tr").each(function (index) {
-                    if (index !== 0) {
-                        $row = $(this);
+                var value = this.value.toLowerCase().trim();
 
-                        $row.find('td').each(function () {
-                            var id = $(this).text().toLowerCase();
-                            if (id.indexOf(value) !== 0) {
-                                $row.hide();
-                            }
-                            else {
-                                $row.show();
-                                return false;
-                            }
-                        });
-                    }
+                $("table tr").each(function (index) {
+                    if (!index) return;
+                    $(this).find("td").each(function () {
+                        var id = $(this).text().toLowerCase().trim();
+                        var not_found = (id.indexOf(value) == -1);
+                        $(this).closest('tr').toggle(!not_found);
+                        return not_found;
+                    });
                 });
             });
+          
 
             //taulun sorttaus
             const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
@@ -275,6 +271,7 @@
                             <th>Varastotyö minuuteissa</th>
                             <th>IT-työ minuuteissa</th>
                             <th>Asiakaspalvelutyö minuuteissa</th>
+                            <th>Ohjeet</th>
                             <th>Viite</th>
                             <th>Valmistumispäivä</th>
                             <th>Status</th>

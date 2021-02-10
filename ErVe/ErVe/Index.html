@@ -144,6 +144,8 @@
                             StatusName: 'Valitse status',
                             CustomerName: 'Valitse yritys',
                             WorkName: 'Valitse työ',
+                            Cprints: '120',
+                            BWprints: '120'
                         }
                         $.ajax({
                             type: 'post',
@@ -152,7 +154,8 @@
                             success: function (newform) {
                                 localStorage.setItem('key', JSON.stringify(newform)); //Tuodaan rivin tiedot LocalStorageen
                                 var retrievedForm = localStorage.getItem('key');
-                                location.href = "Form.html";
+                                console.log(localStorage.getItem('key'));
+                               // location.href = "Form.html";
                             },
                             error: function () {
                                 console.log('Virhe tallennettaessa uutta lomaketta. ');
@@ -167,22 +170,16 @@
 
             //etsi -toiminto
             $("#search").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("table tr").each(function (index) {
-                    if (index !== 0) {
-                        $row = $(this);
+                var value = this.value.toLowerCase().trim();
 
-                        $row.find('td').each(function () {
-                            var id = $(this).text().toLowerCase();
-                            if (id.indexOf(value) !== 0) {
-                                $row.hide();
-                            }
-                            else {
-                                $row.show();
-                                return false;
-                            }
-                        });
-                    }
+                $("table tr").each(function (index) {
+                    if (!index) return;
+                    $(this).find("td").each(function () {
+                        var id = $(this).text().toLowerCase().trim();
+                        var not_found = (id.indexOf(value) == -1);
+                        $(this).closest('tr').toggle(!not_found);
+                        return not_found;
+                    });
                 });
             });
 
