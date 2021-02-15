@@ -42,6 +42,8 @@
           <Property Name="StatusName" Type="varchar" MaxLength="100" />
           <Property Name="SentToBilling" Type="date" />
           <Property Name="ReadyDate" Type="date" />
+          <Property Name="Cprints" Type="int" />
+          <Property Name="BWprints" Type="int" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -112,6 +114,8 @@
           <Property Name="Compensation" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="SentToBilling" Type="DateTime" Precision="0" />
           <Property Name="ReadyDate" Type="DateTime" Precision="0" />
+          <Property Name="Cprints" Type="Int32" />
+          <Property Name="BWprints" Type="Int32" />
         </EntityType>
         <EntityType Name="Material">
           <Key>
@@ -160,6 +164,8 @@
           <EntitySetMapping Name="FORM">
             <EntityTypeMapping TypeName="ErveDataModel.FORM">
               <MappingFragment StoreEntitySet="FORM">
+                <ScalarProperty Name="BWprints" ColumnName="BWprints" />
+                <ScalarProperty Name="Cprints" ColumnName="Cprints" />
                 <ScalarProperty Name="ReadyDate" ColumnName="ReadyDate" />
                 <ScalarProperty Name="SentToBilling" ColumnName="SentToBilling" />
                 <ScalarProperty Name="Compensation" ColumnName="Compensation" />

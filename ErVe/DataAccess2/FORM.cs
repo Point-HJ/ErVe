@@ -38,5 +38,7 @@ namespace DataAccess2
         public Nullable<decimal> Compensation { get; set; }
         public Nullable<System.DateTime> SentToBilling { get; set; }
         public Nullable<System.DateTime> ReadyDate { get; set; }
+        public Nullable<int> Cprints { get; set; }
+        public Nullable<int> BWprints { get; set; }
     }
 }

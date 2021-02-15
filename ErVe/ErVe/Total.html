@@ -71,6 +71,8 @@
                             "<td>" + val.Compensation + "</td>" +
                             "<td>" + val.FreightCost + "</td>" +
                             "<td>" + val.MaterialName + "</td>" +
+                            "<td>" + val.BWprints + "</td>" +
+                            "<td>" + val.Cprints + "</td>" +
                             "<td>" + val.WorkMinsWR + "</td>" +
                             "<td>" + val.WorkMinsIT + "</td>" +
                             "<td>" + val.WorkMinsCS + "</td>" +
@@ -91,7 +93,7 @@
 
                         // etsitään lomakkeen tiedot klikatulta riviltä
                         var FormID = $(this).parent().parent().next().text();
-                        var StatusName = $(this).parent().parent().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().text();
+                        var StatusName = $(this).parent().parent().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().next().text();
                         if (StatusName == "Laskutettu") {
                             alert("Rivi on jo laskutettu, et voi muokata tietoja enää. Jos rivillä on virhe, ota yhteys laskutukseen.");
                         }
@@ -117,7 +119,7 @@
                     // tietojen poisto
                     $(".glyphicon-trash").click(function () {
                         // etsitään lomakkeen tiedot klikatulta riviltä
-                        var FormID = $(this).parent().parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().text();
+                        var FormID = $(this).parent().parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().text();
                         var StatusName = $(this).parent().parent().prev().text();
                         if (StatusName == "Laskutettu") {
                             alert("Rivi on jo laskutettu, et voi poistaa riviä. Jos rivillä on virhe, ota yhteys laskutukseen.");
@@ -268,6 +270,8 @@
                             <th>Hyvitys</th>
                             <th>Rahtikulut</th>
                             <th>Materiaalit</th>
+                            <th>Mustavalkotuloste</th>
+                            <th>Värituloste</th>
                             <th>Varastotyö minuuteissa</th>
                             <th>IT-työ minuuteissa</th>
                             <th>Asiakaspalvelutyö minuuteissa</th>

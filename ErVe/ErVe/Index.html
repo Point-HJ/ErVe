@@ -144,8 +144,8 @@
                             StatusName: 'Valitse status',
                             CustomerName: 'Valitse yritys',
                             WorkName: 'Valitse työ',
-                            Cprints: '120',
-                            BWprints: '120'
+                          
+                        
                         }
                         $.ajax({
                             type: 'post',
@@ -154,8 +154,8 @@
                             success: function (newform) {
                                 localStorage.setItem('key', JSON.stringify(newform)); //Tuodaan rivin tiedot LocalStorageen
                                 var retrievedForm = localStorage.getItem('key');
-                                console.log(localStorage.getItem('key'));
-                               // location.href = "Form.html";
+                              //  console.log(localStorage.getItem('key'));
+                                location.href = "Form.html";
                             },
                             error: function () {
                                 console.log('Virhe tallennettaessa uutta lomaketta. ');

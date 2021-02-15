@@ -238,6 +238,8 @@
                             ChargeByPcs: $ChargeByPcs.val(),
                             FreightCost: $FreightCost.val(),
                             MaterialName: getCheckedMaterials(),
+                            Cprints: $Cprints.val(),
+                            BWprints: $BWprints.val(),
                             WorkMinsWR: calcHourswr(),
                             WorkMinsCS: calcHourscs(),
                             WorkMinsIT: calcHoursIT(),
@@ -245,8 +247,7 @@
                             Company: $Company.val(),
                             CC: $CC.val(),
                             ReadyDate: $ReadyDate.val(),
-                            Cprints: $Cprints.val(),
-                            BWprints: $BWprints.val()
+                          
                         };
 
                         $.ajax({
