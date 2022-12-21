@@ -9,7 +9,6 @@
         <EntityTypeShape EntityType="ErveModeldb01.FORM" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ErveModeldb01.Material" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ErveModeldb01.Status" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ErveModeldb01.Testi2" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ErveModeldb01.Work" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>

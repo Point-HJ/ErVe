@@ -16,7 +16,7 @@ namespace ErVe.Controllers
 {
     public class CustomersController : ApiController
     {
-        private ErveEntitiesdb01 db = new ErveEntitiesdb01();
+        private ErveEntitiesAstro db = new ErveEntitiesAstro();
 
         // GET: api/Customers
         [EnableQuery]

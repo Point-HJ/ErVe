@@ -16,12 +16,12 @@ namespace ErVe.Controllers
     
     public class FORMsController : ApiController
     {
-        private ErveEntitiesdb01 db = new ErveEntitiesdb01();
+        private ErveEntitiesAstro db = new ErveEntitiesAstro();
 
         // GET: /api/FORMs
         //[HttpGet, HttpPost]
         //[Route("api/FORMs")]         
-       
+
         public IQueryable<FORM> GetFORMs()
         {
             return db.FORM;

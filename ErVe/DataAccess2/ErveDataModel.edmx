@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ErveDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ErveDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="CustomerID" />
@@ -27,7 +27,7 @@
           <Property Name="CustomerContact" Type="nvarchar" MaxLength="255" />
           <Property Name="WorkName" Type="varchar" MaxLength="255" />
           <Property Name="ReadyToDate" Type="date" />
-          <Property Name="Instructions" Type="nvarchar(max)" />
+          <Property Name="Instructions" Type="nvarchar" MaxLength="3999" />
           <Property Name="Amount" Type="int" />
           <Property Name="PcsAmount" Type="int" />
           <Property Name="ChargeFull" Type="decimal" Precision="10" Scale="2" />
@@ -97,7 +97,7 @@
           <Property Name="CustomerContact" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="WorkName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ReadyToDate" Type="DateTime" Precision="0" />
-          <Property Name="Instructions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Instructions" Type="String" MaxLength="3999" FixedLength="false" Unicode="true" />
           <Property Name="Amount" Type="Int32" />
           <Property Name="PcsAmount" Type="Int32" />
           <Property Name="ChargeFull" Type="Decimal" Precision="10" Scale="2" />

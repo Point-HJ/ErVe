@@ -15,7 +15,7 @@ namespace ErVe.Controllers
 {
     public class StatusController : ApiController
     {
-        private ErveEntitiesdb01 db = new ErveEntitiesdb01();
+        private ErveEntitiesAstro db = new ErveEntitiesAstro();
 
         // GET: api/Status
         public IQueryable<Status> GetStatus()

@@ -27,7 +27,7 @@
           <Property Name="CustomerContact" Type="nvarchar" MaxLength="255" />
           <Property Name="WorkName" Type="varchar" MaxLength="255" />
           <Property Name="ReadyToDate" Type="date" />
-          <Property Name="Instructions" Type="nvarchar(max)" />
+          <Property Name="Instructions" Type="nvarchar" MaxLength="3999" />
           <Property Name="Amount" Type="int" />
           <Property Name="PcsAmount" Type="int" />
           <Property Name="ChargeFull" Type="decimal" Precision="10" Scale="2" />
@@ -59,14 +59,6 @@
           <Property Name="StatusID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="StatusName" Type="varchar" MaxLength="100" />
         </EntityType>
-        <EntityType Name="Testi2">
-          <Key>
-            <PropertyRef Name="row_id" />
-          </Key>
-          <Property Name="first_name" Type="int" />
-          <Property Name="last_name" Type="int" />
-          <Property Name="row_id" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="Work">
           <Key>
             <PropertyRef Name="WorkID" />
@@ -79,7 +71,6 @@
           <EntitySet Name="FORM" EntityType="Self.FORM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Material" EntityType="Self.Material" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Testi2" EntityType="Self.Testi2" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Work" EntityType="Self.Work" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -108,7 +99,7 @@
           <Property Name="CustomerContact" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="WorkName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="ReadyToDate" Type="DateTime" Precision="0" />
-          <Property Name="Instructions" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Instructions" Type="String" MaxLength="3999" FixedLength="false" Unicode="true" />
           <Property Name="Amount" Type="Int32" />
           <Property Name="PcsAmount" Type="Int32" />
           <Property Name="ChargeFull" Type="Decimal" Precision="10" Scale="2" />
@@ -140,14 +131,6 @@
           <Property Name="StatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="StatusName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="Testi2">
-          <Key>
-            <PropertyRef Name="row_id" />
-          </Key>
-          <Property Name="first_name" Type="Int32" />
-          <Property Name="last_name" Type="Int32" />
-          <Property Name="row_id" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityType Name="Work">
           <Key>
             <PropertyRef Name="WorkID" />
@@ -160,7 +143,6 @@
           <EntitySet Name="FORM" EntityType="Self.FORM" />
           <EntitySet Name="Material" EntityType="Self.Material" />
           <EntitySet Name="Status" EntityType="Self.Status" />
-          <EntitySet Name="Testi2" EntityType="Self.Testi2" />
           <EntitySet Name="Work" EntityType="Self.Work" />
         </EntityContainer>
       </Schema>
@@ -224,15 +206,6 @@
               <MappingFragment StoreEntitySet="Status">
                 <ScalarProperty Name="StatusID" ColumnName="StatusID" />
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Testi2">
-            <EntityTypeMapping TypeName="ErveModeldb01.Testi2">
-              <MappingFragment StoreEntitySet="Testi2">
-                <ScalarProperty Name="first_name" ColumnName="first_name" />
-                <ScalarProperty Name="last_name" ColumnName="last_name" />
-                <ScalarProperty Name="row_id" ColumnName="row_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
